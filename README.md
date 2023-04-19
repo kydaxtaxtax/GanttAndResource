@@ -1,6 +1,6 @@
 # GanttAndResource
-Установка проекта:
-1. Выбор деректории для создания проекта
+
+1. Выбор деректории для создания проекта:
   cd Documents/
 
 2. Клонирование проекта:
@@ -8,7 +8,8 @@ git clone https://github.com/kydaxtaxtax/GanttAndResource.git ganttAndResource
 
 3. Откруываем проект(желательно в в pyCharm)
 
-4. Запускаем python manage.py runserver
+4. Запускаем: 
+5. python manage.py runserver
 
 
 
