@@ -31,15 +31,14 @@ function updateLine(dragObj = null){
                 splitProjects.forEach(function (splitProject){
                     var splitTaskIdsLen = getSplitTaskIds(splitProject).length;
                     if(splitTaskIdsLen > 0) {
-                          taskProject.hide_bar = false;
-                            gantt.updateTask(taskProject.id);
-                        if (newTaskPlanStart == null || newTaskPlanStart.planned_start > splitProject.planned_start) newTaskPlanStart = splitProject;
-                        if (newTaskPlanEnd == null || newTaskPlanEnd.planned_end < splitProject.planned_end) newTaskPlanEnd = splitProject;
-                    }
-                    else {
+                        taskProject.hide_bar = false;
+                        gantt.updateTask(taskProject.id);
+                    } else {
                         splitProject.hide_bar = true;
                         gantt.updateTask(splitProject.id);
                     }
+                    if (newTaskPlanStart == null || newTaskPlanStart.planned_start > splitProject.planned_start) newTaskPlanStart = splitProject;
+                    if (newTaskPlanEnd == null || newTaskPlanEnd.planned_end < splitProject.planned_end) newTaskPlanEnd = splitProject;
                 })
                 gantt.getTask(taskProject.id).planned_start = newTaskPlanStart.planned_start;
                 gantt.getTask(taskProject.id).planned_end = newTaskPlanEnd.planned_end;
