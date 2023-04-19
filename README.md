@@ -9,11 +9,13 @@
 
 3. Открываем проект(желательно в `PyCharm`)<br>
 4. Устанавливаем `Python`
+5. Устанавливаем зависимости<br>
+ `pip install -r requirements.txt`<br>
 
-5. Запускаем миграции:<br>
+6. Запускаем миграции:<br>
    `python manage.py migrate` <br>
 
-6. Запускаем файл `test_tasks.sql` для наполнения БД<br>
+7. Запускаем файл `test_tasks.sql` для наполнения БД<br>
 
-7. Запускаем проект:<br>
+8. Запускаем проект:<br>
    `python manage.py runserver`
