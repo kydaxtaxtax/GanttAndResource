@@ -9,7 +9,7 @@ git clone https://github.com/kydaxtaxtax/GanttAndResource.git ganttAndResource
 3. Откруываем проект(желательно в в pyCharm)
 
 4. Запускаем: 
-5. python manage.py runserver
+  python manage.py runserver
 
 
 
