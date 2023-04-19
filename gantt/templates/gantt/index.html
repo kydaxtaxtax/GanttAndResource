@@ -1,0 +1,99 @@
+<html>
+	<head>
+		{% load static %}
+                <link rel="stylesheet" href="https://docs.dhtmlx.com/suite/codebase/suite.css?v=6.0.3">
+                <link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">
+		<link href="{% static "gantt/plagins/dhtmlx_gantt/css/lightbox.css" %}"  rel="stylesheet"/>
+
+
+        <link rel="shortcut icon" href="{% static "gantt/favicon.ico" %}/">
+
+        <link href="{% static "gantt/css/stylefonts.css" %}" rel="stylesheet" type="text/css">  <!-- подключение шрифтов -->
+
+		<link href="{% static "gantt/fonts/font-awesome-4.7.0/css/font-awesome.css" %}" rel="stylesheet">  <!-- доп классы для css -->
+		<link href="{% static "gantt/plagins/dhtmlx_gantt/codebase/dhtmlxgantt.css" %}"  rel="stylesheet"/>
+        <link href="{% static "gantt/css/style.css" %}" rel="stylesheet" type="text/css">  <!-- подключение главного css -->
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/codebase/dhtmlxgantt.js" %}" type="text/javascript"></script>
+		<script src="{% static "gantt/plagins/jquery/jquery-3.3.1.js" %}"></script>  <!-- jQuery -->
+
+        <script src="{% static "gantt/plagins/momentTime/moment.js" %}"></script>
+
+        <!--datapicer-->
+<!--    <script src='https://cdn.dhtmlx.com/edge/dhtmlx.js?v=8.0.0'></script>-->
+<!--	<link rel='stylesheet' href='https://cdn.dhtmlx.com/edge/skins/terrace/dhtmlx.css?v=8.0.0'/>-->
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/codebase/dhtmlx.js" %}" type="text/javascript"></script> <!-- 8.0.0 -->
+        <link rel="stylesheet" href="{% static "gantt/plagins/dhtmlx_gantt/css/dhtmlx.css" %}">  <!-- 8.0.0 -->
+
+
+        <link href="{% static "gantt/plagins/bootstrap-5.2.3/css/bootstrap.min.css" %}" rel="stylesheet" >
+        <!--<script src="{% static "gantt/plagins/bootstrap-5.2.3/js/bootstrap.min.js" %}" type="text/javascript"></script>-->
+        <script src="{% static "gantt/plagins/bootstrap-5.2.3/js/bootstrap.bundle.min.js" %}" type="text/javascript"></script> <!-- 8.0.0 -->
+
+
+<!--        custom datapixer-->
+
+
+
+    </head>
+
+
+    <body class="border border-dark m-1" style='height: calc(100vh - 8px);'>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-0 shadow-none" aria-label="Twelfth navbar example">
+            <div class="d-flex justify-content-evenly align-items-center w-100">
+                <div class="d-flex">
+                    <button name="undo" class="setting-button-diagram-gant"><img src="{% static "gantt/image/undo.png"%}" alt="Submit"></button>
+                    <button name="redo" class="setting-button-diagram-gant"><img src="{% static "gantt/image/redo.png"%}" alt="Submit"></button>
+                    <button name="del" class="setting-button-diagram-gant"><img src="{% static "gantt/image/delete.png"%}" alt="Submit" style="height:21px;width:21px;-webkit-filter: invert(10%);"></button>
+                    <button name="moveBackward" class="setting-button-diagram-gant"><img src="{% static "gantt/image/moveBackward.png"%}" alt="Submit"></button>
+                    <button name="moveForward" class="setting-button-diagram-gant"><img src="{% static "gantt/image/moveForward.png"%}" alt="Submit"></button><button name="zoomOut" class="setting-button-diagram-gant"><img src="{% static "gantt/image/zoom-in.png"%}" alt="Submit"></button>
+                    <button name="zoomIn" class="setting-button-diagram-gant"><img src="{% static "gantt/image/zoom-out.png"%}" alt="Submit"></button>
+                    <button name="zoomBack" class="setting-button-diagram-gant"><img src="{% static "gantt/image/zoom-back.png"%}" alt="Submit"></button>
+                    <button name="fullScreen" class="setting-button-diagram-gant"><img src="{% static "gantt/image/fullScreen.png"%}" alt="Submit"></button>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <div id="myCover"> <!-- На весь экран -->
+                 <div id="gantt_here"></div>
+            </div>
+        </main>
+
+
+    <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsGlobal.js" %}"></script>
+
+<!--    <script src="{% static "gantt/plagins/dhtmlx_gantt/js/customJs/resourseManagment.js" %}"></script> &lt;!&ndash; Настройки визуализации Ганта &ndash;&gt;#}-->
+<!--    <script src="{% static "gantt/plagins/dhtmlx_gantt/js/customJs/export.js" %}"></script>  &lt;!&ndash; настройка экспорта &ndash;&gt;-->
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/dateFunction.js" %}"></script>
+<!--	<script src="{% static "gantt/plagins/dhtmlx_gantt/js/customJs/fileinput.js" %}"></script>  &lt;!&ndash; js Импорт(для загрузки в Ганта) &ndash;&gt;-->
+
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/eventsGantt.js" %}"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/eventsButtons.js" %}"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/zoomBackDefault.js" %}"></script>
+<!--        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/dataPixer.js" %}"></script>-->
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/styleGantt.js" %}"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/loadingGantt.js" %}"></script>
+
+
+
+
+<!--        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/styleLightbox.js" %}"></script>-->
+
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/styleResource.js" %}"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/loadingResource.js" %}"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLayout.js" %}"></script> <!-- Настройки визуализации Ганта -->
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/zoom.js" %}"></script>
+
+                <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/suite.js" %}" type="text/javascript"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/suite_task_editor.js" %}" type="text/javascript"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/suite_resource_editor.js" %}" type="text/javascript"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/customLightbox.js" %}" type="text/javascript"></script>
+		<script>
+            gantt.init("gantt_here");
+            gantt.load("/data/", "json");
+            var dp = new gantt.dataProcessor("/data/");
+            dp.init(gantt);
+            dp.setTransactionMode("REST");
+		</script>
+	</body>
+</html>

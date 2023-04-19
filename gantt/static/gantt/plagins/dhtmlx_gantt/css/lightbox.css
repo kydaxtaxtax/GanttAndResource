@@ -1,0 +1,7 @@
+body.dhx_window--no-scroll{
+     width: auto!important;
+}
+
+.dhx_window-content{
+  height: 100%;
+}

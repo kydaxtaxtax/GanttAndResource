@@ -1,0 +1,82 @@
+
+@font-face {
+	font-family: 'Akrobat-Thin';
+	src: url('../fonts/akrobat/Akrobat-Thin/Akrobat-Thin.eot');
+	src: url('../fonts/akrobat/Akrobat-Thin/Akrobat-Thin.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/akrobat/Akrobat-Thin/Akrobat-Thin.woff') format('woff'),
+			 url('../fonts/akrobat/Akrobat-Thin/Akrobat-Thin.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat-ExtraLight';
+	src: url('../fonts/akrobat/Akrobat-ExtraLight/Akrobat-ExtraLight.eot');
+	src: url('../fonts/akrobat/Akrobat-ExtraLight/Akrobat-ExtraLight.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/akrobat/Akrobat-ExtraLight/Akrobat-ExtraLight.woff') format('woff'),
+			 url('../fonts/akrobat/Akrobat-ExtraLight/Akrobat-ExtraLight.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat-Light';
+	src: url('../fonts/akrobat/Akrobat-Light/Akrobat-Light.eot');
+	src: url('../fonts/akrobat/Akrobat-Light/Akrobat-Light.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/akrobat/Akrobat-Light/Akrobat-Light.woff') format('woff'),
+			 url('../fonts/akrobat/Akrobat-Light/Akrobat-Light.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat-Regular';
+	src: url('../fonts/akrobat/Akrobat-Regular/Akrobat-Regular.eot');
+	src: url('../fonts/akrobat/Akrobat-Regular/Akrobat-Regular.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/akrobat/Akrobat-Regular/Akrobat-Regular.woff') format('woff'),
+			 url('../fonts/akrobat/Akrobat-Regular/Akrobat-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+
+@font-face {
+	font-family: 'Akrobat-SemiBold';
+	src: url('../fonts/akrobat/Akrobat-SemiBold/Akrobat-SemiBold.eot');
+	src: url('../fonts/akrobat/Akrobat-SemiBold/Akrobat-SemiBold.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/akrobat/Akrobat-SemiBold/Akrobat-SemiBold.woff') format('woff'),
+			 url('../fonts/akrobat/Akrobat-SemiBold/Akrobat-SemiBold.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat-Bold';
+	src: url('../fonts/akrobat/Akrobat-Bold/Akrobat-Bold.eot');
+	src: url('../fonts/akrobat/Akrobat-Bold/Akrobat-Bold.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/akrobat/Akrobat-Bold/Akrobat-Bold.woff') format('woff'),
+			 url('../fonts/akrobat/Akrobat-Bold/Akrobat-Bold.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat-ExtraBold';
+	src: url('../fonts/akrobat/Akrobat-ExtraBold/Akrobat-ExtraBold.eot');
+	src: url('../fonts/akrobat/Akrobat-ExtraBold/Akrobat-ExtraBold.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/akrobat/Akrobat-ExtraBold/Akrobat-ExtraBold.woff') format('woff'),
+			 url('../fonts/akrobat/Akrobat-ExtraBold/Akrobat-ExtraBold.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Akrobat-Black';
+	src: url('../fonts/akrobat/Akrobat-Black/Akrobat-Black.eot');
+	src: url('../fonts/akrobat/Akrobat-Black/Akrobat-Black.eot?#iefix') format('embedded-opentype'),
+			 url('../fonts/akrobat/Akrobat-Black/Akrobat-Black.woff') format('woff'),
+			 url('../fonts/akrobat/Akrobat-Black/Akrobat-Black.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
