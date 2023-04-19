@@ -12,7 +12,7 @@
 4. Запускаем миграции:<br>
    `python manage.py migrate` <br>
 
-5. Запускаем файл `test_tasks.sql` в корне проекта<br>
+5. Запускаем файл `test_tasks.sql`<br>
 
 6. Запускаем проект:<br>
    `python manage.py runserver`
