@@ -79,6 +79,7 @@ gantt.$resourcesStore.attachEvent("onParse", function() {
 			var copy = gantt.copy(res);
 			copy.key = res.id;
 			copy.label = res.text + (res.value ? " (" + res.value.toFixed(2) + ")" : "");
+			// copy.label = res.text + res.value || " (" + res.value + ")";
 			copy.unit = "hours";
 			capasity.push(copy);
 		}

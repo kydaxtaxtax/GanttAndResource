@@ -123,7 +123,7 @@ gantt.attachEvent("onLightboxSave", function(id, task, is_new){
     }
 
     if(is_new) {
-        if (taskParent.render == "split") {
+        if (taskParent && taskParent.render == "split") {
             taskParent.planned_start = task.start_date;
             taskParent.planned_end = task.end_date;
             if (gantt.getChildren(taskParent.id).length > 1) {

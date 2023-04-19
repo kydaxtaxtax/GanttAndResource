@@ -160,7 +160,7 @@ function initResourceEditForm() {
 					return col.optionLabels[text];
 				}
 			},
-			{ width: 55, id: "value", header: [{ text: "Value" }], editorType: "number", sortable: false, options: [] },
+			// { width: 55, id: "value", header: [{ text: "Value" }], editorType: "number", sortable: false, options: [] },
 			{ width: 100, id: "mode", header: [{ text: "Mode" }], editorType: "select", sortable: false, options: ["default", "fixedDuration", "fixedDates"], htmlEnable: true },
 			{ width: 80, id: "start_date", header: [{ text: "Start" }], type: "date", format: "%Y-%m-%d", htmlEnable: true, },
 			{ width: 80, id: "end_date", header: [{ text: "End" }], type: "date", format: "%Y-%m-%d", htmlEnable: true, },
@@ -174,22 +174,23 @@ function initResourceEditForm() {
 
 
 		var resourceEditColumns = [
+			{ width: 70, id: "hide", header: [{ text: "ON/OFF" }], type: "boolean", htmlEnable: true },
+			{ minWidth: 120, id: "text", header: [{ text: "Наименование" }], editorType: "input", type: "string", htmlEnable: true},
+			{
+				minWidth: 120, width: 120, id: "parent", header: [{ text: "Колекция" }], editorType: "select", options: [], htmlEnable: true, template: function (text, row, col) {
+					// console.log(col);
+					return col.optionLabels[text];
+				}
+			},
+			{ width: 70, id: "value", header: [{ text: "Кол-во" }], editorType: "input", sortable: false, options: [] },
+			{ width: 70, id: "unit", header: [{ text: "Ед.изм" }], editorType: "input", type: "string", sortable: false, options: [] },
 			{
 				width: 50, id: "add", header: [{ text: "<input type=button value='✚' data-onclick='addResource' class='dhx_button dhx_button--size_small' title='Add a new resource'>" }], sortable: false, htmlEnable: true, editable: false, template: function (text, row, col) {
 					return "<input type=button value='⇊' data-onclick='cloneResource' data-onclick_argument='" + row.id + "' class='dhx_button dhx_button--size_small' title='Clone this resource'>";
 				}
 			},
-			{ minWidth: 120, id: "text", header: [{ text: "Name" }], editorType: "input", type: "string", htmlEnable: true, },
 			{
-				minWidth: 120, width: 120, id: "parent", header: [{ text: "Department" }], editorType: "select", options: [], htmlEnable: true, template: function (text, row, col) {
-					return col.optionLabels[text];
-				}
-			},
-			{ minWidth: 100, width: 100, id: "calendar", header: [{ text: "Calendar" }], editorType: "select", options: [], htmlEnable: true },
-			{ width: 70, id: "hide", header: [{ text: "Hide" }], type: "boolean", htmlEnable: true },
-			{ width: 70, id: "unit", header: [{ text: "Unit" }], editorType: "input", type: "string", sortable: false, options: [] },
-			{
-				width: 60, id: "delete", header: [{ text: "<input type=button value='✖' data-onclick='deleteAllResources' class='dhx_button dhx_button--size_small' title='Remove all resources'>" }], sortable: false, htmlEnable: true, editable: false, template: function (text, row, col) {
+				width: 50, id: "delete", header: [{ text: "<input type=button value='✖' data-onclick='deleteAllResources' class='dhx_button dhx_button--size_small' title='Remove all resources'>" }], sortable: false, htmlEnable: true, editable: false, template: function (text, row, col) {
 					return "<input type=button value='✖' data-onclick='deleteResource' data-onclick_argument='" + row.id + "' class='dhx_button dhx_button--size_small' title='Remove this resource'>";
 				}
 			}
@@ -282,6 +283,7 @@ function initResourceEditForm() {
 			if (column.editable !== false) {
 				gantt._resourceAssigner.editCell(row.id, column.id);
 			}
+			console.log(row);
 		});
 
 		gantt._resourceAssigner.events.on("AfterEditStart", function (row, col, editorType) {
@@ -325,18 +327,12 @@ function initResourceEditForm() {
 
 
 		resourceEditColumns[2].options = ["0"];
-		resourceEditColumns[2].optionLabels = { "0": 'Root Level' };
-
-		var calendars = gantt.getCalendars();
-		resourceEditColumns[3].options = [];
-		calendars.forEach(function (el) {
-			resourceEditColumns[3].options.push(el.id);
-		})
+		resourceEditColumns[2].optionLabels = { "0": '' };
 
 
 		resourceData.forEach(function (el) {
-			el.unit = el.unit || 'hour';
-			el.hide = el.hide || false;
+			el.unit = el.unit || '';
+			el.hide = el.hide || true;
 			el.calendar = el.calendar || "global";
 
 			resourceEditColumns[2].options.push(el.id);
@@ -362,7 +358,9 @@ function initResourceEditForm() {
 		gantt._resourceEditor.events.on("AfterEditStart", function (row, col, editorType) {
 			if (col.id == "parent") {
 				setTimeout(function () {
+					console.log(col);
 					var selectEl = document.querySelector(".dhx_cell-editor__select");
+					console.log(selectEl);
 					var selectedValue = selectEl.value;
 					var children = selectEl.childNodes;
 					children[0].outerHTML = "<option value=0>Root level</option>";
