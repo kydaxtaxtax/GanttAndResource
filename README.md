@@ -7,8 +7,8 @@
 2. Клонируем проект в выбранную деректорию:<br>
    `git clone https://github.com/kydaxtaxtax/GanttAndResource.git ganttAndResource`<br>
 
-3. Открываем проект(желательно в PyCharm)<br>
-4. Устанавливаем Python
+3. Открываем проект(желательно в `PyCharm`)<br>
+4. Устанавливаем `Python`
 
 5. Запускаем миграции:<br>
    `python manage.py migrate` <br>
