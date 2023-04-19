@@ -7,12 +7,13 @@
 2. Клонируем проект в выбранную деректорию:<br>
    `git clone https://github.com/kydaxtaxtax/GanttAndResource.git ganttAndResource`<br>
 
-3. Открываем проект(желательно в PyCharm)<br>
+3. Открываем проект(желательно в `PyCharm`)<br>
+4. Устанавливаем `Python`
 
-4. Запускаем миграции:<br>
+5. Запускаем миграции:<br>
    `python manage.py migrate` <br>
 
-5. Запускаем файл `test_tasks.sql` в корне проекта<br>
+6. Запускаем файл `test_tasks.sql` для наполнения БД<br>
 
-6. Запускаем проект:<br>
+7. Запускаем проект:<br>
    `python manage.py runserver`
