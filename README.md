@@ -1,10 +1,10 @@
 ### Начало работы:<br>
 
 
-1. Выбор деректории для создания проекта (выбираем нужную):<br>
+1. Выбор деректории для создания проекта:<br>
    `cd Documents`<br>
 
-2. Клонируем проект:<br>
+2. Клонируем проект в выбранную деректорию:<br>
    `git clone https://github.com/kydaxtaxtax/GanttAndResource.git ganttAndResource`<br>
 
 3. Открываем проект(желательно в PyCharm)<br>
