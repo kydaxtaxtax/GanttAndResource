@@ -211,9 +211,9 @@
 
 
 	gantt.$lightboxControl.fillTabContent = function (id) {
-		id = id || "splitProject"
+		id = id || "settingsTaskAndProject"
 		gantt.$lightboxControl[id].addForm();
 	}
 	// initTaskEditForm();
 	initResourceEditForm();
-	initsplitProjectEditForm();
+	initSettingsTaskAndProjectEditForm()

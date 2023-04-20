@@ -204,18 +204,19 @@ function initResourceEditForm() {
                 header: [{content: "inputFilter",}],
                 editorType: "input",
                 type: "string",
-                htmlEnable: true
+                htmlEnable: true,
             },
             {
                 minWidth: 120,
                 width: 120,
                 id: "parent",
-                header: [{text: "Коллекция"}],
+                header: [{text: "Коллекция", align: "center"}],
                 editorType: "select",
                 options: [],
+                sortable: false,
                 htmlEnable: true,
                 template: function (text, row, col) {
-                    // console.log(col);
+                    console.log(col);
                     return col.optionLabels[text];
                 }
             },
@@ -336,7 +337,6 @@ function initResourceEditForm() {
             if (column.editable !== false) {
                 gantt._resourceAssigner.editCell(row.id, column.id);
             }
-            console.log(row);
         });
 
         gantt._resourceAssigner.events.on("AfterEditStart", function (row, col, editorType) {
@@ -382,6 +382,11 @@ function initResourceEditForm() {
         resourceEditColumns[2].options = ["0"];
         resourceEditColumns[2].optionLabels = {"0": ''};
 
+var calendars = gantt.getCalendars();
+		resourceEditColumns[2].options = [];
+		calendars.forEach(function (el) {
+			resourceEditColumns[2].options.push(el.id);
+		})
 
         resourceData.forEach(function (el) {
             el.unit = el.unit || '';
@@ -412,7 +417,7 @@ function initResourceEditForm() {
             if (col.id == "parent") {
                 setTimeout(function () {
                     console.log(col);
-                    var selectEl = document.querySelector(".dhx_cell-editor");
+                    var selectEl = document.querySelector(".dhx_cell-editor__select");
                     console.log(selectEl);
                     var selectedValue = selectEl.value;
                     // console.log(selectedValue);
@@ -427,7 +432,7 @@ function initResourceEditForm() {
                         }
                     }
                     selectEl.value = selectedValue;
-                }, 50);
+                }, 300);
             }
         });
 
