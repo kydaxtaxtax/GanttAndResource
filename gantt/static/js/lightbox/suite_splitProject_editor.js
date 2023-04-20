@@ -135,7 +135,6 @@ function initsplitProjectEditForm() {
 			var task = gantt._lightbox_task;
 
 			var updatedTask = gantt._taskForm.getValue();
-			console.log(updatedTask);
 			// document.querySelector("#start_date").innerHTML = updatedTask.start_date;
 			task.text = updatedTask.text;
 			task.tags = updatedTask.tags;

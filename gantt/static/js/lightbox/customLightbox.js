@@ -207,26 +207,9 @@
 
 
 	gantt.$lightboxControl.fillTabContent = function (id) {
-		console.log(id);
 		id = id || "splitProject"
 		gantt.$lightboxControl[id].addForm();
 	}
 	// initTaskEditForm();
 	initResourceEditForm();
 	initsplitProjectEditForm();
-
-const calendar = new dhx.Calendar("calendar1", {
-    css: "dhx_widget--bordered"
-});
-calendar.events.on("change", function (date) {
-    document.querySelector("#resultFrom").innerHTML = "Date from: " + calendar.getValue() + "</br>";
-});
-
-const calendar2 = new dhx.Calendar("calendar2", {
-    css: "dhx_widget--bordered"
-});
-calendar2.events.on("change", function (date) {
-    document.querySelector("#resultTo").innerHTML = "Date to: " + calendar2.getValue() + "</br>";
-});
-
-calendar.link(calendar2);
