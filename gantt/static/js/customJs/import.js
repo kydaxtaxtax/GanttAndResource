@@ -166,8 +166,8 @@
 
 		fileDnD.onDrop(sendFile);
 		var form = document.getElementById("mspImport");
-		form.onsubmit = function (event) {
-			event.preventDefault();
+		form.onsubmit = function (events) {
+			events.preventDefault();
 			var fileInput = document.getElementById("mspFile");
 			if (fileInput.files[0])
 				sendFile(fileInput.files[0]);

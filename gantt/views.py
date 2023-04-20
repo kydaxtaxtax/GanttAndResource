@@ -12,7 +12,6 @@ from django.http import JsonResponse
 # Create your views here.
 def index(request):
 	return render(request, 'index.html')
-
 @api_view(['GET'])
 def data_list(request, offset):
     if request.method == 'GET':

@@ -43,7 +43,7 @@
   var presto_version = presto && userAgent.match(/Version\/(\d*\.\d*)/);
   if (presto_version) { presto_version = Number(presto_version[1]); }
   if (presto_version && presto_version >= 15) { presto = false; webkit = true; }
-  // Some browsers use the wrong event properties to signal cmd/ctrl on OS X
+  // Some browsers use the wrong events properties to signal cmd/ctrl on OS X
   var flipCtrlCmd = mac && (qtwebkit || presto && (presto_version == null || presto_version < 12.11));
   var captureRightClick = gecko || (ie && ie_version >= 9);
 
@@ -526,7 +526,7 @@
 
   // EVENT HANDLING
 
-  // Lightweight event framework. on/off also work on DOM nodes,
+  // Lightweight events framework. on/off also work on DOM nodes,
   // registering native DOM handlers.
 
   var noHandlers = [];
@@ -569,8 +569,8 @@
   }
 
   // The DOM events that CodeMirror handles can be overridden by
-  // registering a (non-DOM) handler on the editor for the event name,
-  // and preventDefault-ing the event in that handler.
+  // registering a (non-DOM) handler on the editor for the events name,
+  // and preventDefault-ing the events in that handler.
   function signalDOMEvent(cm, e, override) {
     if (typeof e == "string")
       { e = {type: e, preventDefault: function() { this.defaultPrevented = true; }}; }
@@ -2285,7 +2285,7 @@
     return widget.height = widget.node.parentNode.offsetHeight
   }
 
-  // Return true when the given mouse event happened in a widget
+  // Return true when the given mouse events happened in a widget
   function eventInWidget(display, e) {
     for (var n = e_target(e); n != display.wrapper; n = n.parentNode) {
       if (!n || (n.nodeType == 1 && n.getAttribute("cm-ignore-events") == "true") ||
@@ -2949,7 +2949,7 @@
     });
   }
 
-  // Given a mouse event, find the corresponding position. If liberal
+  // Given a mouse events, find the corresponding position. If liberal
   // is false, it checks whether a gutter or scrollbar was clicked,
   // and returns null if it was. forRect is used by rectangular
   // selections, and tries to estimate a character position even for
@@ -3908,7 +3908,7 @@
     if (display.wrapper.offsetHeight)
       { doc.scrollTop = cm.display.scroller.scrollTop; }
 
-    // Fire change events, and delayed event handlers
+    // Fire change events, and delayed events handlers
     if (op.changeObjs)
       { signal(cm, "changes", cm, op.changeObjs); }
     if (op.update)
@@ -4236,7 +4236,7 @@
   function updateGutterSpace(display) {
     var width = display.gutters.offsetWidth;
     display.sizer.style.marginLeft = width + "px";
-    // Send an event to consumers responding to changes in gutter width.
+    // Send an events to consumers responding to changes in gutter width.
     signalLater(display, "gutterChanged", display);
   }
 
@@ -4444,7 +4444,7 @@
   // and, from that, detects the way it can convert deltas to pixel
   // offsets afterwards.
   //
-  // The reason we want to know the amount a wheel event will scroll
+  // The reason we want to know the amount a wheel events will scroll
   // is that it gives us a chance to update the display before the
   // actual scrolling happens, reducing flickering.
 
@@ -4482,7 +4482,7 @@
     if (!(dx && canScrollX || dy && canScrollY)) { return }
 
     // Webkit browsers on OS X abort momentum scrolls when the target
-    // of the scroll event is removed from the scrollable element.
+    // of the scroll events is removed from the scrollable element.
     // This hack (see related code in patchDisplay) makes sure the
     // element is kept around.
     if (dy && mac && webkit) {
@@ -4803,12 +4803,12 @@
 
   function History(prev) {
     // Arrays of change events and selections. Doing something adds an
-    // event to done and clears undo. Undoing moves events from done
+    // events to done and clears undo. Undoing moves events from done
     // to undone, redoing moves them in the other direction.
     this.done = []; this.undone = [];
     this.undoDepth = prev ? prev.undoDepth : Infinity;
     // Used to track when changes can be merged into a single undo
-    // event
+    // events
     this.lastModTime = this.lastSelTime = 0;
     this.lastOp = this.lastSelOp = null;
     this.lastOrigin = this.lastSelOrigin = null;
@@ -4816,7 +4816,7 @@
     this.generation = this.maxGeneration = prev ? prev.maxGeneration : 1;
   }
 
-  // Create a history change event from an updateDoc-style change
+  // Create a history change events from an updateDoc-style change
   // object.
   function historyChangeFromChange(doc, change) {
     var histChange = {from: copyPos(change.from), to: changeEnd(change), text: getBetween(doc, change.from, change.to)};
@@ -4826,7 +4826,7 @@
   }
 
   // Pop all selection events off the end of a history array. Stop at
-  // a change event.
+  // a change events.
   function clearSelectionEvents(array) {
     while (array.length) {
       var last = lst(array);
@@ -4835,7 +4835,7 @@
     }
   }
 
-  // Find the top change event in the history. Pop off selection
+  // Find the top change events in the history. Pop off selection
   // events that are in the way.
   function lastChangeEvent(hist, force) {
     if (force) {
@@ -4851,7 +4851,7 @@
 
   // Register a change in the history. Merges changes that are within
   // a single operation, or are close together with an origin that
-  // allows merging (starting with "+") into a single event.
+  // allows merging (starting with "+") into a single events.
   function addChangeToHistory(doc, change, selAfter, opId) {
     var hist = doc.history;
     hist.undone.length = 0;
@@ -4863,18 +4863,18 @@
          ((change.origin.charAt(0) == "+" && hist.lastModTime > time - (doc.cm ? doc.cm.options.historyEventDelay : 500)) ||
           change.origin.charAt(0) == "*")) &&
         (cur = lastChangeEvent(hist, hist.lastOp == opId))) {
-      // Merge this change into the last event
+      // Merge this change into the last events
       last = lst(cur.changes);
       if (cmp(change.from, change.to) == 0 && cmp(change.from, last.to) == 0) {
         // Optimized case for simple insertion -- don't want to add
         // new changesets for every character typed
         last.to = changeEnd(change);
       } else {
-        // Add new sub-event
+        // Add new sub-events
         cur.changes.push(historyChangeFromChange(doc, change));
       }
     } else {
-      // Can not be merged, start a new event.
+      // Can not be merged, start a new events.
       var before = lst(hist.done);
       if (!before || !before.ranges)
         { pushSelectionToHistory(doc.sel, hist.done); }
@@ -4911,7 +4911,7 @@
   function addSelectionToHistory(doc, sel, opId, options) {
     var hist = doc.history, origin = options && options.origin;
 
-    // A new event is started when the previous origin does not match
+    // A new events is started when the previous origin does not match
     // the current, or the origins don't allow matching. Origins
     // starting with * are always merged, those starting with + are
     // merged when similar and close together in time.
@@ -4958,7 +4958,7 @@
     return !out ? spans : out.length ? out : null
   }
 
-  // Retrieve and filter the old marked spans stored in a change event.
+  // Retrieve and filter the old marked spans stored in a change events.
   function getOldSpans(doc, change) {
     var found = change["spans_" + doc.id];
     if (!found) { return null }
@@ -5229,7 +5229,7 @@
 
   // UPDATING
 
-  // Allow "beforeChange" event handlers to influence a change
+  // Allow "beforeChange" events handlers to influence a change
   function filterChange(doc, change, update) {
     var obj = {
       canceled: false,
@@ -5304,7 +5304,7 @@
     var hist = doc.history, event, selAfter = doc.sel;
     var source = type == "undo" ? hist.done : hist.undone, dest = type == "undo" ? hist.undone : hist.done;
 
-    // Verify that there is a useable event (so that ctrl-z won't
+    // Verify that there is a useable events (so that ctrl-z won't
     // needlessly clear selection events)
     var i = 0;
     for (; i < source.length; i++) {
@@ -5504,9 +5504,9 @@
   }
 
   // Tries to rebase an array of history events given a change in the
-  // document. If the change touches the same lines as the event, the
-  // event, and everything 'behind' it, is discarded. If the change is
-  // before the event, the event's positions are updated. Uses a
+  // document. If the change touches the same lines as the events, the
+  // events, and everything 'behind' it, is discarded. If the change is
+  // before the events, the events's positions are updated. Uses a
   // copy-on-write scheme for the positions, to avoid having to
   // reallocate them all on every rebase, but also avoid problems with
   // shared position objects being unsafely updated.
@@ -6789,13 +6789,13 @@
     return name
   }
 
-  // Look up the name of a key as indicated by an event object.
+  // Look up the name of a key as indicated by an events object.
   function keyName(event, noShift) {
     if (presto && event.keyCode == 34 && event["char"]) { return false }
     var name = keyNames[event.keyCode];
     if (name == null || event.altGraphKey) { return false }
     // Ctrl-ScrollLock has keyCode 3, same as Ctrl-Pause,
-    // so we'll use event.code when available (Chrome 48+, FF 38+, Safari 10.1+)
+    // so we'll use events.code when available (Chrome 48+, FF 38+, Safari 10.1+)
     if (event.keyCode == 3 && event.code) { name = event.code; }
     return addModifierNames(name, event, noShift)
   }
@@ -7172,7 +7172,7 @@
     return !!result
   }
 
-  // Handle a key from the keydown event.
+  // Handle a key from the keydown events.
   function handleKeyBinding(cm, e) {
     var name = keyName(e, true);
     if (!name) { return false }
@@ -7191,7 +7191,7 @@
     }
   }
 
-  // Handle a key from the keypress event
+  // Handle a key from the keypress events
   function handleCharBinding(cm, e, ch) {
     return dispatchKey(cm, "'" + ch + "'", e, function (b) { return doHandleBinding(cm, b, true); })
   }
@@ -7209,7 +7209,7 @@
     var handled = handleKeyBinding(cm, e);
     if (presto) {
       lastStoppedKey = handled ? code : null;
-      // Opera has no cut event... we try to at least catch the key combo
+      // Opera has no cut events... we try to at least catch the key combo
       if (!handled && code == 88 && !hasCopyEvent && (mac ? e.metaKey : e.ctrlKey))
         { cm.replaceSelection("", null, "cut"); }
     }
@@ -7601,8 +7601,8 @@
   }
 
 
-  // Determines whether an event happened in the gutter, and fires the
-  // handlers for the corresponding event.
+  // Determines whether an events happened in the gutter, and fires the
+  // handlers for the corresponding events.
   function gutterEvent(cm, e, type, prevent) {
     var mX, mY;
     if (e.touches) {
@@ -7914,7 +7914,7 @@
   // Functions to run when options are changed.
   CodeMirror.optionHandlers = optionHandlers;
 
-  // Attach the necessary event handlers when initializing the editor
+  // Attach the necessary events handlers when initializing the editor
   function registerEventHandlers(cm) {
     var d = cm.display;
     on(d.scroller, "mousedown", operation(cm, onMouseDown));
@@ -7938,7 +7938,7 @@
       if (!d.scroller.contains(e.target)) { onContextMenu(cm, e); }
     });
 
-    // Used to suppress mouse event handling when a touch happens
+    // Used to suppress mouse events handling when a touch happens
     var touchFinished, prevTouch = {end: 0};
     function finishTouch() {
       if (d.activeTouch) {
@@ -9296,7 +9296,7 @@
     this.prevInput = "";
 
     // Flag that indicates whether we expect input to appear real soon
-    // now (after some event like 'keypress' or 'input') and are
+    // now (after some events like 'keypress' or 'input') and are
     // polling intensively.
     this.pollingFast = false;
     // Self-resetting timeout for the poller
@@ -9360,7 +9360,7 @@
         return
       }
 
-      // Pass the `paste` event to the textarea so it's handled by its event listener.
+      // Pass the `paste` events to the textarea so it's handled by its events listener.
       var event = new Event("paste");
       event.clipboardData = e.clipboardData;
       te.dispatchEvent(event);
@@ -9481,7 +9481,7 @@
     });
   };
 
-  // When an event has just come in that is likely to add or change
+  // When an events has just come in that is likely to add or change
   // something in the input textarea, we poll faster, to ensure that
   // the change appears on the screen quickly.
   TextareaInput.prototype.fastPoll = function () {

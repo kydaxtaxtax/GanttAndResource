@@ -63,7 +63,7 @@
 	for (var i = 0; i < filter_inputs.length; i++) {
 		var filter_input = filter_inputs[i];
 
-		// attach event handler to update filters object and refresh data (so filters will be applied)
+		// attach events handler to update filters object and refresh data (so filters will be applied)
 		filter_input.onchange = function () {
 			gantt.refreshData();
 			updIcon(this);
