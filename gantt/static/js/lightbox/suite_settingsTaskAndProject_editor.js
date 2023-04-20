@@ -15,6 +15,24 @@ function initSettingsTaskAndProjectEditForm() {
 	dhx.i18n.setLocale("calendar", ru);
 	gantt.$lightboxControl.settingsTaskAndProject.addForm = function () {
 		var task = gantt.getTask(gantt._lightbox_id);
+		if(task.type == "project"){
+			var startDate = "planned_start";
+			var endDate = "planned_end";
+			var duration = "duration_plan";
+
+			var strStartDate = task.planned_start;
+			var strEndDate = task.planned_end;
+			var strDuration = task.duration_plan;
+		} else {
+			var startDate = "start_date";
+			var endDate = "end_date";
+			var duration = "duration";
+
+			var strStartDate = task.start_date;
+			var strEndDate = task.end_date;
+			var strDuration = task.duration;
+		}
+
 		if (gantt._lightbox_task) {
 			task = gantt._lightbox_task;
 		}
@@ -37,12 +55,12 @@ function initSettingsTaskAndProjectEditForm() {
 				name: "start_date",
 				type: "datepicker",
 				label: task.type == "project" ? "Дата начала по плану" : "Дата начала по факту",
-				id: "start_date",
+				id: startDate,
 				required: true,
 				labelPosition: "top",
 				labelWidth: 200,
-				dateFormat: "%d-%m-%y",
-				value:  task.type == "project" ? task.planned_start : task.start_date,
+				dateFormat: "%d-%m-%Y",
+				value: strStartDate,
 			},
 			end_date: {
 				disabledDates: function(date) {return disabledDays[date.getDay()]},
@@ -50,25 +68,25 @@ function initSettingsTaskAndProjectEditForm() {
 				name: "end_date",
 				type: "datepicker",
 				label: task.type == "project" ? "Дата окончания по плану" : "Дата окончания по факту",
-				id: "end_date",
+				id: endDate,
 				required: true,
 				labelPosition: "top",
 				labelWidth: 200,
-				dateFormat: "%d-%m-%y",
-				value: task.type == "project" ? task.planned_end : task.end_date,
+				dateFormat: "%d-%m-%Y",
+				value: strEndDate,
 
 			},
 			duration: {
-				readOnly: true,
+				// readOnly: true,
 				name: "duration",
 				type: "input",
 				inputType: "text",
 				label: "Продолжительность",
-				id: "duration",
+				id: duration,
 				labelPosition: "top",
 				labelWidth: 150,
 				// required: true,
-				value: task.type == "project" ? task.duration_plan : task.duration,
+				value: strDuration,
 			},
 			// progress: {
 			// 	name: "progress",
@@ -86,9 +104,9 @@ function initSettingsTaskAndProjectEditForm() {
 
 		var taskFormRowsForGrid = [
 			taskFormRows["text"],
-			taskFormRows["start_date"],
-			taskFormRows["end_date"],
-			taskFormRows["duration"],
+			taskFormRows[startDate],
+			taskFormRows[endDate],
+			taskFormRows[duration],
 			taskFormRows["progress"],
 		];
 
@@ -122,24 +140,24 @@ function initSettingsTaskAndProjectEditForm() {
 			var new_start_date = updatedTask.start_date;
 			var new_end_date = updatedTask.end_date;
 			var new_duration = updatedTask.duration;
-			var old_end_date = +new Date(task.end_date);
+			var old_end_date = +new Date(task[endDate]);
 
 			if (new_start_date instanceof Date) {
 				// do nothing
 			} else {
-				task.start_date = gantt.date.parseDate(new_start_date, "%d/%m/%y");
+				task[startDate] = gantt.date.parseDate(new_start_date, "%d-%m-%Y");
 			}
 
-			if (task.duration != new_duration) {
-				task.duration = new_duration;
-				task.end_date = gantt.calculateEndDate({ start_date: task.start_date, duration: task.duration, task: task });
-				new_end_date = task.end_date;
+			if (task[duration] != new_duration) {
+				task[duration] = new_duration;
+				task[endDate] = gantt.calculateEndDate({ start_date: task[startDate], duration: task[duration], task: task });
+				new_end_date = task[endDate];
 			}
 
 			if (new_end_date instanceof Date && +old_end_date == +new_end_date) {
 				// do nothing
 			} else {
-				new_end_date = gantt.date.parseDate(new_end_date, "%d/%m/%y");
+				new_end_date = gantt.date.parseDate(new_end_date, "%d-%m-%Y");
 				if (+old_end_date != +new_end_date) {
 					task.end_date = new_end_date;
 					// task.duration = gantt.calculateDuration({ start_date: task.start_date, end_date: task.end_date, task: task });

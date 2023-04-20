@@ -6,8 +6,20 @@ body.dhx_window--no-scroll{
   height: 100%;
 }
 
+/*  Содержимое таба (таблица, импуты) */
+.dhx_layout-cell.panel{
+    /*margin-top: 8px;*/
+    border: 10px;
+}
 
+/*  Обводка содержимого таба (таблица, импуты) */
+/*.dhx_grid-content.dhx_grid-less-height{*/
+/*    border-color: rgb(2, 136, 209);*/
+/*}*/
 
+/*.dhx_widget.dhx_layout.dhx_layout-rows.dhx_widget--bordered.dhx_form{*/
+/*     border-color: rgb(2, 136, 209);*/
+/*}*/
 
 /*Шапка таблицы*/
 .dhx_grid-header-cell{
@@ -15,7 +27,7 @@ body.dhx_window--no-scroll{
     font-family: Akrobat-ExtraBold!important;
 
 }
-А
+
     /*.custom .dhx_grid-header-cell--active {*/
     /*    background-color: rgb(2, 136, 209);*/
     /*    !*color: var(--dhx-color-white);*!*/
@@ -76,7 +88,5 @@ body.dhx_window--no-scroll{
 padding-bottom: 16px;
 }
 
-.dhx_layout-cell.panel{
-    margin-top: 8px;
-}
+
 

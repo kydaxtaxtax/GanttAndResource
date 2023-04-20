@@ -1,12 +1,126 @@
+[
+  {
+    "id": 1,
+    "text": "Трудозатраты",
+    "parent": null
+  },
+  {
+    "id": 2,
+    "text": "Материалы",
+    "parent": null
+  },
+  {
+    "id": 3,
+    "text": "Эксплуатация машин",
+    "parent": null
+  },
+  {
+    "id": 4,
+    "text": "Маша",
+    "value": 83,
+    "units": "ч",
+    "parent": 1
+  },
+  {
+    "id": 5,
+    "text": "Блок бетонный малый",
+    "value": 190,
+    "units": "шт",
+    "parent": 2
+  },
+  {
+    "id": 6,
+    "text": "Экскаватор малый",
+    "value": 32,
+    "units": "ч",
+    "parent": 3
+  },
+  {
+    "id": 7,
+    "text": "Экскаватор большой",
+    "value": 32,
+    "units": "ч",
+    "parent": 3
+  },
+  {
+    "id": 8,
+    "text": "Погрузчик",
+    "value": 55,
+    "units": "ч",
+    "parent": 3
+  }
+]
 
 
-
-[{"id":1,"text":"Трудозатраты","parent":null},
- {"id":2,"text":"Материалы","parent":null},
- {"id":3,"text":"Эксплуатация машин","parent":null},
- {"id":4,"text":"Маша","value":83,"units":"ч","parent":1},
- {"id":5,"text":"Блок бетонный малый","value":190,"units":"шт","parent":2},
- {"id":6,"text":"Экскаватор малый","value":32,"units":"ч","parent":3},
- {"id":7,"text":"Экскаватор большой","value":32,"units":"ч","parent":3},
- {"id":8,"text":"Погрузчик","value":55,"units":"ч","parent":3}]
+[
+  {
+    "id": 1,
+    "text": "\u0422\u0440\u0443\u0434\u043e\u0437\u0430\u0442\u0440\u0430\u0442\u044b",
+    "parent": 0,
+    "capacity": 100,
+    "open": true,
+    "unit": "",
+    "hide": true,
+    "calendar": "global",
+    "owner": 0
+  },
+  {
+    "id": 2,
+    "text": "\u041c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u044b",
+    "parent": 0,
+    "capacity": 100,
+    "open": true,
+    "unit": "",
+    "hide": true,
+    "calendar": "global",
+    "owner": 0
+  },
+  {
+    "id": 3,
+    "text": "\u042d\u043a\u0441\u043f\u043b\u0443\u0430\u0442\u0430\u0446\u0438\u044f \u043c\u0430\u0448\u0438\u043d",
+    "parent": 0,
+    "capacity": 100,
+    "open": true,
+    "unit": "",
+    "hide": true,
+    "calendar": "global",
+    "owner": 0
+  },
+  {
+    "id": 4,
+    "text": "\u041c\u0430\u0448\u0430",
+    "value": 83,
+    "unit": "\u0447",
+    "parent": 1,
+    "capacity": 100,
+    "open": true,
+    "hide": true,
+    "calendar": "global",
+    "owner": 1
+  },
+  {
+    "id": 5,
+    "text": "\u0411\u043b\u043e\u043a \u0431\u0435\u0442\u043e\u043d\u043d\u044b\u0439 \u043c\u0430\u043b\u044b\u0439",
+    "value": 190,
+    "unit": "\u0448\u0442",
+    "parent": 2,
+    "capacity": 100,
+    "open": true,
+    "hide": true,
+    "calendar": "global",
+    "owner": 2
+  },
+  {
+    "id": 6,
+    "text": "\u042d\u043a\u0441\u043a\u0430\u0432\u0430\u0442\u043e\u0440 \u043c\u0430\u043b\u044b\u0439",
+    "value": 32.12,
+    "unit": "\u0447",
+    "parent": 3,
+    "capacity": 100,
+    "open": true,
+    "hide": true,
+    "calendar": "global",
+    "owner": 3
+  }
+]
 

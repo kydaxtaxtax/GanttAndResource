@@ -113,26 +113,25 @@
 
 	function saveTask() {
 		var id = gantt.getState().lightbox;
-
 		var task = gantt.getTask(gantt._lightbox_id);
-
-		// update task properties
-		gantt.mixin(task, gantt._lightbox_task)
-
 		var taskParent = gantt.getTask(task.parent);
+
+		gantt.mixin(task, gantt._lightbox_task, true)
+
+
 		// var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
 		if (task.type == "task") {
 			task.render = "split";
 			task.type = "project";
 			gantt.updateTask(task.id);
 		}
-		if (task.type == "project") {
-			if (taskParent) {
-				task.start_date = gantt.date.day_start(new Date());
-				gantt.getTask(taskParent.id).open = 1;
-				gantt.updateTask(taskParent.id);
-			}
-		}
+		// if (task.type == "project") {
+		// 	if (taskParent) {
+		// 		task.start_date = gantt.date.day_start(new Date());
+		// 		gantt.getTask(taskParent.id).open = 1;
+		// 		gantt.updateTask(taskParent.id);
+		// 	}
+		// }
 
 		if(task.$new) {
 			if (taskParent && taskParent.render == "split") {
@@ -149,14 +148,7 @@
 				}
 			}
 		}
-		if (task.$new) {
-			delete gantt._lightbox_task.$new;
-			delete task.$new;
-			gantt.addTask(task)
-		}
-		else {
-			gantt.updateTask(id)
-		}
+
 
 		//update resources
 		var assignmentStore = gantt.getDatastore(gantt.config.resource_assignment_store);
@@ -175,7 +167,14 @@
 			}
 		}
 
-
+			if (task.$new) {
+			delete gantt._lightbox_task.$new;
+			delete task.$new;
+			gantt.addTask(task);
+		}
+		else {
+			gantt.updateTask(id);
+		}
 	}
 	function deleteTask() {
 		var id = gantt.getState().lightbox;

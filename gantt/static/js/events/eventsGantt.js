@@ -107,7 +107,7 @@ gantt.attachEvent("onTaskCreated", function(task){
 
 
 // gantt.attachEvent("onLightboxSave", function(id, task, is_new){
-//
+// console.log(1);
 //     var taskParent = gantt.getTask(task.parent);
 //     // var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
 //     if (task.type == "task") {
