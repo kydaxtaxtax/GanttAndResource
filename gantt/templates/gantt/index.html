@@ -34,26 +34,6 @@
             <link href="{% static "gantt/css/lightbox.css" %}"  rel="stylesheet"/>
             <link href="{% static "gantt/css/stylefonts.css" %}" rel="stylesheet" type="text/css">
             <link href="{% static "gantt/fonts/font-awesome-4.7.0/css/font-awesome.css" %}" rel="stylesheet">
-
-            <!--JS-->
-            <script src="{% static "gantt/js/newCustomJs/settingsGlobal.js" %}"></script>
-    <!--    <script src="{% static "gantt/plagins/dhtmlx_gantt/js/customJs/resourseManagment.js" %}"></script> &lt;!&ndash; Настройки визуализации Ганта &ndash;&gt;#}-->
-    <!--    <script src="{% static "gantt/js/customJs/export.js" %}"></script>  &lt;!&ndash; настройка экспорта &ndash;&gt;-->
-            <script src="{% static "gantt/js/newCustomJs/dateFunction.js" %}"></script>
-    <!--	<script src="{% static "gantt/js/customJs/fileinput.js" %}"></script>  &lt;!&ndash; js Импорт(для загрузки в Ганта) &ndash;&gt;-->
-            <script src="{% static "gantt/js/newCustomJs/eventsGantt.js" %}"></script>
-            <script src="{% static "gantt/js/newCustomJs/eventsButtons.js" %}"></script>
-            <script src="{% static "gantt/js/newCustomJs/zoomBackDefault.js" %}"></script>
-            <script src="{% static "gantt/js/newCustomJs/styleGantt.js" %}"></script>
-            <script src="{% static "gantt/js/newCustomJs/loadingGantt.js" %}"></script>
-            <script src="{% static "gantt/js/newCustomJs/styleResource.js" %}"></script>
-            <script src="{% static "gantt/js/newCustomJs/loadingResource.js" %}"></script>
-            <script src="{% static "gantt/js/newCustomJs/settingsLayout.js" %}"></script> <!-- Настройки визуализации Ганта -->
-            <script src="{% static "gantt/js/newCustomJs/zoom.js" %}"></script>
-            <script src="{% static "gantt/js/newCustomJs/settingsLightbox/suite_splitProject_editor.js" %}" type="text/javascript"></script>
-            <script src="{% static "gantt/js/newCustomJs/settingsLightbox/suite_task_editor.js" %}" type="text/javascript"></script>
-            <script src="{% static "gantt/js/newCustomJs/settingsLightbox/suite_resource_editor.js" %}" type="text/javascript"></script>
-            <script src="{% static "gantt/js/newCustomJs/settingsLightbox/customLightbox.js" %}" type="text/javascript"></script>
     </head>
 
 
@@ -80,6 +60,26 @@
                  <div id="gantt_here"></div>
             </div>
         </main>
+
+                    <!--JS-->
+            <script src="{% static "gantt/js/newCustomJs/settingsGlobal.js" %}"></script>
+    <!--    <script src="{% static "gantt/plagins/dhtmlx_gantt/js/customJs/resourseManagment.js" %}"></script> &lt;!&ndash; Настройки визуализации Ганта &ndash;&gt;#}-->
+    <!--    <script src="{% static "gantt/js/customJs/export.js" %}"></script>  &lt;!&ndash; настройка экспорта &ndash;&gt;-->
+            <script src="{% static "gantt/js/newCustomJs/dateFunction.js" %}"></script>
+    <!--	<script src="{% static "gantt/js/customJs/fileinput.js" %}"></script>  &lt;!&ndash; js Импорт(для загрузки в Ганта) &ndash;&gt;-->
+            <script src="{% static "gantt/js/newCustomJs/eventsGantt.js" %}"></script>
+            <script src="{% static "gantt/js/newCustomJs/eventsButtons.js" %}"></script>
+            <script src="{% static "gantt/js/newCustomJs/zoomBackDefault.js" %}"></script>
+            <script src="{% static "gantt/js/newCustomJs/styleGantt.js" %}"></script>
+            <script src="{% static "gantt/js/newCustomJs/loadingGantt.js" %}"></script>
+            <script src="{% static "gantt/js/newCustomJs/styleResource.js" %}"></script>
+            <script src="{% static "gantt/js/newCustomJs/loadingResource.js" %}"></script>
+            <script src="{% static "gantt/js/newCustomJs/settingsLayout.js" %}"></script> <!-- Настройки визуализации Ганта -->
+            <script src="{% static "gantt/js/newCustomJs/zoom.js" %}"></script>
+            <script src="{% static "gantt/js/newCustomJs/settingsLightbox/suite_splitProject_editor.js" %}" type="text/javascript"></script>
+            <script src="{% static "gantt/js/newCustomJs/settingsLightbox/suite_task_editor.js" %}" type="text/javascript"></script>
+            <script src="{% static "gantt/js/newCustomJs/settingsLightbox/suite_resource_editor.js" %}" type="text/javascript"></script>
+            <script src="{% static "gantt/js/newCustomJs/settingsLightbox/customLightbox.js" %}" type="text/javascript"></script>
 <script>
             gantt.init("gantt_here");
             gantt.load("/data/", "json");
