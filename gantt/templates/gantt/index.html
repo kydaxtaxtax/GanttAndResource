@@ -1,21 +1,19 @@
 <html>
 	<head>
 		{% load static %}
-<!--                <link rel="stylesheet" href="https://docs.dhtmlx.com/suite/codebase/suite.css?v=6.0.3">-->
-<!--                <link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">-->
-<!--		<link href="{% static "gantt/plagins/dhtmlx_gantt/css/lightbox.css" %}"  rel="stylesheet"/>-->
+         <link rel="shortcut icon" href="{% static "gantt/favicon.ico" %}/">
+        <link rel="stylesheet" href="https://docs.dhtmlx.com/suite/codebase/suite.css?v=6.0.3">
+        <link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">
+		<link href="{% static "gantt/plagins/dhtmlx_gantt/css/lightbox.css" %}"  rel="stylesheet"/>
 
 
-        <link rel="shortcut icon" href="{% static "gantt/favicon.ico" %}/">
 
         <link href="{% static "gantt/css/stylefonts.css" %}" rel="stylesheet" type="text/css">  <!-- подключение шрифтов -->
-
 		<link href="{% static "gantt/fonts/font-awesome-4.7.0/css/font-awesome.css" %}" rel="stylesheet">  <!-- доп классы для css -->
 		<link href="{% static "gantt/plagins/dhtmlx_gantt/codebase/dhtmlxgantt.css" %}"  rel="stylesheet"/>
         <link href="{% static "gantt/css/style.css" %}" rel="stylesheet" type="text/css">  <!-- подключение главного css -->
         <script src="{% static "gantt/plagins/dhtmlx_gantt/codebase/dhtmlxgantt.js" %}" type="text/javascript"></script>
 		<script src="{% static "gantt/plagins/jquery/jquery-3.3.1.js" %}"></script>  <!-- jQuery -->
-
         <script src="{% static "gantt/plagins/momentTime/moment.js" %}"></script>
 
         <!--datapicer-->
@@ -70,11 +68,6 @@
         <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/zoomBackDefault.js" %}"></script>
         <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/styleGantt.js" %}"></script>
         <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/loadingGantt.js" %}"></script>
-
-
-
-
-
         <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/styleResource.js" %}"></script>
         <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/loadingResource.js" %}"></script>
         <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLayout.js" %}"></script> <!-- Настройки визуализации Ганта -->
@@ -82,13 +75,16 @@
 
 
 
-                <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/dataPixer.js" %}"></script>
-        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/styleLightbox.js" %}"></script>
 
-<!--                <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/suite.js" %}" type="text/javascript"></script>-->
-<!--        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/suite_task_editor.js" %}" type="text/javascript"></script>-->
-<!--        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/suite_resource_editor.js" %}" type="text/javascript"></script>-->
-<!--        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/customLightbox.js" %}" type="text/javascript"></script>-->
+
+
+<!--        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/dataPixer.js" %}"></script>-->
+<!--        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/styleLightbox.js" %}"></script>-->
+
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/suite.js" %}" type="text/javascript"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/suite_task_editor.js" %}" type="text/javascript"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/suite_resource_editor.js" %}" type="text/javascript"></script>
+        <script src="{% static "gantt/plagins/dhtmlx_gantt/js/newCustomJs/settingsLightbox/customLightbox.js" %}" type="text/javascript"></script>
 
         <script>
             gantt.init("gantt_here");

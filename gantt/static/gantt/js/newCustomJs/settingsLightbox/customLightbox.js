@@ -1,9 +1,6 @@
 
 	gantt.config.dynamic_resource_calendars = true;
 
-
-
-
 	//Custom lightbox configuration
 	var dhxWindow = new dhx.Window({
 		title: "DHX Window",
@@ -117,6 +114,36 @@
 		// update task properties
 		gantt.mixin(task, gantt._lightbox_task)
 
+		var taskParent = gantt.getTask(task.parent);
+		// var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
+		if (task.type == "task") {
+			task.render = "split";
+			task.type = "project";
+			gantt.updateTask(task.id);
+		}
+		if (task.type == "project") {
+			if (taskParent) {
+				task.start_date = gantt.date.day_start(new Date());
+				gantt.getTask(taskParent.id).open = 1;
+				gantt.updateTask(taskParent.id);
+			}
+		}
+
+		if(task.$new) {
+			if (taskParent && taskParent.render == "split") {
+				taskParent.planned_start = task.start_date;
+				taskParent.planned_end = task.end_date;
+
+				if (gantt.getChildren(taskParent.id).length > 1) {
+					gantt.addLink({
+						source: gantt.getPrevSibling(task.id),
+						target: task.id,
+						type: gantt.config.links.finish_to_start
+					});
+
+				}
+			}
+		}
 		if (task.$new) {
 			delete gantt._lightbox_task.$new;
 			delete task.$new;
@@ -143,28 +170,6 @@
 			}
 		}
 
-		for (var i = 0; i < gantt._removed_links.length; i++) {
-			var linkId = gantt._removed_links[i];
-			if (gantt.isLinkExists(linkId)) gantt.deleteLink(linkId)
-		}
-
-		var links = gantt._lightbox_links;
-		if (links != "load") {
-			for (var i = 0; i < links.length; i++) {
-				var link = links[i];
-				if (gantt.isLinkExists(link.id)) {
-					var oldLink = gantt.getLink(link.id);
-					oldLink.source = link.source;
-					oldLink.target = link.target;
-					oldLink.type = link.type;
-					oldLink.lag = link.lag;
-					gantt.updateLink(link.id);
-				}
-				else if (gantt.isTaskExists(link.source) && gantt.isTaskExists(link.target)) {
-					gantt.addLink(link);
-				}
-			}
-		}
 
 	}
 	function deleteTask() {
@@ -178,8 +183,8 @@
 
 		gantt._tabbar = new dhx.Tabbar(null, {
 			views: [
-				{ id: "task", tab: "Task Data", css: "panel flex" },
-				{ id: "resources", tab: "Resources", css: "panel flex" }
+				{ id: "splitProject", tab: "Параметры проекта", css: "panel flex" },
+				{ id: "resources", tab: "Ресурсы", css: "panel flex" }
 			]
 		});
 		dhxWindow.attach(gantt._tabbar)
@@ -196,15 +201,32 @@
 
 
 	gantt.$lightboxControl = {
-		task: {},
+		splitProject: {},
 		resources: {}
 	};
 
 
 	gantt.$lightboxControl.fillTabContent = function (id) {
-		id = id || "task"
+		console.log(id);
+		id = id || "splitProject"
 		gantt.$lightboxControl[id].addForm();
 	}
-	initTaskEditForm();
+	// initTaskEditForm();
 	initResourceEditForm();
+	initsplitProjectEditForm();
 
+const calendar = new dhx.Calendar("calendar1", {
+    css: "dhx_widget--bordered"
+});
+calendar.events.on("change", function (date) {
+    document.querySelector("#resultFrom").innerHTML = "Date from: " + calendar.getValue() + "</br>";
+});
+
+const calendar2 = new dhx.Calendar("calendar2", {
+    css: "dhx_widget--bordered"
+});
+calendar2.events.on("change", function (date) {
+    document.querySelector("#resultTo").innerHTML = "Date to: " + calendar2.getValue() + "</br>";
+});
+
+calendar.link(calendar2);

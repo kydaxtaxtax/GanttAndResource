@@ -31,7 +31,7 @@ gantt.addTaskLayer({
                 }
                 el.style.left = sizes.left + 'px';
                 el.style.width = sizes.width + 'px';
-                el.style.top = sizes.top + gantt.config.bar_height + -10 + 'px';
+                el.style.top = sizes.top + gantt.config.bar_height + -10.2 + 'px';
                 el.style.height = 33 + 'px';
                 return el;
             }

@@ -175,7 +175,7 @@ function initResourceEditForm() {
 
 		var resourceEditColumns = [
 			{ width: 70, id: "hide", header: [{ text: "ON/OFF" }], type: "boolean", htmlEnable: true },
-			{ minWidth: 120, id: "text", header: [{ text: "Наименование" }], editorType: "input", type: "string", htmlEnable: true},
+			{ minWidth: 120, id: "text", header: [{content: "inputFilter",}], editorType: "input", type: "string", htmlEnable: true},
 			{
 				minWidth: 120, width: 120, id: "parent", header: [{ text: "Колекция" }], editorType: "select", options: [], htmlEnable: true, template: function (text, row, col) {
 					// console.log(col);

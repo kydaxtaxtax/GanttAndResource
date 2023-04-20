@@ -78,65 +78,68 @@ gantt.attachEvent("onTaskCreated", function(task){
 
 });
 
-gantt.attachEvent("onBeforeLightbox", function(id)
-{
-    var task = gantt.getTask(id);
-    task.my_template = "<span id='title1'>Объем по плану: </span>" + task.ob_plan
-                    + "<span id='title2'>Объем по факту: </span>"+ task.ob_fact
-                    + "<span id='title3'>Прогресс: </span>"+ task.progress * 100 + "%";
-    gantt.resetLightbox();
-    switch(task.type) {
-        case 'project':
-            if(task.render == "split"){gantt.config.lightbox.project_sections = update_splitProject;break;}
-            else{gantt.config.lightbox.project_sections = update_Project};
-            break;
-        case 'task':
-            gantt.config.lightbox.task_sections = update_splitProject;
-            break;
-        case 'splittask':
-            if(task.$new){gantt.config.lightbox.task_sections = create_splitTask;break;}
-                else{gantt.config.lightbox.task_sections = update_splitTask;break;}
-		default:
-            gantt.config.lightbox.task_sections = create_splitProject;
-            gantt.config.lightbox.project_sections = create_Project;
-            return true;
-            break;
-    }
-    return true;
-});
+// gantt.attachEvent("onBeforeLightbox", function(id)
+// {
+//     var task = gantt.getTask(id);
+//     task.my_template = "<span id='title1'>Объем по плану: </span>" + task.ob_plan
+//                     + "<span id='title2'>Объем по факту: </span>"+ task.ob_fact
+//                     + "<span id='title3'>Прогресс: </span>"+ task.progress * 100 + "%";
+//     gantt.resetLightbox();
+//     switch(task.type) {
+//         case 'project':
+//             if(task.render == "split"){gantt.config.lightbox.project_sections = update_splitProject;break;}
+//             else{gantt.config.lightbox.project_sections = update_Project};
+//             break;
+//         case 'task':
+//             gantt.config.lightbox.task_sections = update_splitProject;
+//             break;
+//         case 'splittask':
+//             if(task.$new){gantt.config.lightbox.task_sections = create_splitTask;break;}
+//                 else{gantt.config.lightbox.task_sections = update_splitTask;break;}
+// 		default:
+//             gantt.config.lightbox.task_sections = create_splitProject;
+//             gantt.config.lightbox.project_sections = create_Project;
+//             return true;
+//             break;
+//     }
+//     return true;
+// });
 
 
-gantt.attachEvent("onLightboxSave", function(id, task, is_new){
-    var taskParent = gantt.getTask(task.parent);
-    // var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
-    if (task.type == "task") {
-        task.render = "split";
-        task.type = "project";
-        gantt.updateTask(task.id);
-    }
-    if (task.type == "project") {
-        if (taskParent) {
-            task.start_date = gantt.date.day_start(new Date());
-            gantt.getTask(taskParent.id).open = 1;
-            gantt.updateTask(taskParent.id);
-        }
-    }
-
-    if(is_new) {
-        if (taskParent && taskParent.render == "split") {
-            taskParent.planned_start = task.start_date;
-            taskParent.planned_end = task.end_date;
-            if (gantt.getChildren(taskParent.id).length > 1) {
-                gantt.addLink({
-                    source: gantt.getPrevSibling(task.id),
-                    target: task.id,
-                    type: gantt.config.links.finish_to_start
-                });
-            }
-        }
-    }
-    return true;
-});
+// gantt.attachEvent("onLightboxSave", function(id, task, is_new){
+//
+//     var taskParent = gantt.getTask(task.parent);
+//     // var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
+//     if (task.type == "task") {
+//         task.render = "split";
+//         task.type = "project";
+//         gantt.updateTask(task.id);
+//     }
+//     if (task.type == "project") {
+//         if (taskParent) {
+//             task.start_date = gantt.date.day_start(new Date());
+//             gantt.getTask(taskParent.id).open = 1;
+//             gantt.updateTask(taskParent.id);
+//         }
+//     }
+//
+//     if(is_new) {
+//         if (taskParent && taskParent.render == "split") {
+//             taskParent.planned_start = task.start_date;
+//             taskParent.planned_end = task.end_date;
+//
+//             if (gantt.getChildren(taskParent.id).length > 1) {
+//                 gantt.addLink({
+//                     source: gantt.getPrevSibling(task.id),
+//                     target: task.id,
+//                     type: gantt.config.links.finish_to_start
+//                 });
+//
+//             }
+//         }
+//     }
+//     return true;
+// });
 
 gantt.attachEvent("onAfterLightbox", function (){
         updateLine();
