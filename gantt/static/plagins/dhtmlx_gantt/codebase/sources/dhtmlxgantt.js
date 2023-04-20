@@ -1427,7 +1427,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
         function reconstructStack(message, stacks) {
           for (var i = 0; i < stacks.length - 1; ++i) {
-            stacks[i].push("From previous event:");
+            stacks[i].push("From previous events:");
             stacks[i] = stacks[i].join("\n");
           }
 
@@ -6517,7 +6517,7 @@ process.umask = function () {
   }
 
   function installPostMessageImplementation() {
-    // Installs an event handler on `global` for the `message` event: see
+    // Installs an events handler on `global` for the `message` events: see
     // * https://developer.mozilla.org/en/DOM/window.postMessage
     // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
     var messagePrefix = "setImmediate$" + Math.random() + "$";
@@ -6556,7 +6556,7 @@ process.umask = function () {
     var html = doc.documentElement;
 
     registerImmediate = function registerImmediate(handle) {
-      // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+      // Create a <script> element; its readystatechange events will be fired asynchronously once it is inserted
       // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
       var script = doc.createElement("script");
 
@@ -8054,7 +8054,7 @@ module.exports = function (gantt) {
     backupEventTarget: function backupEventTarget(domEvent, getEvent) {
       if (!gantt.config.touch) {
         return;
-      } // keep original event target in DOM in order to keep dnd on touchmove event
+      } // keep original events target in DOM in order to keep dnd on touchmove events
 
 
       var e = getEvent(domEvent);
@@ -9834,7 +9834,7 @@ var DataProcessor = /** @class */ (function () {
             return true;
         }
     };
-    /* callback function for onFillSync event
+    /* callback function for onFillSync events
         call update function if it's need
     */
     DataProcessor.prototype.fullSync = function () {
@@ -10933,7 +10933,7 @@ DataStore.prototype = {
   },
   removeItem: function removeItem(id) {
     //utils.assert(this.exists(id), "Not existing ID in remove command"+id);
-    var obj = this.getItem(id); //save for later event
+    var obj = this.getItem(id); //save for later events
 
     if (!this.isSilent()) {
       if (this.callEvent("onBeforeDelete", [obj.id, obj]) === false) return false;
@@ -13027,7 +13027,7 @@ var createDatastoreFacade = function createDatastoreFacade() {
       });
     },
     clearAll: function clearAll() {
-      var stores = getDatastores.call(this); // clear all stores without invoking clearAll event
+      var stores = getDatastores.call(this); // clear all stores without invoking clearAll events
       // in order to prevent calling handlers when only some stores are cleared
 
       for (var i = 0; i < stores.length; i++) {
@@ -22054,7 +22054,7 @@ var ScrollbarCell = function (_super) {
   ScrollbarCell.prototype._scrollHorizontalHandler = function (e) {
     if (this._isVertical() || this._scrolling) {
       return;
-    } //in safari we can catch previous onscroll after setting new value from mouse-wheel event
+    } //in safari we can catch previous onscroll after setting new value from mouse-wheel events
     //set delay to prevent value drifiting
 
 
@@ -25571,7 +25571,7 @@ module.exports = function (gantt) {
     eventPos = {
       x: event.clientX,
       y: event.clientY
-    }; // if it is a mobile device, we need to detect the touch event coords
+    }; // if it is a mobile device, we need to detect the touch events coords
 
     if (event.type == "touchmove") {
       eventPos.x = event.targetTouches[0].clientX;
@@ -30355,7 +30355,7 @@ var initLinksDND = function initLinksDND(timeline, gantt) {
 
   function removeDirectionLine() {
     if (dnd._direction) {
-      if (dnd._direction.parentNode) //the event line can be detached because of data refresh
+      if (dnd._direction.parentNode) //the events line can be detached because of data refresh
         dnd._direction.parentNode.removeChild(dnd._direction);
       dnd._direction = null;
     }
@@ -31225,7 +31225,7 @@ function createTaskDND(timeline, gantt) {
       }
     },
     on_mouse_down: function on_mouse_down(e, src) {
-      // on Mac we do not get onmouseup event when clicking right mouse button leaving us in dnd state
+      // on Mac we do not get onmouseup events when clicking right mouse button leaving us in dnd state
       // let's ignore right mouse button then
       if (e.button == 2 && e.button !== undefined) return;
       var config = timeline.$getConfig();
@@ -31522,7 +31522,7 @@ function createTaskDND(timeline, gantt) {
       gantt.assert(this._events[stage], "Invalid stage:{" + stage + "}");
       var trigger = this._events[stage][mode];
       gantt.assert(trigger, "Unknown after drop mode:{" + mode + "}");
-      gantt.assert(params, "Invalid event arguments");
+      gantt.assert(params, "Invalid events arguments");
       if (!gantt.checkEvent(trigger)) return true;
       return gantt.callEvent(trigger, params);
     },
@@ -32652,7 +32652,7 @@ module.exports = function (gantt) {
 
     for (var i = 0; i < touchHandlers.length; i++) {
       gantt.event(touchHandlers[i][0], touchHandlers[i][1], touchHandlers[i][2]);
-    } //common helper, prevents event
+    } //common helper, prevents events
 
 
     function block_action(e) {
@@ -33165,7 +33165,7 @@ function locateClassName(e, classname, strict) {
   return null;
 }
 /*
-event position relatively to DOM element
+events position relatively to DOM element
  */
 
 
@@ -40536,7 +40536,7 @@ var Tooltip = /** @class */ (function () {
         node.innerHTML = html;
         return this;
     };
-    // it is for salesforce, because it proxies event to it own events
+    // it is for salesforce, because it proxies events to it own events
     Tooltip.prototype._isLikeMouseEvent = function (event) {
         if (!event || typeof event !== "object") {
             return false;
@@ -40971,7 +40971,7 @@ var Monitor = /** @class */ (function () {
     };
     Monitor.prototype.startBatchAction = function () {
         var _this = this;
-        // try catching updates made from event handlers using timeout
+        // try catching updates made from events handlers using timeout
         if (!this._timeout) {
             this._timeout = setTimeout(function () {
                 _this.stopBatchAction();
@@ -41413,7 +41413,7 @@ var Undo = /** @class */ (function () {
         if (gantt.callEvent(event, [action]) === false) {
             return;
         }
-        // commands can be removed from event handler
+        // commands can be removed from events handler
         if (!action.commands.length) {
             return;
         }
@@ -44552,7 +44552,7 @@ function makeEventable(obj) {
       var listeners = eventHost.listeners;
 
       for (var i in listeners) {
-        listeners[i].removeEvent(id); //remove event
+        listeners[i].removeEvent(id); //remove events
       }
 
       var list = id.split(':'); //get EventName and ID
@@ -44564,7 +44564,7 @@ function makeEventable(obj) {
         var eventId = list[1];
 
         if (listeners[eventName]) {
-          listeners[eventName].removeEvent(eventId); //remove event
+          listeners[eventName].removeEvent(eventId); //remove events
         }
       }
     }

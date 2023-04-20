@@ -4758,7 +4758,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
             var e, n, i, s, l, c;
             if (this._events || (this._events = {}), "error" === t && (!this._events.error || a(this._events.error) && !this._events.error.length)) {
                 if ((e = arguments[1]) instanceof Error) throw e;
-                var u = new Error('Uncaught, unspecified "error" event. (' + e + ")");
+                var u = new Error('Uncaught, unspecified "error" events. (' + e + ")");
                 throw u.context = e, u
             }
             if (o(n = this._events[t])) return !1;
@@ -4883,7 +4883,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                     return n
                 }(o, e)), a ? t.emit("error", a) : o.objectMode || e && e.length > 0 ? ("string" == typeof e || o.objectMode || Object.getPrototypeOf(e) === c.prototype || (e = function(t) {
                     return c.from(t)
-                }(e)), i ? o.endEmitted ? t.emit("error", new Error("stream.unshift() after end event")) : b(t, o, e, !0) : o.ended ? t.emit("error", new Error("stream.push() after EOF")) : (o.reading = !1, o.decoder && !n ? (e = o.decoder.write(e), o.objectMode || 0 !== e.length ? b(t, o, e, !1) : $(t, o)) : b(t, o, e, !1))) : i || (o.reading = !1));
+                }(e)), i ? o.endEmitted ? t.emit("error", new Error("stream.unshift() after end events")) : b(t, o, e, !0) : o.ended ? t.emit("error", new Error("stream.push() after EOF")) : (o.reading = !1, o.decoder && !n ? (e = o.decoder.write(e), o.objectMode || 0 !== e.length ? b(t, o, e, !1) : $(t, o)) : b(t, o, e, !1))) : i || (o.reading = !1));
                 return function(t) {
                     return !t.ended && (t.needReadable || t.length < t.highWaterMark || 0 === t.length)
                 }(o)
@@ -8373,7 +8373,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                                 _fireEvent: function(t, n, i) {
                                     e.assert(this._events[t], "Invalid stage:{" + t + "}");
                                     var r = this._events[t][n];
-                                    return e.assert(r, "Unknown after drop mode:{" + n + "}"), e.assert(i, "Invalid event arguments"), !e.checkEvent(r) || e.callEvent(r, i)
+                                    return e.assert(r, "Unknown after drop mode:{" + n + "}"), e.assert(i, "Invalid events arguments"), !e.checkEvent(r) || e.callEvent(r, i)
                                 },
                                 round_task_dates: function(e) {
                                     var n = this.drag,
@@ -19736,7 +19736,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                                     function(t) {
                                         for (var e = 0; e < t.length; ++e)(0 === t[e].length || e + 1 < t.length && t[e][0] === t[e + 1][0]) && (t.splice(e, 1), e--)
                                     }(i), d.notEnumerableProp(t, "stack", function(t, e) {
-                                        for (var n = 0; n < e.length - 1; ++n) e[n].push("From previous event:"), e[n] = e[n].join("\n");
+                                        for (var n = 0; n < e.length - 1; ++n) e[n].push("From previous events:"), e[n] = e[n].join("\n");
                                         return n < e.length && (e[n] = e[n].join("\n")), t + "\n" + e.join("\n")
                                     }(n, i)), d.notEnumerableProp(t, "__stackCleaned__", !0)
                                 }

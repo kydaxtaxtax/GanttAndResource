@@ -773,7 +773,7 @@ export interface GanttConfigOptions {
 	preserve_scroll: boolean;
 
 	/**
-	 * specifies whether the gantt container should block the mousewheel event, or should it be propagated up to the window element
+	 * specifies whether the gantt container should block the mousewheel events, or should it be propagated up to the window element
 	*/
 	prevent_default_scroll: boolean;
 
@@ -1488,10 +1488,10 @@ export interface GanttStatic {
 	assert(expression: any, errorMessage: string): void;
 
 	/**
-	 * attaches the handler to an inner event of dhtmlxGantt
-	 * @param name the event's name, case-insensitive
+	 * attaches the handler to an inner events of dhtmlxGantt
+	 * @param name the events's name, case-insensitive
 	 * @param handler the handler function
-	 * @param settings optional, an <a href="#propertiesofsettingsobject">object with settings</a> for the event handler
+	 * @param settings optional, an <a href="#propertiesofsettingsobject">object with settings</a> for the events handler
 	*/
 	attachEvent(name: GanttEventName, handler: GanttCallback, settings?: any): string;
 
@@ -1536,9 +1536,9 @@ export interface GanttStatic {
 	calculateTaskLevel(task: Task): number;
 
 	/**
-	 * calls an inner event
-	 * @param name the event's name, case-insensitive
-	 * @param params optional, an array of the event-related data
+	 * calls an inner events
+	 * @param name the events's name, case-insensitive
+	 * @param params optional, an array of the events-related data
 	*/
 	callEvent(name: string, params?: any[]): boolean;
 
@@ -1563,8 +1563,8 @@ export interface GanttStatic {
 	changeTaskId(id: string | number, new_id: string | number): void;
 
 	/**
-	 * checks whether an event has some handler(s) specified
-	 * @param name the event's name
+	 * checks whether an events has some handler(s) specified
+	 * @param name the events's name
 	*/
 	checkEvent(name: GanttEventName): boolean;
 
@@ -1697,8 +1697,8 @@ export interface GanttStatic {
 	detachAllEvents(): void;
 
 	/**
-	 * detaches a handler from an event (which was attached before by the attachEvent() method)
-	 * @param id the event's id
+	 * detaches a handler from an events (which was attached before by the attachEvent() method)
+	 * @param id the events's id
 	*/
 	detachEvent(id: string): void;
 
@@ -1725,19 +1725,19 @@ export interface GanttStatic {
 	eachTask(code: GanttCallback, parent?: string | number, master?: any): void;
 
 	/**
-	 * attaches an event handler to an HTML element
+	 * attaches an events handler to an HTML element
 	 * @param node the HTML node or its id
-	 * @param event the name of an HTML event (without the 'on' prefix)
-	 * @param handler the event handler
+	 * @param event the name of an HTML events (without the 'on' prefix)
+	 * @param handler the events handler
 	 * @param options optional, the value of either the <i>useCapture</i> or <i>options</i> parameter. <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">Read details</a>
 	*/
 	event(node: HTMLElement | string, event: string, handler: GanttCallback, options?: any): void;
 
 	/**
-	 * removes an event handler from an HTML element
+	 * removes an events handler from an HTML element
 	 * @param node the HTML node or its id
-	 * @param event the name of an HTML event (without the 'on' prefix)
-	 * @param handler the event handler
+	 * @param event the name of an HTML events (without the 'on' prefix)
+	 * @param handler the events handler
 	 * @param options optional, the value of either the <i>useCapture</i> or <i>options</i> parameter. <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener">Read details</a>
 	*/
 	eventRemove(node: HTMLElement | string, event: string, handler: GanttCallback, options?: any): void;
@@ -2316,8 +2316,8 @@ export interface GanttStatic {
 	load(url: string, type?: string, callback?: GanttCallback): any;
 
 	/**
-	 * gets the id of a task from the specified HTML event
-	 * @param e a native event
+	 * gets the id of a task from the specified HTML events
+	 * @param e a native events
 	*/
 	locate(e: Event): string | number;
 
@@ -3514,28 +3514,28 @@ export interface DatastoreMethods {
 	getPrev(id: string | number): string | number | null,
 
 	/**
-	 * clears the datastore and removes all attached event handlers. The datastore is not usable after this method is called.
+	 * clears the datastore and removes all attached events handlers. The datastore is not usable after this method is called.
 	*/
 	destructor(): void,
 
 	/**
-	 * attaches the handler to an inner event of DataStore
-	 * @param the event's name, case-insensitive
+	 * attaches the handler to an inner events of DataStore
+	 * @param the events's name, case-insensitive
 	 * @param the handler function
-	 * @param optional, an object with settings for the event handler
+	 * @param optional, an object with settings for the events handler
 	*/
 	attachEvent<T extends keyof TreeDatastoreEvents>(event: T, handler: TreeDatastoreEvents[T], settings?: object): boolean,
 
 	/**
-	 * calls an inner event
-	 * @param the event's name, case-insensitive
-	 * @param an array of the event-related data
+	 * calls an inner events
+	 * @param the events's name, case-insensitive
+	 * @param an array of the events-related data
 	*/
 	callEvent(name: string, params: Array<any>): boolean,
 
 	/**
-	 * detaches a handler from an event (which was attached before by the attachEvent() method)
-	 * @param the event's id
+	 * detaches a handler from an events (which was attached before by the attachEvent() method)
+	 * @param the events's id
 	*/
 	detachEvent(id: string): void
 }
@@ -3852,15 +3852,15 @@ export interface InlineEditorMethods {
 	isVisible(): boolean,
 
 	/**
-	 * attaches an event handler to inlineEditors object
-	 * @param the name of the event handler
-	 * @param the function that will be called when the event fires
+	 * attaches an events handler to inlineEditors object
+	 * @param the name of the events handler
+	 * @param the function that will be called when the events fires
 	*/
 	attachEvent<T extends keyof InlineEditorEvents>(event: T, handler: InlineEditorEvents[T]): boolean,
 
 	/**
-	 * detaches a handler from an event (which was attached before by the attachEvent() method)
-	 * @param the id of the attached event handler
+	 * detaches a handler from an events (which was attached before by the attachEvent() method)
+	 * @param the id of the attached events handler
 	*/
 	detachEvent(id: string): void,
 
@@ -4126,7 +4126,7 @@ export interface ClickDrag {
 	className?: string,
 
 	/**
-	 * the element to attach an event to and select
+	 * the element to attach an events to and select
 	*/
 	viewPort?: HTMLElement,
 
@@ -4360,15 +4360,15 @@ export interface ZoomMethods {
 	zoomOut(): void,
 
 	/**
-	 * attaches an event handler
-	 * @param the name of the event handler
-	 * @param the function that will be called when the event fires
+	 * attaches an events handler
+	 * @param the name of the events handler
+	 * @param the function that will be called when the events fires
 	*/
 	attachEvent<T extends keyof ZoomEvents>(event: T, handler: ZoomEvents[T]): string,
 
 	/**
-	 * detaches a handler from an event
-	 * @param the id of the attached event handler
+	 * detaches a handler from an events
+	 * @param the id of the attached events handler
 	*/
 	detachEvent(id: string): void
 
@@ -4397,8 +4397,8 @@ export interface Tooltip {
 	*/
 	setViewport(node: HTMLElement): object
 	/**
-	 * displays the tooltip at specific coordinates (relative to document.body). The method can take different parameters, depending on the position you want to show the tooltip at. To display tooltip at specific coordinates (relative to document.body), pass x,y coordinates. To display tooltip at the mouse event coordinates pass the Event object. The *tooltip_offset_x/y* and viewport will be taken into account.
-	 * @param the X coordinate or the mouse event object
+	 * displays the tooltip at specific coordinates (relative to document.body). The method can take different parameters, depending on the position you want to show the tooltip at. To display tooltip at specific coordinates (relative to document.body), pass x,y coordinates. To display tooltip at the mouse events coordinates pass the Event object. The *tooltip_offset_x/y* and viewport will be taken into account.
+	 * @param the X coordinate or the mouse events object
 	 * @param the Y coordinate
 	*/
 	show(config?: number | Event, top?: number): object
@@ -4425,13 +4425,13 @@ export interface Tooltips {
 	 * @param an object with the tooltip settings. The settings are:
 	 * @param defines CSS-selector for the elements to listen to mouse events on
 	 * @param a handler called when the mouse pointer enters the element. The parameters are:
-	 * @param a native mouse event
+	 * @param a native mouse events
 	 * @param the HTML node
 	 * @param a handler called when the mouse pointer moves inside the element. The parameters are:
-	 * @param a native mouse event
+	 * @param a native mouse events
 	 * @param the HTML node
 	 * @param a handler called when the mouse pointer leaves the element. The parameters are:
-	 * @param a native mouse event
+	 * @param a native mouse events
 	 * @param the HTML node
 	 * @param defines whether the module listens to mouse events on the whole page (*true*) or only inside a gantt element (*false*). By default the option is set to *false*.
 	*/
@@ -4459,7 +4459,7 @@ export interface Tooltips {
 	 * @param an object with the tooltip settings. The settings are:
 	 * @param a CSS-selector of the Gantt element to add a tooltip to
 	 * @param a template for the tooltip. The template function takes two parameters in its turn:
-	 * @param a native mouse event
+	 * @param a native mouse events
 	 * @param the HTML node and returns a string with a template.
 	 * @param optional, defines whether the module listens to mouse events on the whole page (*true*) or only inside a gantt element (*false*). By default the option is set to *false*.
 	*/

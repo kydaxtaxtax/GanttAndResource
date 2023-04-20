@@ -6,31 +6,56 @@ body.dhx_window--no-scroll{
   height: 100%;
 }
 
-.dhx_grid-footer-cell, .dhx_grid-header-cell{
-    font-size: 11pt;
+
+
+
+/*Шапка таблицы*/
+.dhx_grid-header-cell{
+    font-size: 12pt;
+    font-family: Akrobat-ExtraBold!important;
+
+}
+А
+    /*.custom .dhx_grid-header-cell--active {*/
+    /*    background-color: rgb(2, 136, 209);*/
+    /*    !*color: var(--dhx-color-white);*!*/
+    /*}*/
+    /*!*.custom .dhx_tabbar-header-active {*!*/
+    /*!*    background-color: #ff5252;*!*/
+    /*!*}*!*/
+
+/*Строки таблицы*/
+.dhx_grid-cell{
+    font-size: 12pt;
+    font-family: Akrobat-Regular!important;
+}
+
+
+
+/* Лейпблы импутов */
+.dhx_label {
+     font-size: 13pt;
     font-family: Akrobat-ExtraBold!important;
 }
 
-
-.dhx_grid-cell{
-    font-size: 11pt;
+/* Инпуты */
+.dhx_input {
+       font-size: 13pt;
     font-family: Akrobat-Regular!important;
 }
+
+
+
+
 
 .dhx_grid-cel:focus{
     font-size: 9pt;
     font-family: Akrobat-Regular!important;
 }
 
-.dhx_label {
-     font-size: 12pt;
-    font-family: Akrobat-ExtraBold!important;
-}
 
-.dhx_input {
-       font-size: 12pt;
-    font-family: Akrobat-Regular!important;
-}
+
+
 
 .dhx_tabbar-tab-button{
          font-size: 13pt;

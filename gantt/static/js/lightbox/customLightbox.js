@@ -1,5 +1,5 @@
-
 	gantt.config.dynamic_resource_calendars = true;
+	window.disabledDays = {1: false, 2: false, 3: false, 4: false, 5: false, 6: true, 0: true};
 
 	//Custom lightbox configuration
 	var dhxWindow = new dhx.Window({
@@ -59,7 +59,7 @@
 
 
 
-	var formatDate = gantt.date.str_to_date("%Y-%m-%d");
+	// var formatDate = gantt.date.str_to_date("%Y-%m-%d");
 
 	gantt.showLightbox = function (id) {
 		dhxWindow.show();
@@ -67,14 +67,19 @@
 		gantt._lightbox_id = id;
 		var task = gantt.getTask(id);
 		gantt._lightbox_task = gantt.copy(task);
-		gantt._lightbox_links = "load";
-		gantt._removed_links = [];
+		// gantt._lightbox_links = "load";
+		// gantt._removed_links = [];
 
 
 		var title = document.querySelector(".dhx_navbar-title")
 		title.innerHTML = task.text || "New task"
 
-		addTabBar()
+		// if(task.type == "project" && task.render == "split"){
+			addTabBarSettingsTaskAndProject(task)
+		// }
+		// if(task.type == "splittask"){
+		// 	addTabBarSplittask()
+		// }
 }
 
 
@@ -178,13 +183,13 @@
 	}
 
 
-	function addTabBar() {
+	function addTabBarSettingsTaskAndProject(task) {
 		if (gantt._tabbar) gantt._tabbar.destructor();
-
 		gantt._tabbar = new dhx.Tabbar(null, {
+			// css: "custom",
 			views: [
-				{ id: "splitProject", tab: "Параметры проекта", css: "panel flex" },
-				{ id: "resources", tab: "Ресурсы", css: "panel flex" }
+				{ id: "settingsTaskAndProject", tab: task.type == "project" ? "Параметры проекта" : "Параметры задачи", css: "panel flex" },
+				{ id: "resources", tab: task.type == "project" ? "Ресурсы" : "Нагрузка", css: "panel flex" }
 			]
 		});
 		dhxWindow.attach(gantt._tabbar)
@@ -193,23 +198,22 @@
 			gantt.$lightboxControl.fillTabContent()
 		})
 
-
 		gantt._tabbar.events.on("Change", function (activeId, prevId) {
 			gantt.$lightboxControl.fillTabContent(activeId)
 		});
 	}
 
-
 	gantt.$lightboxControl = {
-		splitProject: {},
+		// task: {},
+		settingsTaskAndProject: {},
 		resources: {}
 	};
 
 
 	gantt.$lightboxControl.fillTabContent = function (id) {
-		id = id || "splitProject"
+		id = id || "settingsTaskAndProject"
 		gantt.$lightboxControl[id].addForm();
 	}
 	// initTaskEditForm();
 	initResourceEditForm();
-	initsplitProjectEditForm();
+	initSettingsTaskAndProjectEditForm()

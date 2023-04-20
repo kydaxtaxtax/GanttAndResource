@@ -24,103 +24,64 @@ function initTaskEditForm() {
 				weekStart: "monday",
 				name: "text",
 				type: "input",
-				label: "Task name",
+				label: "Наименование",
 				id: "text",
-				labelPosition: "left",
+				labelPosition: "top",
 				labelWidth: 100,
 				required: true,
 				value: task.text,
 			},
 				start_date: {
-				disabledDates: function(date) {
-					const disabled = {
-						1: false,
-						2: false,
-						3: false,
-						4: false,
-						5: false,
-						6: true,
-						0: true
-					}
-					return disabled[date.getDay()];
-				},
+				disabledDates: function(date) {return disabledDays[date.getDay()]},
 				weekStart: "monday",
 				name: "start_date",
 				type: "datepicker",
-				label: "Start Date",
+				label: "Дата начала по плану",
 				id: "start_date",
 				required: true,
-				labelPosition: "left",
-				labelWidth: 100,
+				labelPosition: "top",
+				labelWidth: 200,
+				dateFormat: "%d-%m-%y",
 				value: task.start_date,
 			},
 			end_date: {
-				disabledDates: function(date) {
-					const disabled = {
-						1: false,
-						2: false,
-						3: false,
-						4: false,
-						5: false,
-						6: true,
-						0: true
-					}
-					return disabled[date.getDay()];
-				},
-
+				disabledDates: function(date) {return disabledDays[date.getDay()]},
 				weekStart: "monday",
 				name: "end_date",
 				type: "datepicker",
-				label: "End Date",
+				label: "Дата окончания по плану",
 				id: "end_date",
 				required: true,
-				labelPosition: "left",
-				labelWidth: 100,
+				labelPosition: "top",
+				labelWidth: 200,
+				dateFormat: "%d-%m-%y",
 				value: task.end_date,
 
 			},
 			duration: {
-				readonly: 1,
+				readOnly: true,
 				name: "duration",
 				type: "input",
-				inputType: "number",
-				label: "Duration",
+				inputType: "text",
+				label: "Продолжительность",
 				id: "duration",
-				labelPosition: "left",
-				labelWidth: 100,
-				required: true,
+				labelPosition: "top",
+				labelWidth: 150,
+				// required: true,
 				value: task.duration,
 			},
-
-			tags: {
-				name: "tags",
-				type: "combo",
-				label: "Tags",
-				id: "end_date",
-				labelPosition: "left",
-				labelWidth: 100,
-				multiselection: true,
-				value: ["1", "4"],
-				data: [
-					{ value: "Important", id: "1" },
-					{ value: "Urgent", id: "2" },
-					{ value: "External", id: "3" },
-					{ value: "Planned", id: "4" },
-					{ value: "Teamwork", id: "5" },
-				],
-				value: task.tags,
-			},
-			progress: {
-				name: "progress",
-				type: "slider",
-				id: "progress",
-				label: "Progress",
-				labelPosition: "left",
-				labelWidth: 100,
-				min: 0,
-				max: 100,
-				value: task.progress * 100,
-			},
+			// progress: {
+			// 	name: "progress",
+			// 	type: "slider",
+			// 	id: "progress",
+			// 	label: "Progress",
+			// 	labelPosition: "top",
+			// 	labelWidth: 100,
+			// 	readonly: true,
+			// 	min: 0,
+			// 	max: 100,
+			// 	value: task.progress * 100,
+			// },
 		};
 
 		var taskFormRowsForGrid = [
@@ -128,22 +89,31 @@ function initTaskEditForm() {
 			taskFormRows["start_date"],
 			taskFormRows["end_date"],
 			taskFormRows["duration"],
-			taskFormRows["tags"],
 			taskFormRows["progress"],
 		];
 
 		if (gantt._taskForm) gantt._taskForm.destructor();
 		gantt._taskForm = new dhx.Form(null, {
 			css: "dhx_widget--bordered",
-			rows: taskFormRowsForGrid,
+			rows: [
+					taskFormRows["text"],
+					{
+						align: "between",
+						cols: [taskFormRows["start_date"],
+							taskFormRows["end_date"],
+							taskFormRows["duration"]]
+					}
+			]
+
+
+
 		});
-		gantt._tabbar.getCell("task").attach(gantt._taskForm);
+		gantt._tabbar.getCell("splitProject").attach(gantt._taskForm);
 
 		gantt._taskForm.events.on("Change", function (name, new_value) {
 			var task = gantt._lightbox_task;
 
 			var updatedTask = gantt._taskForm.getValue();
-			console.log(updatedTask);
 			// document.querySelector("#start_date").innerHTML = updatedTask.start_date;
 			task.text = updatedTask.text;
 			task.tags = updatedTask.tags;

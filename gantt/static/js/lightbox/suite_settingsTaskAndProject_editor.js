@@ -1,4 +1,4 @@
-function initsplitProjectEditForm() {
+function initSettingsTaskAndProjectEditForm() {
 	const ru = {
     // short names of months
     monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн",
@@ -13,7 +13,7 @@ function initsplitProjectEditForm() {
                 "Пятница", "Суббота"]
 	};
 	dhx.i18n.setLocale("calendar", ru);
-	gantt.$lightboxControl.splitProject.addForm = function () {
+	gantt.$lightboxControl.settingsTaskAndProject.addForm = function () {
 		var task = gantt.getTask(gantt._lightbox_id);
 		if (gantt._lightbox_task) {
 			task = gantt._lightbox_task;
@@ -29,67 +29,46 @@ function initsplitProjectEditForm() {
 				labelPosition: "top",
 				labelWidth: 100,
 				required: true,
-				value: task.text,
+				value:task.text,
 			},
 				start_date: {
-				disabledDates: function(date) {
-					const disabled = {
-						1: false,
-						2: false,
-						3: false,
-						4: false,
-						5: false,
-						6: true,
-						0: true
-					}
-					return disabled[date.getDay()];
-				},
+				disabledDates: function(date) {return disabledDays[date.getDay()]},
 				weekStart: "monday",
 				name: "start_date",
 				type: "datepicker",
-				label: "Дата начала по плану",
+				label: task.type == "project" ? "Дата начала по плану" : "Дата начала по факту",
 				id: "start_date",
 				required: true,
 				labelPosition: "top",
 				labelWidth: 200,
-				value: task.planned_start,
+				dateFormat: "%d-%m-%y",
+				value:  task.type == "project" ? task.planned_start : task.start_date,
 			},
 			end_date: {
-				disabledDates: function(date) {
-					const disabled = {
-						1: false,
-						2: false,
-						3: false,
-						4: false,
-						5: false,
-						6: true,
-						0: true
-					}
-					return disabled[date.getDay()];
-				},
-
+				disabledDates: function(date) {return disabledDays[date.getDay()]},
 				weekStart: "monday",
 				name: "end_date",
 				type: "datepicker",
-				label: "Дата окончания по плану",
+				label: task.type == "project" ? "Дата окончания по плану" : "Дата окончания по факту",
 				id: "end_date",
 				required: true,
 				labelPosition: "top",
 				labelWidth: 200,
-				value: task.planned_end,
+				dateFormat: "%d-%m-%y",
+				value: task.type == "project" ? task.planned_end : task.end_date,
 
 			},
 			duration: {
-				readonly: true,
+				readOnly: true,
 				name: "duration",
 				type: "input",
-				inputType: "number",
+				inputType: "text",
 				label: "Продолжительность",
 				id: "duration",
 				labelPosition: "top",
 				labelWidth: 150,
-				required: true,
-				value: task.duration,
+				// required: true,
+				value: task.type == "project" ? task.duration_plan : task.duration,
 			},
 			// progress: {
 			// 	name: "progress",
@@ -129,7 +108,7 @@ function initsplitProjectEditForm() {
 
 
 		});
-		gantt._tabbar.getCell("splitProject").attach(gantt._taskForm);
+		gantt._tabbar.getCell("settingsTaskAndProject").attach(gantt._taskForm);
 
 		gantt._taskForm.events.on("Change", function (name, new_value) {
 			var task = gantt._lightbox_task;

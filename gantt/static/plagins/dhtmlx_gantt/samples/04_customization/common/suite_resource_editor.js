@@ -362,7 +362,6 @@ function initResourceEditForm() {
 			if (col.id == "parent") {
 				setTimeout(function () {
 					var selectEl = document.querySelector(".dhx_cell-editor__select");
-					console.log(selectEl);
 					var selectedValue = selectEl.value;
 					var children = selectEl.childNodes;
 					children[0].outerHTML = "<option value=0>Root level</option>";

@@ -1827,13 +1827,13 @@ dhtmlx.assert_method_process = function(j, c, h, l, e, g) {
 dhtmlx.assert_event_call = function(e, c, a) {
     if (e._event_check) {
         if (!e._event_check[c]) {
-            dhtmlx.log("warn", "Not expected event call :" + c)
+            dhtmlx.log("warn", "Not expected events call :" + c)
         } else {
             if (dhtmlx.isNotDefined(a)) {
                 dhtmlx.log("warn", "Event without parameters :" + c)
             } else {
                 if (e._event_check_size[c] != a.length) {
-                    dhtmlx.log("warn", "Incorrect event call, expected " + e._event_check_size[c] + " parameter(s), but have " + a.length + " parameter(s), for " + c + " event")
+                    dhtmlx.log("warn", "Incorrect events call, expected " + e._event_check_size[c] + " parameter(s), but have " + a.length + " parameter(s), for " + c + " events")
                 }
             }
         }
@@ -1841,7 +1841,7 @@ dhtmlx.assert_event_call = function(e, c, a) {
 };
 dhtmlx.assert_event_attach = function(c, a) {
     if (c._event_check && !c._event_check[a]) {
-        dhtmlx.log("warn", "Unknown event name: " + a)
+        dhtmlx.log("warn", "Unknown events name: " + a)
     }
 };
 dhtmlx.assert_property = function(c, a) {
@@ -2171,7 +2171,7 @@ dhtmlx.eventRemove = function(c) {
     if (!c) {
         return
     }
-    dhtmlx.assert(this._events[c], "Removing non-existing event");
+    dhtmlx.assert(this._events[c], "Removing non-existing events");
     var a = dhtmlx._events[c];
     if (a[0].removeEventListener) {
         a[0].removeEventListener(a[1], a[2], false)
@@ -2241,7 +2241,7 @@ dhtmlx.EventSystem = {
         var g = this._events[e.toLowerCase()];
         var a = true;
         if (dhtmlx.debug) {
-            dhtmlx.log("info", "[" + this.name + "] event:" + e, h)
+            dhtmlx.log("info", "[" + this.name + "] events:" + e, h)
         }
         if (g) {
             for (var c = 0; c < g.length; c++) {
@@ -39713,7 +39713,7 @@ eXcell_ch.prototype.setValue = function(c) {
     }
     var a = this;
     this.cell.setAttribute("excell", "ch");
-    this.setCValue("<img src='" + this.grid.imgURL + "item_chk" + c + ".gif' onclick='new eXcell_ch(this.parentNode).changeState(true); (arguments[0]||event).cancelBubble=true; '>", this.cell.chstate)
+    this.setCValue("<img src='" + this.grid.imgURL + "item_chk" + c + ".gif' onclick='new eXcell_ch(this.parentNode).changeState(true); (arguments[0]||events).cancelBubble=true; '>", this.cell.chstate)
 };
 function eXcell_ra(a) {
     this.base = eXcell_ch;
@@ -43451,7 +43451,7 @@ function eXcell_link(a) {
                 }
             }
         }
-        this.setCValue("<a " + c[1] + " onclick='(_isIE?event:arguments[0]).cancelBubble = true;'>" + c[0] + "</a>", c)
+        this.setCValue("<a " + c[1] + " onclick='(_isIE?events:arguments[0]).cancelBubble = true;'>" + c[0] + "</a>", c)
     }
 }
 eXcell_link.prototype = new eXcell;
@@ -43909,9 +43909,9 @@ function eXcell_acheck(a) {
     };
     this.drawCurrentState = function() {
         if (this.cell.chstate == 1) {
-            return "<div  onclick='(new eXcell_acheck(this.parentNode)).changeState(); (arguments[0]||event).cancelBubble=true;'  style='cursor:pointer; font-weight:bold; text-align:center; '><span style='height:8px; width:8px; background:green; display:inline-block;'></span>&nbsp;Yes</div>"
+            return "<div  onclick='(new eXcell_acheck(this.parentNode)).changeState(); (arguments[0]||events).cancelBubble=true;'  style='cursor:pointer; font-weight:bold; text-align:center; '><span style='height:8px; width:8px; background:green; display:inline-block;'></span>&nbsp;Yes</div>"
         } else {
-            return "<div  onclick='(new eXcell_acheck(this.parentNode)).changeState(); (arguments[0]||event).cancelBubble=true;' style='cursor:pointer;  text-align:center; '><span style='height:8px; width:8px; background:red; display:inline-block;'></span>&nbsp;No</div>"
+            return "<div  onclick='(new eXcell_acheck(this.parentNode)).changeState(); (arguments[0]||events).cancelBubble=true;' style='cursor:pointer;  text-align:center; '><span style='height:8px; width:8px; background:red; display:inline-block;'></span>&nbsp;No</div>"
         }
     }
 }
@@ -45820,7 +45820,7 @@ dhtmlXForm.prototype.items.checkbox = {
         if (typeof (e.tooltip) != "undefined") {
             a.title = e.tooltip
         }
-        a.innerHTML = "<div class='dhxform_label_nav_link' onfocus='if(this.parentNode.parentNode._updateImgNode)this.parentNode.parentNode._updateImgNode(this.parentNode.parentNode,true);this.parentNode.parentNode._doOnFocus(this.parentNode.parentNode);' onblur='if(this.parentNode.parentNode._updateImgNode)this.parentNode.parentNode._updateImgNode(this.parentNode.parentNode,false);this.parentNode.parentNode._doOnBlur(this.parentNode.parentNode);' onkeypress='var e=event||window.arguments[0];if(e.keyCode==32||e.charCode==32){e.cancelBubble=true;if(e.preventDefault)e.preventDefault();else e.returnValue=false;_dhxForm_doClick(this,\"mousedown\");return false;}' onkeyup='var e=event||window.arguments[0];this.parentNode.parentNode._doOnKeyUpDown(\"onKeyUp\",e);' onkeydown='var e=event||window.arguments[0];this.parentNode.parentNode._doOnKeyUpDown(\"onKeyDown\",e);' " + (window.dhx4.isIPad ? "ontouchstart='var e=event;e.preventDefault();_dhxForm_doClick(this,\"mousedown\");' " : "") + "role='link' tabindex='0'>" + e.label + (e.info ? "<span class='dhxform_info'>[?]</span>" : "") + (c._required ? "<span class='dhxform_item_required'>*</span>" : "") + "</div>";
+        a.innerHTML = "<div class='dhxform_label_nav_link' onfocus='if(this.parentNode.parentNode._updateImgNode)this.parentNode.parentNode._updateImgNode(this.parentNode.parentNode,true);this.parentNode.parentNode._doOnFocus(this.parentNode.parentNode);' onblur='if(this.parentNode.parentNode._updateImgNode)this.parentNode.parentNode._updateImgNode(this.parentNode.parentNode,false);this.parentNode.parentNode._doOnBlur(this.parentNode.parentNode);' onkeypress='var e=events||window.arguments[0];if(e.keyCode==32||e.charCode==32){e.cancelBubble=true;if(e.preventDefault)e.preventDefault();else e.returnValue=false;_dhxForm_doClick(this,\"mousedown\");return false;}' onkeyup='var e=events||window.arguments[0];this.parentNode.parentNode._doOnKeyUpDown(\"onKeyUp\",e);' onkeydown='var e=events||window.arguments[0];this.parentNode.parentNode._doOnKeyUpDown(\"onKeyDown\",e);' " + (window.dhx4.isIPad ? "ontouchstart='var e=events;e.preventDefault();_dhxForm_doClick(this,\"mousedown\");' " : "") + "role='link' tabindex='0'>" + e.label + (e.info ? "<span class='dhxform_info'>[?]</span>" : "") + (c._required ? "<span class='dhxform_item_required'>*</span>" : "") + "</div>";
         if (!isNaN(e.labelWidth)) {
             a.firstChild.style.width = parseInt(e.labelWidth) + "px"
         }
@@ -61740,7 +61740,7 @@ if (!window.dhtmlx) {
         if (!id) {
             return
         }
-        dhx.assert(this._events[id], "Removing non-existing event");
+        dhx.assert(this._events[id], "Removing non-existing events");
         var ev = dhx._events[id];
         if (ev[0].removeEventListener) {
             ev[0].removeEventListener(ev[1], ev[2], false)
@@ -61824,7 +61824,7 @@ if (!window.dhtmlx) {
             var event_stack = this._evs_events[type.toLowerCase()];
             var return_value = true;
             if (dhx.debug) {
-                dhx.log("info", "[" + this.name + "] event:" + type, params)
+                dhx.log("info", "[" + this.name + "] events:" + type, params)
             }
             if (event_stack) {
                 for (var i = 0; i < event_stack.length; i++) {
@@ -61839,7 +61839,7 @@ if (!window.dhtmlx) {
             return return_value
         },
         attachEvent: function(type, functor, id) {
-            dhx.assert(functor, "Invalid event handler for " + type);
+            dhx.assert(functor, "Invalid events handler for " + type);
             type = type.toLowerCase();
             id = id || dhx.uid();
             functor = dhx.toFunctor(functor);

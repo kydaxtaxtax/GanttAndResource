@@ -1,5 +1,6 @@
 <html>
 	<head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		{% load static %}
             <link rel="shortcut icon" href="{% static "gantt/favicon.ico" %}/">
         <!--------------------------------PLAGINS---------------------------------------->
@@ -20,7 +21,7 @@
             <link href="{% static "plagins/bootstrap-5.2.3/css/bootstrap.min.css" %}" rel="stylesheet" >
             <script src="{% static "plagins/bootstrap-5.2.3/js/bootstrap.bundle.min.js" %}" type="text/javascript"></script>
             <!--<link rel="stylesheet" href="https://snippet.dhtmlx.com/codebase/assets/css/auxiliary_controls.css">-->
-            <!--<link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">-->
+            <link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">
             <!--<script src="{% static "gantt/plagins/bootstrap-5.2.3/js/bootstrap.min.js" %}" type="text/javascript"></script>-->
 
 
@@ -32,8 +33,6 @@
             <link href="{% static "css/stylefonts.css" %}" rel="stylesheet" type="text/css">
             <link href="{% static "fonts/font-awesome-4.7.0/css/font-awesome.css" %}" rel="stylesheet">
     </head>
-
-
 
 
     <body class="border border-dark m-1" style='height: calc(100vh - 8px);'>
@@ -64,8 +63,8 @@
 
             <script src="{% static "js/customJs/dateFunction.js" %}"></script>
 
-            <script src="{% static "js/event/eventsGantt.js" %}"></script>
-            <script src="{% static "js/event/eventsButtons.js" %}"></script>
+            <script src="{% static "js/events/eventsGantt.js" %}"></script>
+            <script src="{% static "js/events/eventsButtons.js" %}"></script>
 
             <script src="{% static "js/zoom/zoomBackDefault.js" %}"></script>
             <script src="{% static "js/zoom/zoom.js" %}"></script>
@@ -75,14 +74,16 @@
             <script src="{% static "js/model/gantt.js" %}"></script>
             <script src="{% static "js/model/resource.js" %}"></script>
 
-            <script src="{% static "js/lightbox/suite_splitProject_editor.js" %}" type="text/javascript"></script>
+            <script src="{% static "js/lightbox/suite_settingsTaskAndProject_editor.js" %}" type="text/javascript"></script>
             <script src="{% static "js/lightbox/suite_task_editor.js" %}" type="text/javascript"></script>
             <script src="{% static "js/lightbox/suite_resource_editor.js" %}" type="text/javascript"></script>
-            <script src="{% static "js/lightbox/customLightbox.js" %}" type="text/javascript"></script>
             <script src="{% static "js/lightbox/customLightbox.js" %}" type="text/javascript"></script>
 
             <script src="{% static "js/settings/gridLayout.js" %}"></script>
         <script>
+
+
+
             gantt.init("gantt_here");
             gantt.load("/data/", "json");
             var dp = new gantt.dataProcessor("/data/");
