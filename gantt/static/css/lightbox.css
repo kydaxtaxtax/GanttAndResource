@@ -1,0 +1,58 @@
+body.dhx_window--no-scroll{
+     width: auto!important;
+}
+
+.dhx_window-content{
+  height: 100%;
+}
+
+.dhx_grid-footer-cell, .dhx_grid-header-cell{
+    font-size: 11pt;
+    font-family: Akrobat-ExtraBold!important;
+}
+
+
+.dhx_grid-cell{
+    font-size: 11pt;
+    font-family: Akrobat-Regular!important;
+}
+
+.dhx_grid-cel:focus{
+    font-size: 9pt;
+    font-family: Akrobat-Regular!important;
+}
+
+.dhx_label {
+     font-size: 12pt;
+    font-family: Akrobat-ExtraBold!important;
+}
+
+.dhx_input {
+       font-size: 12pt;
+    font-family: Akrobat-Regular!important;
+}
+
+.dhx_tabbar-tab-button{
+         font-size: 13pt;
+    font-family: Akrobat-ExtraBold!important;
+}
+
+.dhx_navbar-title--toolbar{
+             font-size: 15pt!important;
+    font-family: Akrobat-Regular!important;
+}
+
+.dhx_tabbar-header__wrapper{
+    border-bottom: none!important;
+
+}
+
+.dhx_window-header {
+padding-bottom: 16px;
+    padding-top: 8px;
+}
+
+.dhx_layout-cell.panel{
+    margin-top: 8px;
+}
+
