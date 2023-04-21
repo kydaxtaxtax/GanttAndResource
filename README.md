@@ -8,14 +8,16 @@
    `git clone https://github.com/kydaxtaxtax/GanttAndResource.git ganttAndResource`<br>
 
 3. Открываем проект(желательно в `PyCharm`)<br>
-4. Устанавливаем `Python`
+4. Устанавливаем `Python` (на windows нужно перезагрузить систему после установки)<br>
 5. Устанавливаем зависимости<br>
  `pip install -r requirements.txt`<br>
 
 6. Запускаем миграции:<br>
    `python manage.py migrate` <br>
+   
+7. Подключаемся к БД (запускаем файл db.sqlite3)<br>
 
-7. Запускаем файл `test_tasks.sql` для наполнения БД<br>
+8. Запускаем файл `test_tasks.sql` для наполнения БД<br>
 
-8. Запускаем проект:<br>
+9. Запускаем проект:<br>
    `python manage.py runserver`
