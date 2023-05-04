@@ -37,10 +37,10 @@ gantt.attachEvent("onTaskSelected", function (id)
 			return true;
 
 		} else {
-					gantt.$resourcesStore.clearAll();
+			gantt.$resourcesStore.clearAll();
 			return true;
 		}
-return true;
+	return true;
     });
 
 // Нужно доделать мультиселект
@@ -72,19 +72,23 @@ function resourceGet(selectTask){
 	return resources ? resources : [];
 }
 
+// gantt.$resourcesStore.attachEvent("onParse", function() {
+// 	var capasity = [];
+// 	gantt.$resourcesStore.eachItem(function(res) {
+// 		if (!gantt.$resourcesStore.hasChild(res.id)) {
+// 			var copy = gantt.copy(res);
+// 			copy.key = res.id;
+// 			copy.label = res.text + (res.value ? " (" + res.value.toFixed(2) + ")" : "");
+// 			// copy.label = res.text + res.value || " (" + res.value + ")";
+// 			copy.unit = "hours";
+// 			capasity.push(copy);
+// 		}
+// 	});
+// 	gantt.updateCollection("capasity", capasity);
+// 	gantt.refreshData();
+// });
+
 gantt.$resourcesStore.attachEvent("onParse", function() {
-	var capasity = [];
-	gantt.$resourcesStore.eachItem(function(res) {
-		if (!gantt.$resourcesStore.hasChild(res.id)) {
-			var copy = gantt.copy(res);
-			copy.key = res.id;
-			copy.label = res.text + (res.value ? " (" + res.value.toFixed(2) + ")" : "");
-			// copy.label = res.text + res.value || " (" + res.value + ")";
-			copy.unit = "hours";
-			capasity.push(copy);
-		}
-	});
-	gantt.updateCollection("capasity", capasity);
 	gantt.refreshData();
 });
 

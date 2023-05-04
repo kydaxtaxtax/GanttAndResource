@@ -113,18 +113,33 @@
 
 	function saveTask() {
 		var id = gantt.getState().lightbox;
+
 		var task = gantt.getTask(gantt._lightbox_id);
-		var taskParent = gantt.getTask(task.parent);
-
+		// console.log(gantt._lightbox_task);
+		// update task properties
 		gantt.mixin(task, gantt._lightbox_task, true)
+		console.log(task.capacity);
+		// gantt.updateTaskAssignments(id);
+		gantt.updateTask(id);
 
+		console.log(gantt.getTask(gantt._lightbox_id).capacity);
 
-		// var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
-		if (task.type == "task") {
-			task.render = "split";
-			task.type = "project";
-			gantt.updateTask(task.id);
+		if (task.$new) {
+			delete gantt._lightbox_task.$new;
+			delete task.$new;
+			gantt.addTask(task);
 		}
+		else {
+
+		}
+
+		// console.log(task);
+		// var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
+		// if (task.type == "task") {
+		// 	task.render = "split";
+		// 	task.type = "project";
+		// 	gantt.updateTask(task.id);
+		// }
 		// if (task.type == "project") {
 		// 	if (taskParent) {
 		// 		task.start_date = gantt.date.day_start(new Date());
@@ -133,24 +148,23 @@
 		// 	}
 		// }
 
-		if(task.$new) {
-			if (taskParent && taskParent.render == "split") {
-				taskParent.planned_start = task.start_date;
-				taskParent.planned_end = task.end_date;
+		// if(task.$new) {
+		// 	if (taskParent && taskParent.render == "split") {
+		// 		taskParent.planned_start = task.start_date;
+		// 		taskParent.planned_end = task.end_date;
+		//
+		// 		if (gantt.getChildren(taskParent.id).length > 1) {
+		// 			gantt.addLink({
+		// 				source: gantt.getPrevSibling(task.id),
+		// 				target: task.id,
+		// 				type: gantt.config.links.finish_to_start
+		// 			});
+		//
+		// 		}
+		// 	}
+		// }
 
-				if (gantt.getChildren(taskParent.id).length > 1) {
-					gantt.addLink({
-						source: gantt.getPrevSibling(task.id),
-						target: task.id,
-						type: gantt.config.links.finish_to_start
-					});
 
-				}
-			}
-		}
-
-
-		//update resources
 		var assignmentStore = gantt.getDatastore(gantt.config.resource_assignment_store);
 		var assignments = gantt._lightbox_task[gantt.config.resource_property] || [];
 		for (var i = 0; i < assignments.length; i++) {
@@ -167,14 +181,9 @@
 			}
 		}
 
-			if (task.$new) {
-			delete gantt._lightbox_task.$new;
-			delete task.$new;
-			gantt.addTask(task);
-		}
-		else {
-			gantt.updateTask(id);
-		}
+
+
+		console.log(task.capacity);
 	}
 	function deleteTask() {
 		var id = gantt.getState().lightbox;

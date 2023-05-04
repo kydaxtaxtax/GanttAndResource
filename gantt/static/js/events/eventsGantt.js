@@ -204,4 +204,3 @@ gantt.attachEvent("onTaskLoading", function (task) {
     task.planned_end = gantt.date.parseDate(task.planned_end, "xml_date");
 return true;
 });
-

@@ -232,9 +232,6 @@ function initResourceEditForm() {
 		gantt._tabbar.getCell("resources").attach(gantt._resourceLayout);
 
 
-
-
-
 		if (gantt._resourceAssigner) gantt._resourceAssigner.destructor();
 		if (gantt._resourceEditor) gantt._resourceEditor.destructor();
 

@@ -3,29 +3,40 @@ gantt.templates.histogram_cell_capacity = function(start_date, end_date, resourc
 	// if (!gantt.isWorkTime(start_date)) {
 	// 	return 0;
 	// }
-	window.fact = getFact(start_date, end_date, assignments, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
-	window.plan = getPlan(start_date, end_date, tasks, resource, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
-	resource.capacity = 100;
-	window.histogramFact = (resource.capacity * window.fact / window.plan);
-	window.histogramPlan = (resource.capacity * window.plan / window.fact);
-	return histogramFact <= resource.capacity ? histogramFact : histogramPlan;
+	window.fact = 0;
+	window.plan = 0;
+	window.histogramFact = 0;
+	window.histogramPlan = 0;
+
+	const taskIds = Object.values(tasks).map(elem => elem.id);
+	if(taskIds.some((id) => tasksChildSelect.includes(id))) {
+		var assignments = gantt.getResourceAssignments(resource.id);
+
+		fact = getFact(start_date, end_date, assignments, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
+		plan = getPlan(start_date, end_date, tasks, resource, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
+		resource.capacity = 100;
+		histogramFact = (resource.capacity * fact / plan);
+		histogramPlan = (resource.capacity * plan / fact);
+		return histogramFact <= resource.capacity ? histogramFact : histogramPlan;
+	}
 };
 
 gantt.templates.histogram_cell_class = function(start_date, end_date, resource, tasks, assignments) {
-	// console.log(4);
-	if(window.fact >= window.plan){
-		return "column_green";
+	if (fact != 0 || plan!= 0){
+		if(fact >= plan){
+			return "column_green";
+		} else {
+			return "column_yellow";
+		}
 	}
-	return "column_yellow";
-};
 
+};
 
 gantt.templates.histogram_cell_label = function (start_date, end_date, resource, tasks, assignments)
 {
-	// console.log(2);
 	if (tasks.length && !gantt.$resourcesStore.hasChild(resource.id)) {
-		if(window.plan == 0 && window.fact == 0) return "";
-		return window.fact + " / " + window.plan;
+		if(plan == 0 && fact == 0) return "";
+		return fact + " / " + plan;
 	} else {
 		if (!gantt.$resourcesStore.hasChild(resource.id)) {
 			return "";
@@ -35,8 +46,13 @@ gantt.templates.histogram_cell_label = function (start_date, end_date, resource,
 };
 
 gantt.templates.histogram_cell_allocated = function(start_date, end_date, resource, tasks, assignments) {
-	// console.log(3);
-	return histogramFact <= histogramPlan ? histogramFact : histogramPlan;
+	// console.log("  ");
+	// console.log(histogramFact);
+	// console.log(histogramPlan);
+	// console.log("  ");
+	if(histogramFact && histogramPlan && (histogramFact != 0 || histogramPlan != 0)){
+		return histogramFact <= histogramPlan ? histogramFact : histogramPlan;
+	}
 };
 
 
@@ -49,7 +65,11 @@ function getFact(start_date, end_date, assignments, resTaskLayout, selectedTask)
 	var sel = 0;
 	if(assignments){
 		assignments.forEach(function(assignment){
-			if ((!selectedTask || assignment.task_id == selectedTask.id) ||  resTaskLayout.includes(assignment.task_id)){
+
+			const res = gantt.getTask(assignment.task_id).capacity.find(item => item.resource_id === assignment.resource_id);
+			const hide_value = res ? res.hide : null;
+
+			if (((!selectedTask || assignment.task_id == selectedTask.id) ||  resTaskLayout.includes(assignment.task_id)) && hide_value == true){
 				sel++;
 				var task = gantt.getTask(assignment.task_id);
 				var tv = 0;
@@ -61,11 +81,11 @@ function getFact(start_date, end_date, assignments, resTaskLayout, selectedTask)
 					result += (calcBusinessDays(start_date, end_date) * assignment.value) / task.duration;
 					tv++ ;
 				}
-				if(task.start_date < start_date && task.end_date < end_date) {   // .........[...   ]
-					result +=  (calcBusinessDays(start_date, task.end_date) * assignment.value) / task.duration;
+				if(task.start_date < start_date && task.end_date < end_date && task.end_date > start_date) {   // .........[...   ]
+					result += (calcBusinessDays(start_date, task.end_date) * assignment.value) / task.duration;
 					tv++ ;
 				}
-				if (task.end_date > end_date && task.start_date > start_date) {   // [   ...].........
+				if (task.end_date > end_date && task.start_date > start_date && task.start_date < end_date) {   // [   ...].........
 					result += (calcBusinessDays(task.start_date, end_date) * assignment.value) / task.duration;
 					tv++ ;
 				}

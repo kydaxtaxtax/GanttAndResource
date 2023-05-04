@@ -26,7 +26,7 @@ var WORK_DAY = 8;
 
   gantt.locale.labels.section_owner = "Owner";
   gantt.config.resource_render_empty_cells = true;
-  gantt.config.process_resource_assignments = true;//новое поле для отображения ресурсов
+  gantt.config.process_resource_assignments = false;//новое поле для отображения ресурсов
 
   gantt.config.auto_scheduling = true;
   gantt.config.auto_scheduling_strict = true;
