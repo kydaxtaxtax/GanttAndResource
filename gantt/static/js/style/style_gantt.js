@@ -39,8 +39,8 @@ gantt.addTaskLayer({
         },
         // define getRectangle in order to hook layer with the smart rendering
         getRectangle: function(task, view){
-            // && gantt.hasChild(task.id)
-            if (task.planned_start && task.planned_end  && (!task.hide_bar || task.render == "split")) {
+            if (task.planned_start && task.planned_end  && !task.hide_bar) {
+            // if (task.planned_start && task.planned_end  && (!task.hide_bar || task.render == "split")) {
                 return gantt.getTaskPosition(task, task.planned_start, task.planned_end);
             }
             return null;

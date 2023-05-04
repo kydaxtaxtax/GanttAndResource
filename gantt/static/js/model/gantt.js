@@ -11,7 +11,8 @@ function updateLine(dragObj = null){
 
     gantt.eachTask(function (taskProject){
         if(dragObj ? taskProject.id == dragObj.oldParent.id || taskProject.id == dragObj.newParent.id : taskProject.render != "split" && taskProject.type == "project"){
-             var splitTaskIdsLen = dragObj ? taskProject.id == dragObj.newParent.id
+             var splitTaskIdsLen = dragObj
+                 ? taskProject.id == dragObj.newParent.id
                      ?  getSplitTaskIds(taskProject).length + getSplitTaskIds(dragObj.dragProject).length
                      :  getSplitTaskIds(taskProject).length - getSplitTaskIds(dragObj.dragProject).length
                  : getSplitTaskIds(taskProject).length
@@ -33,12 +34,12 @@ function updateLine(dragObj = null){
                     if(splitTaskIdsLen > 0) {
                         taskProject.hide_bar = false;
                         gantt.updateTask(taskProject.id);
+                        if (newTaskPlanStart == null || newTaskPlanStart.planned_start > splitProject.planned_start) newTaskPlanStart = splitProject;
+                        if (newTaskPlanEnd == null || newTaskPlanEnd.planned_end < splitProject.planned_end) newTaskPlanEnd = splitProject;
                     } else {
                         splitProject.hide_bar = true;
                         gantt.updateTask(splitProject.id);
                     }
-                    if (newTaskPlanStart == null || newTaskPlanStart.planned_start > splitProject.planned_start) newTaskPlanStart = splitProject;
-                    if (newTaskPlanEnd == null || newTaskPlanEnd.planned_end < splitProject.planned_end) newTaskPlanEnd = splitProject;
                 })
                 gantt.getTask(taskProject.id).planned_start = newTaskPlanStart.planned_start;
                 gantt.getTask(taskProject.id).planned_end = newTaskPlanEnd.planned_end;

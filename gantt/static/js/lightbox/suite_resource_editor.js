@@ -9,8 +9,8 @@ function initResourceEditForm() {
 
         var task = gantt.getTask(gantt._lightbox_id);
         var taskParent = gantt.getTask(task.parent);
-        this.$resourcesStore = gantt.$resourcesStore;
-        this.resourceData = this.$resourcesStore.getItems();
+        // this.$resourcesStore = gantt.$resourcesStore;
+        // this.resourceData = this.$resourcesStore.getItems();
 
         this.unassignResource = function (id) {
             var row = gantt._resourceAssigner.data.getItem(id);
@@ -306,12 +306,13 @@ function initResourceEditForm() {
         // console.log()
         var capacityData = [];
         var resourceData = gantt.$resourcesStore.getItems();
+
         resourceAssignColumns[1].optionLabels = {};
         var capasityItems = gantt._lightbox_task[gantt.config.resource_property] || [];
         // console.log(capasityItems);
         // console.log(gantt._lightbox_task);
         resourceData.forEach(function (el) {
-            const capasityItem = capasityItems.find(d => d.resource_id == el.id);
+            var capasityItem = capasityItems.find(d => d.resource_id == el.id);
 
             if (el.parent) {
                 var idNew = generateId();
@@ -327,7 +328,14 @@ function initResourceEditForm() {
                         hide: false
                     };
                     capacityData.push(newCapacityRow);
-                    gantt._lightbox_task[gantt.config.resource_property].push(newCapacityRow);
+                    if (!task.$new) {
+                        gantt._lightbox_task[gantt.config.resource_property].push(newCapacityRow);
+                    } else {
+                        if(!gantt._lightbox_task[gantt.config.resource_property]){
+                            gantt._lightbox_task[gantt.config.resource_property] = [];
+                        }
+                        gantt._lightbox_task[gantt.config.resource_property].push(newCapacityRow);
+                    }
 
                 } else {
                     var capacityRow = gantt.copy(capasityItem);
@@ -337,23 +345,15 @@ function initResourceEditForm() {
                     // capacityRow.valuePlan = (el.value / taskParent.duration_plan * task.duration).toFixed(2);
                     capacityRow.valuePlan = el.value;
                     capacityRow.unit = el.unit || '';
-                    // console.log(capasityItem);
                     capacityRow.hide = capasityItem.hide || false;
-                    // console.log(gantt._lightbox_task);
-                    // console.log(gantt._lightbox_task[gantt.config.resource_property]);
                     capacityData.push(capacityRow);
-
                 }
             }
             if (el.parent) {
                 resourceAssignColumns[1].options.push(el.id);
                 resourceAssignColumns[1].optionLabels[el.id] = el.text;
             }
-
-
         })
-        console.log(capacityData);
-
 
         gantt._resourceAssigner = new dhx.Grid(null, {
             columns: resourceAssignColumns,
