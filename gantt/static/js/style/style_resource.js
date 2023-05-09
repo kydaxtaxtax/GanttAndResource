@@ -7,16 +7,15 @@ gantt.templates.histogram_cell_capacity = function(start_date, end_date, resourc
 	window.plan = 0;
 	window.histogramFact = 0;
 	window.histogramPlan = 0;
-
+	//
 	const taskIds = Object.values(tasks).map(elem => elem.id);
 	if(taskIds.some((id) => tasksChildSelect.includes(id))) {
 		var assignments = gantt.getResourceAssignments(resource.id);
-
-		fact = getFact(start_date, end_date, assignments, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
-		plan = getPlan(start_date, end_date, tasks, resource, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
+		window.fact = getFact(start_date, end_date, assignments, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
+		window.plan = getPlan(start_date, end_date, tasks, resource, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
 		resource.capacity = 100;
-		histogramFact = (resource.capacity * fact / plan);
-		histogramPlan = (resource.capacity * plan / fact);
+		window.histogramFact = (resource.capacity * fact / plan);
+		window.histogramPlan = (resource.capacity * plan / fact);
 		return histogramFact <= resource.capacity ? histogramFact : histogramPlan;
 	}
 };
@@ -101,7 +100,7 @@ function getFact(start_date, end_date, assignments, resTaskLayout, selectedTask)
 
 function getPlan(start_date, end_date, tasks, resource, resTaskLayout, selectedTask) {
 
-	// // Для вывода ганта за пределами задач по факту (надо доделать)
+	// // Для вывода плана за пределами факта (надо доделать)
 	// // console.log(resTaskLayout);
 	// if(tasks == 0){
 	// 	tasks == 0;
@@ -121,9 +120,14 @@ function getPlan(start_date, end_date, tasks, resource, resTaskLayout, selectedT
 
 	var result = 0;
 	var sel = 0;
+	var saveTaskParentId = 0;
 	tasks.forEach(function (task) {
-		if((!selectedTask || task.id == selectedTask.id) ||  resTaskLayout.includes(task.id)){
-			if(task.type == "splittask") task = gantt.getTask(task.parent);
+		var taskParent = gantt.getTask(task.parent);
+		if(((!selectedTask || task.id == selectedTask.id) ||  resTaskLayout.includes(task.id)) && saveTaskParentId != taskParent.id){
+			if(task.type == "splittask") {
+				task = taskParent;
+				saveTaskParentId = task.id;
+			}
 			sel++;
 			var tv = 0;
 

@@ -30,7 +30,7 @@ var WORK_DAY = 8;
 
   gantt.config.auto_scheduling = true;
   gantt.config.auto_scheduling_strict = true;
-  gantt.config.resource_store = "resource";
+  gantt.config.resource_store = "resources";
   gantt.config.resource_property = "capacity";
   gantt.config.scale_height = 45;
 

@@ -11,18 +11,20 @@ gantt.$resourcesStore = gantt.createDatastore({
 
 
 gantt.attachEvent("onParse", function(){
-	window.tasksChildSelect = getSplitTaskIds();// Глобальная переменная тасков выбранной задачи
+	if(gantt.getTaskCount() > 0) {
+		window.tasksChildSelect = getSplitTaskIds();// Глобальная переменная тасков выбранной задачи
 
-	var taskParent = gantt.getTaskBy(task => task.parent == 0);
-	gantt.$resourcesStore.parse(resourceGet(taskParent[0]));
+		var taskParent = gantt.getTaskBy(task => task.parent == 0);
+		gantt.$resourcesStore.parse(resourceGet(taskParent[0]));
 
-	gantt.eachTask(function(task) {
-		if(task.render == "split"){
-			task.duration_plan = calcBusinessDays(task.planned_start, task.planned_end);
-    		gantt.updateTask(task.id);
-		}
-	});
-	return true;
+		gantt.eachTask(function (task) {
+			if (task.render == "split") {
+				task.duration_plan = calcBusinessDays(task.planned_start, task.planned_end);
+				gantt.updateTask(task.id);
+			}
+		});
+		return true;
+	}
 });
 
 gantt.attachEvent("onTaskSelected", function (id)
@@ -46,30 +48,32 @@ gantt.attachEvent("onTaskSelected", function (id)
 // Нужно доделать мультиселект
 function resourceGet(selectTask){
 	var resources = [];
-	if(selectTask && selectTask.type == "splittask"){
-		resources = gantt.getTask(selectTask.parent).resources;
-	} else {
-		if (selectTask.render == "split") {
-			resources = selectTask.resources;
+	if(gantt.getTaskCount() > 0){
+		if(selectTask && selectTask.type == "splittask"){
+			resources = gantt.getTask(selectTask.parent).resources;
 		} else {
-			gantt.eachTask(function(task) {
-				if (task.resources) {
-					(task.resources).forEach(function(resource) {
-						resources.push(resource);
-					});
-				}
-			}, selectTask.id);
-		// Убираем дубликаты из массива ресурсов
-		resources = resources.reduce((acc, city) => {
-		if (acc.map[city.text]){
-			return acc;
+			if (selectTask.render == "split") {
+				resources = selectTask.resources;
+			} else {
+				gantt.eachTask(function(task) {
+					if (task.resources) {
+						(task.resources).forEach(function(resource) {
+							resources.push(resource);
+						});
+					}
+				}, selectTask.id);
+			// Убираем дубликаты из массива ресурсов
+			resources = resources.reduce((acc, city) => {
+			if (acc.map[city.text]){
+				return acc;
+			}
+			acc.map[city.text] = true;
+			acc.resources.push(city);
+			return acc;}, {map: {}, resources: []}).resources;
+			}
 		}
-		acc.map[city.text] = true;
-		acc.resources.push(city);
-		return acc;}, {map: {}, resources: []}).resources;
-		}
+		return resources ? resources : [];
 	}
-	return resources ? resources : [];
 }
 
 gantt.$resourcesStore.attachEvent("onParse", function() {
@@ -130,4 +134,65 @@ function getSplitTaskIds(taskUpdate = null, ignoreTask = null){
 	},gantt.getSelectedId());
 return resTasksLayout;
 }
+
+function addDefaultResources(task){
+	if(!task[gantt.config.resource_store]) task[gantt.config.resource_store] = [];
+	 if(task.resources.length == 0 && task.render == "split") {
+        var resourse1 = {
+            $expanded_branch: true,
+            $level: 0,
+            $local_index: 0,
+            $open: true,
+            $rendered_parent: 0,
+            calendar: "global",
+            capacity: 0,
+            hide: true,
+            id: 1 + "",
+            open: true,
+            owner: 0,
+            parent: 0,
+            text: "Трудозатраты",
+            unit: ""
+        }
+
+        var resourse2 = {
+            $expanded_branch: true,
+            $level: 0,
+            $local_index: 1,
+            $open: true,
+            $rendered_parent: 0,
+            calendar: "global",
+            capacity: 0,
+            hide: true,
+            id: 2 + "",
+            open: true,
+            owner: 0,
+            parent: 0,
+            text: "Материалы",
+            unit: ""
+        }
+
+        var resourse3 = {
+            $expanded_branch: true,
+            $level: 0,
+            $local_index: 2,
+            $open: true,
+            $rendered_parent: 0,
+            calendar: "global",
+            capacity: 0,
+            hide: true,
+            id: 3 + "",
+            open: true,
+            owner: 0,
+            parent: 0,
+            text: "Эксплуатация машин",
+            unit: ""
+        }
+        task[gantt.config.resource_store].push(resourse1);
+        task[gantt.config.resource_store].push(resourse2);
+        task[gantt.config.resource_store].push(resourse3);
+		return task;
+    }
+}
+
 
