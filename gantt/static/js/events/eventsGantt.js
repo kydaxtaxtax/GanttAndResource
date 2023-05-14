@@ -33,12 +33,6 @@ gantt.attachEvent("onAfterTaskAdd", function(id, item){
     return true;
 });
 
-gantt.attachEvent("onRowDragStart", function(id, target, e) {
-    gantt.unselectTask();
-    gantt.selectTask(id);
-    return true;
-});
-
 gantt.attachEvent("onBeforeRowDragEnd", function(id, parent, tindex){
     var task = gantt.getTask(id);
     var newParent = gantt.getTask(parent);
@@ -68,9 +62,6 @@ gantt.attachEvent("onTaskCreated", function(task){
         task.planned_end = gantt.date.day_start(endDateZoom(task.start_date));
         return true;
         } else {
-        if(gantt.getTaskCount()){
-            return false;
-        }
         task.planned_start = gantt.date.day_start(new Date());
         task.planned_end = gantt.date.day_start(endDateZoom(new Date()));
         return true;

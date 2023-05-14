@@ -1,7 +1,7 @@
 function initResourceEditForm() {
     gantt.$lightboxControl.resources.addForm = function () {
 
-        const generateId = () => {
+          const generateId = () => {
           const timestamp = Date.now();
           const random = Math.floor(Math.random() * 100000);
           return `${timestamp}${random}`;
@@ -112,7 +112,9 @@ function initResourceEditForm() {
             var resourceItem = gantt.$resourcesStore.pull[id]
             var clone = gantt.copy(resourceItem);
             clone.id = +new Date();
-            clone.text += "_copy";
+            clone.parent = parseInt(id);
+            clone.type = "task";
+            clone.text = "Наименование ресурса";
             this.addResource(clone);
         };
 
@@ -133,7 +135,6 @@ function initResourceEditForm() {
 
         this.deleteAllResources = function () {
             var resourceData = gantt.$resourcesStore.getItems();
-
             resourceData.forEach(function (el) {
                 if (gantt.$resourcesStore.getItem(el.id)) {
                     gantt.$resourcesStore.removeItem(el.id);
@@ -147,7 +148,6 @@ function initResourceEditForm() {
         };
 
         var resourceEditColumns = [
-            {width: 40, id: "hide", header: [{text: ""}], type: "boolean", htmlEnable: true},
             {
                 minWidth: 200,
                 id: "text",
@@ -156,6 +156,7 @@ function initResourceEditForm() {
                 type: "string",
                 htmlEnable: true,
             },
+             {width: 40, id: "hide", header: [{text: ""}], type: "boolean", htmlEnable: true},
             {
                 id: "parent",
                 minWidth: 120,
@@ -194,7 +195,7 @@ function initResourceEditForm() {
                 htmlEnable: true,
                 editable: false,
                 template: function (text, row, col) {
-                    return "<input type=button value='⇊' data-onclick='cloneResource' data-onclick_argument='" + row.id + "' class='dhx_button dhx_button--size_small' title='Clone this resource'>";
+                    return "<input type=button value='✚' data-onclick='cloneResource' data-onclick_argument='" + row.id + "' class='dhx_button dhx_button--size_small' title='Clone this resource'>";
                 }
             },
             {
@@ -238,28 +239,31 @@ function initResourceEditForm() {
             if(el.id == 1 || el.id == 2 || el.id == 3) {
                 resourceEditColumns[2].options.push(el.id);
                 resourceEditColumns[2].optionLabels[el.id] = el.text;
+                el.parent = undefined;
             }
         })
 
-        gantt._resourceEditor = new dhx.Grid(null, {
+console.log(resourceData);
+        gantt._resourceEditor = new dhx.TreeGrid(null, {
             columns: resourceEditColumns,
             autoHeight: true,
+            // dragItem: "both",
             autoWidth: true,
             editable: true,
             data: resourceData
         });
 
-        resourceData.forEach(function (el) {
-            if(el.id == 1 || el.id == 2 || el.id == 3){
-                gantt._resourceEditor.data.remove(el.id);
-            }
-        })
+        // resourceData.forEach(function (el) {
+        //     if(el.id == 1 || el.id == 2 || el.id == 3){
+        //         gantt._resourceEditor.data.remove(el.id);
+        //     }
+        // })
 
 
         gantt._resourceLayout.getCell("resourceEdit").attach(gantt._resourceEditor);
 
         gantt._resourceEditor.events.on("CellClick", function (row, column, e) {
-            if (column.editable !== false) {
+              if (column.editable !== false && column.id != "hide") {
                 gantt._resourceEditor.editCell(row.id, column.id);
             }
         });

@@ -57,15 +57,10 @@ dhxWindow.footer.events.on("click", function (id) {
     }
 });
 
-
-// var formatDate = gantt.date.str_to_date("%Y-%m-%d");
-
 gantt.showLightbox = function (id) {
     dhxWindow.show();
-
     gantt._lightbox_id = id;
     var task = gantt.getTask(id);
-
     var taskParent = gantt.getTask(task.parent);
     if (task.$new) {
         if (taskParent && taskParent.render != "split") {
@@ -76,18 +71,9 @@ gantt.showLightbox = function (id) {
     }
     addDefaultResources(task);
     gantt._lightbox_task = gantt.copy(task);
-    // gantt._lightbox_links = "load";
-    // gantt._removed_links = [];
-
     var title = document.querySelector(".dhx_navbar-title")
     title.innerHTML = task.text || "New task"
-
-    // if(task.type == "project" && task.render == "split"){
     addTabBarSettingsTaskAndProject(task)
-    // }
-    // if(task.type == "splittask"){
-    // 	addTabBarSplittask()
-    // }
 }
 
 
@@ -135,6 +121,10 @@ function saveTask() {
     }
 
     if (task.$new) {
+        if(task.parent == 0){
+                task.parent = null;
+                task.parent = gantt.getTaskBy(task => task.parent == 0)[0].id;
+        }
         // if (taskParent && taskParent.render != "split") {
         //     task.render = "split";
         //     task.type = "project";
@@ -179,6 +169,8 @@ function saveTask() {
     } else {
         gantt.updateTask(id)
     }
+    gantt.updateTask(id);
+    updateLine();
 }
 
 function deleteTask() {
@@ -188,44 +180,46 @@ function deleteTask() {
 
 
 function addTabBarSettingsTaskAndProject(task) {
+ var taskParent = gantt.getTask(task.parent);
+    gantt.$lightboxControl.fillTabContent = function (id) {
+        task.type == "project" && task.render != "split" || !taskParent ? id = id || "settingsFolder" : id = id || "settingsTaskAndProject";
+        gantt.$lightboxControl[id].addForm();
+    }
     if (gantt._tabbar) gantt._tabbar.destructor();
-    var taskParent = gantt.getTask(task.parent);
-    if (task.$new) {
+
+
+    if(taskParent){
         gantt._tabbar = new dhx.Tabbar(null, {
             // css: "custom",
             views: [
                 {
-                    id: "settingsTaskAndProject",
-                    tab: taskParent && taskParent.render == "split" ? "Параметры задачи" : "Параметры проекта",
+                    id: task.type == "project" && task.render != "split" ? "settingsFolder" : "settingsTaskAndProject",
+                    tab:  task.type == "splittask" ? "Параметры задачи" : "Параметры проекта",
                     css: "panel flex"
                 },
+
                 {
-                    id: taskParent && taskParent.render == "split" ? "capacity" : "resources",
-                    tab: taskParent && taskParent.render == "split" ? "Нагрузка" : "Ресурсы",
+                    id: task.type == "splittask" ? "capacity" : "resources",
+                    tab: task.type == "splittask" ? "Нагрузка" : "Ресурсы",
                     css: "panel flex"
                 }
             ]
         });
     } else {
-        gantt._tabbar = new dhx.Tabbar(null, {
-            // css: "custom",
-            views: [
+       gantt._tabbar = new dhx.Tabbar(null, {
+        // css: "custom",
+               views: [
                 {
-                    id: "settingsTaskAndProject",
-                    tab: task.type == "project" ? "Параметры проекта" : "Параметры задачи",
+                    id: "settingsFolder",
+                    tab: "Параметры папки",
                     css: "panel flex"
-                },
-				{
-					id: task.type == "project" ? "resources" : "capacity",
-					tab: task.type == "project" ? "Ресурсы" : "Нагрузка",
-					css: "panel flex"
-				}
+                }
             ]
         });
     }
 
-    dhxWindow.attach(gantt._tabbar)
 
+    dhxWindow.attach(gantt._tabbar)
     dhx.awaitRedraw().then(function () {
         gantt.$lightboxControl.fillTabContent()
     })
@@ -236,18 +230,14 @@ function addTabBarSettingsTaskAndProject(task) {
 }
 
 gantt.$lightboxControl = {
-    // task: {},
+    settingsFolder: {},
     settingsTaskAndProject: {},
     resources: {},
 	capacity: {}
 };
 
 
-gantt.$lightboxControl.fillTabContent = function (id) {
-    id = id || "settingsTaskAndProject"
-    gantt.$lightboxControl[id].addForm();
-}
-// initTaskEditForm();
 initResourceEditForm();
 initCapacityEditForm();
-initSettingsTaskAndProjectEditForm()
+initSettingsTaskAndProjectEditForm();
+initSettingsFolderEditForm();

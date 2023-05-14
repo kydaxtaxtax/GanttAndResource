@@ -43,7 +43,6 @@ function initCapacityEditForm() {
         };
 
         var resourceAssignColumns = [
-            {width: 40, id: "hide", header: [{text: ""}], type: "boolean", htmlEnable: true},
             {
                 minWidth: 382,
                 id: "text",
@@ -53,6 +52,7 @@ function initCapacityEditForm() {
                 editable: false,
                 htmlEnable: true
             },
+            {width: 40, id: "hide", header: [{text: ""}], type: "boolean", htmlEnable: true},
             {
                 id: "valuePlan",
                 width: 80,
@@ -133,11 +133,11 @@ function initCapacityEditForm() {
 
         resourceAssignColumns[1].optionLabels = {};
         var capasityItems = gantt._lightbox_task[gantt.config.resource_property] || [];
-
         resourceData.forEach(function (el) {
             var capasityItem = capasityItems.find(d => d.resource_id == el.id);
 
-            if (el.parent) {
+        console.log(el);
+            if (el.type != "project") {
                 var idNew = generateId();
                 if (!capasityItem) {
                     var newCapacityRow = {
@@ -145,6 +145,8 @@ function initCapacityEditForm() {
                         $id: idNew,
                         text: el.text,
                         value: '',
+                        type: "task",
+                        parent: el.parent,
                         valuePlan: el.value,
                         unit: el.unit,
                         resource_id: el.id,
@@ -162,25 +164,28 @@ function initCapacityEditForm() {
 
                 } else {
                     var capacityRow = gantt.copy(capasityItem);
+
                     // else resourceEditColumns[6].options.push(el.text);
-                    capacityRow.text = el.text
-                    capacityRow.value = capasityItem.value || '';
+                    capacityRow.text = el.text;
+                    capacityRow.value = el.value || '';
+                    capacityRow.type = "task";
                     // capacityRow.valuePlan = (el.value / taskParent.duration_plan * task.duration).toFixed(2);
-                    capacityRow.valuePlan = el.value;
+                    capacityRow.valuePlan = capasityItem.value;
                     capacityRow.unit = el.unit || '';
-                    capacityRow.hide = capasityItem.hide || false;
+                    capacityRow.hide = el.hide || false;
                     capacityData.push(capacityRow);
                 }
             }
-            // if (el.parent) {
-            //     resourceAssignColumns[1].options.push(el.id);
-            //     resourceAssignColumns[1].optionLabels[el.id] = el.text;
-            // }
+            else {
+                delete el.parent;
+                capacityData.push(el);
+            }
         })
 
-        gantt._resourceAssigner = new dhx.Grid(null, {
+        gantt._resourceAssigner = new dhx.TreeGrid(null, {
             columns: resourceAssignColumns,
             // rowHeight: 50,
+            dragItem: "both",
             autoHeight: true,
             autoWidth: true,
             editable: true,
@@ -190,7 +195,7 @@ function initCapacityEditForm() {
         gantt._resourceLayout.getCell("resourceAssign").attach(gantt._resourceAssigner);
 
         gantt._resourceAssigner.events.on("CellClick", function (row, column, e) {
-            if (column.editable !== false) {
+            if (column.editable !== false && column.id != "hide") {
                 gantt._resourceAssigner.editCell(row.id, column.id);
             }
         });

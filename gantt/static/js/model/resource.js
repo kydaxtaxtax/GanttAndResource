@@ -32,14 +32,13 @@ gantt.attachEvent("onTaskSelected", function (id)
 		window.tasksChildSelect = getSplitTaskIds();// Глобальная переменная тасков выбранной задачи
 
 		var selectTask = gantt.getTask(id);
-
-		if(selectTask.$new != true){
+		if(!selectTask.$new){
 			gantt.$resourcesStore.clearAll();
 			gantt.$resourcesStore.parse(resourceGet(selectTask));
 			return true;
 
 		} else {
-			// gantt.$resourcesStore.clearAll();
+			gantt.$resourcesStore.clearAll();
 			return true;
 		}
 	return true;
@@ -144,6 +143,7 @@ function addDefaultResources(task){
             $local_index: 0,
             $open: true,
             $rendered_parent: 0,
+			type: "project",
             calendar: "global",
             capacity: 0,
             hide: true,
@@ -161,6 +161,7 @@ function addDefaultResources(task){
             $local_index: 1,
             $open: true,
             $rendered_parent: 0,
+			type: "project",
             calendar: "global",
             capacity: 0,
             hide: true,
@@ -178,6 +179,7 @@ function addDefaultResources(task){
             $local_index: 2,
             $open: true,
             $rendered_parent: 0,
+			type: "project",
             calendar: "global",
             capacity: 0,
             hide: true,

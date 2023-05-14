@@ -122,9 +122,6 @@ function initSettingsTaskAndProjectEditForm() {
 							taskFormRows["duration"]]
 					}
 			]
-
-
-
 		});
 		gantt._tabbar.getCell("settingsTaskAndProject").attach(gantt._taskForm);
 
