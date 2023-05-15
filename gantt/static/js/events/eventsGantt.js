@@ -190,7 +190,7 @@ gantt.attachEvent("onTaskLoading", function (task) {
     // if(task.planned_start == "2000-01-01 00:00" && task.planned_end == "2000-01-01 00:00"){
     //     return true;
     // }
-    addDefaultResources(task);
+    task = addDefaultResources(task);
     task.planned_start = gantt.date.parseDate(task.planned_start, "xml_date");
     task.planned_end = gantt.date.parseDate(task.planned_end, "xml_date");
 return true;

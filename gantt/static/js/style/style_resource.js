@@ -3,6 +3,7 @@ gantt.templates.histogram_cell_capacity = function(start_date, end_date, resourc
 	// if (!gantt.isWorkTime(start_date)) {
 	// 	return 0;
 	// }
+
 	window.fact = 0;
 	window.plan = 0;
 	window.histogramFact = 0;
@@ -10,12 +11,14 @@ gantt.templates.histogram_cell_capacity = function(start_date, end_date, resourc
 	//
 	const taskIds = Object.values(tasks).map(elem => elem.id);
 	if(taskIds.some((id) => tasksChildSelect.includes(id))) {
+
 		var assignments = gantt.getResourceAssignments(resource.id);
 		window.fact = getFact(start_date, end_date, assignments, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
 		window.plan = getPlan(start_date, end_date, tasks, resource, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
 		resource.capacity = 100;
 		window.histogramFact = (resource.capacity * fact / plan);
 		window.histogramPlan = (resource.capacity * plan / fact);
+
 		return histogramFact <= resource.capacity ? histogramFact : histogramPlan;
 	}
 };
@@ -67,11 +70,11 @@ function getFact(start_date, end_date, assignments, resTaskLayout, selectedTask)
 
 			const res = gantt.getTask(assignment.task_id).capacity.find(item => item.resource_id === assignment.resource_id);
 			const hide_value = res ? res.hide : null;
-
-			if (((!selectedTask || assignment.task_id == selectedTask.id) ||  resTaskLayout.includes(assignment.task_id)) && hide_value == true){
+			if (((!selectedTask || assignment.task_id == selectedTask.id) ||  resTaskLayout.includes(assignment.task_id)) && hide_value == false){
 				sel++;
 				var task = gantt.getTask(assignment.task_id);
 				var tv = 0;
+
 				if(task.start_date >= start_date && task.end_date <= end_date) {    // [  ...  ]
 					result += Number(assignment.value)
 					tv++ ;

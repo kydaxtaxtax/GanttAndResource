@@ -97,6 +97,11 @@ dhxWindow.events.on("BeforeHide", function (position, events) {
 
 
 gantt.hideLightbox = function () {
+    gantt.$resourcesStore.eachItem(function (resource) {
+        if(resource.type == "project"){
+            resource.parent = 0;
+        }
+    });
 
     if (gantt._lightbox_task.$new) {
         deleteTask()
@@ -130,7 +135,7 @@ function saveTask() {
         //     task.type = "project";
         //     gantt.updateTask(task.id);
         // }
-        console.log(1);
+
         if (taskParent && taskParent.render == "split") {
             taskParent.planned_start = task.start_date;
             taskParent.planned_end = task.end_date;

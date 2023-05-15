@@ -136,7 +136,6 @@ function initCapacityEditForm() {
         resourceData.forEach(function (el) {
             var capasityItem = capasityItems.find(d => d.resource_id == el.id);
 
-        console.log(el);
             if (el.type != "project") {
                 var idNew = generateId();
                 if (!capasityItem) {
@@ -167,17 +166,17 @@ function initCapacityEditForm() {
 
                     // else resourceEditColumns[6].options.push(el.text);
                     capacityRow.text = el.text;
-                    capacityRow.value = el.value || '';
+                    capacityRow.value = capasityItem.value || '';
                     capacityRow.type = "task";
                     // capacityRow.valuePlan = (el.value / taskParent.duration_plan * task.duration).toFixed(2);
-                    capacityRow.valuePlan = capasityItem.value;
+                    capacityRow.valuePlan = el.value;
                     capacityRow.unit = el.unit || '';
                     capacityRow.hide = el.hide || false;
                     capacityData.push(capacityRow);
                 }
             }
             else {
-                delete el.parent;
+                el.parent = undefined;
                 capacityData.push(el);
             }
         })
@@ -185,7 +184,7 @@ function initCapacityEditForm() {
         gantt._resourceAssigner = new dhx.TreeGrid(null, {
             columns: resourceAssignColumns,
             // rowHeight: 50,
-            dragItem: "both",
+            // dragItem: "both",
             autoHeight: true,
             autoWidth: true,
             editable: true,
@@ -209,6 +208,9 @@ function initCapacityEditForm() {
                 if (objectToUpdate) {
                   objectToUpdate[column.id] = value;
                 }
+                console.log(row);
+                console.log(column);
+                console.log(value);
             gantt.getTask(gantt._lightbox_task.id)[gantt.config.resource_property] = gantt._lightbox_task[gantt.config.resource_property];
             gantt.updateTask(gantt._lightbox_task.id);
         });

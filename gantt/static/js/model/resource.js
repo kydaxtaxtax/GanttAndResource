@@ -29,6 +29,7 @@ gantt.attachEvent("onParse", function(){
 
 gantt.attachEvent("onTaskSelected", function (id)
     {
+
 		window.tasksChildSelect = getSplitTaskIds();// Глобальная переменная тасков выбранной задачи
 
 		var selectTask = gantt.getTask(id);
@@ -193,8 +194,8 @@ function addDefaultResources(task){
         task[gantt.config.resource_store].push(resourse1);
         task[gantt.config.resource_store].push(resourse2);
         task[gantt.config.resource_store].push(resourse3);
-		return task;
     }
+	 return task;
 }
 
 
