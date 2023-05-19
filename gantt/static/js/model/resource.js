@@ -75,7 +75,6 @@ function resourceGet(selectTask){
 			acc.map[city.text] = true;
 			acc.resources.push(city);
 			return acc;}, {map: {}, resources: []}).resources;}
-			console.log(resources);
 		}
 		return resources ? resources : [];
 	}

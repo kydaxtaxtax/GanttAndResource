@@ -48,7 +48,6 @@ function initCapacityEditForm() {
                 id: "text",
                 header: [{content: "inputFilter",}],
                 editorType: "input",
-                options: [],
                 editable: false,
                 htmlEnable: true,
                 footer: [{ text: '<div class="custom_footer">Total</div>' }],
@@ -61,7 +60,6 @@ function initCapacityEditForm() {
                 editorType: "input",
                 sortable: false,
                 editable: false,
-                options: [],
                 footer: [{ content: "sum"}]
             },
             {
@@ -71,7 +69,6 @@ function initCapacityEditForm() {
                 editorType: "number",
                 sortable: false,
                 editable: true,
-                options: [],
                 footer: [{ content: "sum"}]
             },
             {
@@ -82,8 +79,7 @@ function initCapacityEditForm() {
                 type: "string",
                 sortable: false,
                 editable: false,
-                options: [],
-                footer: [{ content: "sum"}]
+                footer: [{ content: "avg"}]
             },
             {
                 width: 70,
@@ -92,32 +88,8 @@ function initCapacityEditForm() {
                 editorType: "input",
                 type: "string",
                 sortable: false,
-                editable: false,
-                options: []
-            },
-            // {
-            //     width: 50,
-            //     id: "add",
-            //     header: [{text: "<input type=button value='✚' data-onclick='assignResource' class='dhx_button dhx_button--size_small' title='Add a new resource assignment'>"}],
-            //     sortable: false,
-            //     align: "center",
-            //     htmlEnable: true,
-            //     editable: false,
-            //     template: function (text, row, col) {
-            //         return "<input type=button value='✚' data-onclick='copyResourceAssignment' data-onclick_argument='" + row.id + "' class='dhx_button dhx_button--size_small' title='Clone this assignment'>";
-            //     }
-            // },
-            // {
-            //     width: 60,
-            //     id: "control",
-            //     header: [{text: "<input type=button value='✖' data-onclick='unassignAllResources' class='dhx_button dhx_button--size_small' title='Remove all assignments'>"}],
-            //     sortable: false,
-            //     htmlEnable: true,
-            //     editable: false,
-            //     template: function (text, row, col) {
-            //         return "<input type=button value='✖' data-onclick='unassignResource' data-onclick_argument='" + row.id + "' class='dhx_button dhx_button--size_small' title='Unassign resource'>";
-            //     }
-            // }
+                editable: false
+            }
         ];
 
 
@@ -158,7 +130,8 @@ function initCapacityEditForm() {
                             id: idNew,
                             $id: idNew,
                             text: el.text,
-                            value: '',
+                            value: 0,
+                            progress: 0,
                             type: "task",
                             parent: el.parent,
                             valuePlan: el.value,
@@ -178,13 +151,10 @@ function initCapacityEditForm() {
 
                     } else {
                         var capacityRow = gantt.copy(capasityItem);
-
-                        // else resourceEditColumns[6].options.push(el.text);
                         capacityRow.text = el.text;
-                        capacityRow.value = capacityRow.value || '';
+                        capacityRow.value = capacityRow.value || 0;
                         capacityRow.type = "task";
-                        // capacityRow.valuePlan = (el.value / taskParent.duration_plan * task.duration).toFixed(2);
-                        capacityRow.progress = Math.round(((capacityRow.value / el.value) * 100)) + '%';
+                        capacityRow.progress = Math.round(((capacityRow.value / el.value) * 100));
                         capacityRow.valuePlan = el.value;
                         capacityRow.unit = el.unit || '';
                         // capacityRow.hide = capacityRow.hide || true;
@@ -224,7 +194,14 @@ function initCapacityEditForm() {
 
         gantt._resourceAssigner.events.on("AfterEditEnd", function (value, row, column) {
             gantt._lightbox_task[gantt.config.resource_property].find(obj => obj.id === row.id)[column.id] = value;
+
+        if(column.id == "value"){
+            var progressCapacity = Math.round(((value / row.valuePlan) * 100));
+            gantt._resourceAssigner.data.update(row.id, { progress: progressCapacity });
+            gantt._lightbox_task[gantt.config.resource_property].find(obj => obj.id === row.id)['progress'] = progressCapacity;
+        }
         });
+
 
     };
 }

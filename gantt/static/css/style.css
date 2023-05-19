@@ -623,12 +623,7 @@ flex-direction: row;
 			}
 
 
-			.group_row,
-			.group_row.odd,
-			.gantt_task_row.group_row
-      {
-				background-color: #ebebeb;
-			}
+
 
 			.owner-label
       {
@@ -659,30 +654,7 @@ flex-direction: row;
 				margin-left: 13px;
 			}
 
-      .column_red .gantt_histogram_fill
-      {
-				background-color: rgba(255, 110, 110, 0.53);
-      }
 
-      .column_yellow .gantt_histogram_fill
-      {
-        background-color: rgba(240, 230, 140, 0.48);
-      }
-
-      .column_green .gantt_histogram_fill
-      {
-        background-color: rgba(139, 239, 139, 0.52);
-      }
-
-      .column_blue .gantt_histogram_fill
-      {
-        background-color: rgba(170, 228, 246, 0.45);
-      }
-
-      .column_orange .gantt_histogram_fill
-      {
-        background-color:#ffcd75;
-      }
 
 
 

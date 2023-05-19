@@ -53,7 +53,7 @@ gantt.templates.histogram_cell_allocated = function(start_date, end_date, resour
 	// console.log(histogramPlan);
 	// console.log("  ");
 	if(histogramFact && histogramPlan && (histogramFact != 0 || histogramPlan != 0)){
-		return histogramFact <= histogramPlan ? histogramFact : histogramPlan;
+		return histogramFact >= histogramPlan ? histogramFact : histogramPlan;
 	}
 };
 
@@ -127,7 +127,7 @@ function getPlan(start_date, end_date, tasks, resource, resTaskLayout, selectedT
 	var saveTaskParentId = 0;
 	tasks.forEach(function (task) {
 		var taskParent = gantt.getTask(task.parent);
-		if(((!selectedTask || task.id == selectedTask.id) ||  resTaskLayout.includes(task.id)) && saveTaskParentId != taskParent.id){
+		if(((!selectedTask || task.id == selectedTask.id) ||  resTaskLayout.includes(task.id)) && saveTaskParentId != taskParent.id && resource.hide == true){
 			if(task.type == "splittask") {
 				task = taskParent;
 				saveTaskParentId = task.id;
@@ -177,7 +177,7 @@ columns:
 	{
 		name: "progress", label: "Прогресс", align: "center", width:90, template: function (resource)
 		{
-			if ((resource.value == null) || (resource.value == undefined)) return "";// если родитель, то не выводим
+			if (resource.type == "project")return ""; // если родитель, то не выводим
 			var res = 0;
 			var len = 0;
 			gantt.getResourceAssignments(resource.id).forEach(function(capacity) {
@@ -194,7 +194,7 @@ columns:
 	{
 		name: "workload", label: "Объем по факту", align: "center", width: 120, template: function (resource)
 		{
-			if ((resource.value == null) || (resource.value == undefined)) return "";// если родитель, то не выводим
+			if (resource.type == "project")return "";
 			var res = 0;
 			gantt.getResourceAssignments(resource.id).forEach(function(capacity) {
 				if(tasksChildSelect.includes(capacity.task_id)) {res += Number(capacity.value)}
@@ -207,14 +207,13 @@ columns:
 		name: "capacity", label: "Объем по плану", align: "center", width: 120, template: function (resource)
 			{
 
-			if ((resource.value == null) || (resource.value == undefined))return ""; // если родитель, то не выводим
+			if (resource.type == "project")return "";
 
 			var res = 0;
 			var Assigments = gantt.getResourceAssignments(resource.id);
 			if(resource.hide == true){
 				if(Assigments != 0){
 					Assigments.forEach(function(capacity) {
-						console.log(capacity);
 						if(tasksChildSelect.includes(capacity.task_id)) res += Number(resource.value);
 					});
 				} else {
@@ -247,9 +246,13 @@ function shouldHighlightResource(resource) {
 var resourceTemplates = {
 	grid_row_class: function(start, end, resource) {
 		var css = [];
-		if (gantt.$resourcesStore.hasChild(resource.id)) {
+		if (resource.type == "project") {
 			css.push("folder_row");
 			css.push("group_row");
+		}
+
+		if (resource.hide == false) {
+			css.push("gantt_row_task_hide");
 		}
 		if (shouldHighlightResource(resource)) {
 			css.push("highlighted_resource");
@@ -261,7 +264,7 @@ var resourceTemplates = {
 		if (shouldHighlightResource(resource)) {
 			css.push("highlighted_resource");
 		}
-		if (gantt.$resourcesStore.hasChild(resource.id)) {
+		if (resource.type == "project") {
 			css.push("group_row");
 		}
 
