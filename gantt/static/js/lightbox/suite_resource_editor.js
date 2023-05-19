@@ -10,8 +10,8 @@ function initResourceEditForm() {
         var task = gantt.getTask(gantt._lightbox_id);
 
         var taskParent = gantt.getTask(task.parent);
-        // this.$resourcesStore = gantt.$resourcesStore;
-        // this.resourceData = this.$resourcesStore.getItems();
+        this.$resourcesStore = gantt.$resourcesStore;
+        this.resourceData = this.$resourcesStore.getItems();
 
         this.unassignResource = function (id) {
             var row = gantt._resourceAssigner.data.getItem(id);
@@ -73,7 +73,6 @@ function initResourceEditForm() {
             return {el1: layoutScroll, el2: resourceEditorScroll}
         };
 
-
         this.restoreScrollPosition = function (scrollPosition) {
             var layoutElement = document.querySelectorAll(".dhx_layout")[1]
             if (layoutElement.scrollTo) {
@@ -103,9 +102,9 @@ function initResourceEditForm() {
             setTimeout(function () {
                 gantt.$lightboxControl.fillTabContent("resources");
             }, 50);
-            // setTimeout(function () {
-            //     gantt.$lightboxControl.resources.restoreScrollPosition(scrollPosition);
-            // }, 100);
+            setTimeout(function () {
+                gantt.$lightboxControl.resources.restoreScrollPosition(scrollPosition);
+            }, 100);
         };
 
         this.cloneResource = function (id) {
@@ -116,28 +115,34 @@ function initResourceEditForm() {
             clone.type = "task";
             clone.text = "Наименование ресурса";
             this.addResource(clone);
+            gantt._lightbox_task[gantt.config.resource_store].push(clone);
         };
 
 
         this.deleteResource = function (id) {
-            gantt.$resourcesStore.removeItem(id)
-            //this.resourceData = gantt.$resourcesStore.getItems();
-
-            var scrollPosition = this.saveScrollPosition();
+            const index = gantt._lightbox_task[gantt.config.resource_store].findIndex(item => item.id === id);
+            gantt._lightbox_task[gantt.config.resource_store].splice(index, 1);
 
             setTimeout(function () {
                 gantt.$lightboxControl.fillTabContent("resources");
             }, 50);
-            setTimeout(function () {
-                gantt.$lightboxControl.resources.restoreScrollPosition(scrollPosition);
-            }, 100);
+
+            // gantt._lightbox_task[gantt.config.resource_store].removeItem(id);
+            // this.resourceData = gantt.$resourcesStore.getItems();
+            //
+            // var scrollPosition = this.saveScrollPosition();
+
+            // setTimeout(function () {
+            //     gantt.$lightboxControl.resources.restoreScrollPosition(scrollPosition);
+            // }, 100);
         };
 
         this.deleteAllResources = function () {
             var resourceData = gantt.$resourcesStore.getItems();
             resourceData.forEach(function (el) {
                 if (gantt.$resourcesStore.getItem(el.id)) {
-                    gantt.$resourcesStore.removeItem(el.id);
+                    const index = gantt._lightbox_task[gantt.config.resource_store].findIndex(item => item.id === id);
+                    gantt._lightbox_task[gantt.config.resource_store].splice(index, 1);
                 }
             });
 
@@ -149,27 +154,27 @@ function initResourceEditForm() {
 
         var resourceEditColumns = [
             {
-                minWidth: 200,
+                width: 372,
                 id: "text",
                 header: [{content: "inputFilter",}],
                 editorType: "input",
                 type: "string",
                 htmlEnable: true,
             },
-             {width: 40, id: "hide", header: [{text: ""}], type: "boolean", htmlEnable: true},
-            {
-                id: "parent",
-                minWidth: 120,
-                width: 120,
-                header: [{text: "Коллекция", align: "center"}],
-                editorType: "select",
-                options: [],
-                sortable: false,
-                htmlEnable: true,
-                template: function (text, row, col) {
-                    return col.optionLabels[text];
-                }
-            },
+
+            // {
+            //     id: "parent",
+            //     minWidth: 120,
+            //     width: 120,
+            //     header: [{text: "Коллекция", align: "center"}],
+            //     editorType: "select",
+            //     options: [],
+            //     sortable: false,
+            //     htmlEnable: true,
+            //     template: function (text, row, col) {
+            //         return col.optionLabels[text];
+            //     }
+            // },
             {
                 id: "value",
                 width: 70,
@@ -187,6 +192,7 @@ function initResourceEditForm() {
                 sortable: false,
                 options: []
             },
+            {width: 40, id: "hide", header: [{text: ""}], type: "boolean", htmlEnable: true},
             {
                 width: 50,
                 id: "add",
@@ -228,29 +234,23 @@ function initResourceEditForm() {
         gantt._tabbar.getCell("resources").attach(gantt._resourceLayout);
         if (gantt._resourceEditor) gantt._resourceEditor.destructor();
 
-        this.$resourcesStore = gantt.$resourcesStore;
-        var resourceData = gantt.$resourcesStore.getItems();
-
-        resourceEditColumns[2].options = ["0"];
-        resourceEditColumns[2].optionLabels = {"0": ''};
-        resourceEditColumns[2].options = [];
+        // var resourceData = gantt.$resourcesStore.getItems();
+var resourceData = gantt.copy(gantt._lightbox_task[gantt.config.resource_store]);
 
         resourceData.forEach(function (el) {
             if(el.id == 1 || el.id == 2 || el.id == 3) {
-                resourceEditColumns[2].options.push(el.id);
-                resourceEditColumns[2].optionLabels[el.id] = el.text;
                 el.parent = undefined;
             }
         })
 
-console.log(resourceData);
         gantt._resourceEditor = new dhx.TreeGrid(null, {
             columns: resourceEditColumns,
             autoHeight: true,
-            // dragItem: "both",
+            dragItem: "both",
             autoWidth: true,
             editable: true,
-            data: resourceData
+            data: resourceData,
+            rowCss: function (row) {return row.type === "project" ? "project_row" : ""}
         });
 
         // resourceData.forEach(function (el) {
@@ -268,47 +268,39 @@ console.log(resourceData);
             }
         });
 
-        gantt._resourceEditor.events.on("AfterEditStart", function (row, col, editorType) {
+        // gantt._resourceEditor.events.on("AfterEditStart", function (row, col, editorType) {
+        //
+        //     if (col.id == "parent") {
+        //         setTimeout(function () {
+        //             var selectEl = document.querySelector(".dhx_cell-editor__select");
+        //             var selectedValue = selectEl.value;
+        //             var children = selectEl.childNodes;
+        //             for (var j = 0; j < children.length; j++) {
+        //                 var child = children[j];
+        //                 for (var i = 0; i < resourceData.length; i++) {
+        //                     if (child.innerHTML == resourceData[i].id) {
+        //                         child.outerHTML = "<option value=" + resourceData[i].id + ">" + resourceData[i].text + "</option>";
+        //                     }
+        //                 }
+        //             }
+        //             selectEl.value = selectedValue;
+        //         }, 50);
+        //     }
+        // });
 
-            if (col.id == "parent") {
-                setTimeout(function () {
-                    var selectEl = document.querySelector(".dhx_cell-editor__select");
-                    var selectedValue = selectEl.value;
-                    var children = selectEl.childNodes;
-                    for (var j = 0; j < children.length; j++) {
-                        var child = children[j];
-                        for (var i = 0; i < resourceData.length; i++) {
-                            if (child.innerHTML == resourceData[i].id) {
-                                child.outerHTML = "<option value=" + resourceData[i].id + ">" + resourceData[i].text + "</option>";
-                            }
-                        }
-                    }
-                    selectEl.value = selectedValue;
-                }, 50);
-            }
-        });
+        // gantt._resourceEditor.events.on("AfterEditEnd", function (value, row, column) {
+        //     if (column.id == "parent") {
+        //         gantt._resourceEditor.config.columns[2].optionLabels[row.id] = value;
+        //         gantt._resourceEditor.paint();
+        //     }
+        //     if (column.id == "text") {
+        //         gantt._resourceEditor.config.columns[0].optionLabels[row.id] = value;
+        //         gantt._resourceEditor.paint();
+        //     }
+        // });
 
         gantt._resourceEditor.events.on("AfterEditEnd", function (value, row, column) {
-            if (column.id == "calendar") {
-                gantt.config.resource_calendars[row.id] = row.calendar;
-            }
-            if (column.id == "text") {
-                gantt._resourceAssigner.config.columns[1].optionLabels[row.id] = value;
-                gantt._resourceAssigner.paint();
-            }
-        });
-
-        gantt._resourceEditor.events.on("AfterEditEnd", function (value, row, column) {
-            var objectToUpdate = gantt._lightbox_task[gantt.config.resource_store].find(obj => obj.id === row.id);
-            if (!objectToUpdate){
-                gantt._lightbox_task[gantt.config.resource_store].push(row);
-            }
-            if (objectToUpdate) {
-                objectToUpdate[column.id] = value;
-            }
-
-            gantt.getTask(gantt._lightbox_task.id)[gantt.config.resource_store] = gantt._lightbox_task[gantt.config.resource_store];
-            gantt.updateTask(gantt._lightbox_task.id);
+            gantt._lightbox_task[gantt.config.resource_store].find(obj => obj.id === row.id)[column.id] = value;
         });
     };
 }

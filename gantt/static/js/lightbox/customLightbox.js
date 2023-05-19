@@ -102,7 +102,6 @@ gantt.hideLightbox = function () {
             resource.parent = 0;
         }
     });
-
     if (gantt._lightbox_task.$new) {
         deleteTask()
     }
@@ -117,6 +116,7 @@ function saveTask() {
     gantt.mixin(task, gantt._lightbox_task, true)
     var taskParent = gantt.getTask(task.parent);
 
+    console.log(task.resources);
     if (task.type == "project") {
         if (taskParent) {
             task.start_date = gantt.date.day_start(new Date());
@@ -152,20 +152,20 @@ function saveTask() {
     }
 
 
-    var assignmentStore = gantt.getDatastore(gantt.config.resource_assignment_store);
-    var assignments = gantt._lightbox_task[gantt.config.resource_property] || [];
-    for (var i = 0; i < assignments.length; i++) {
-        var updatedAssignment = assignments[i]
-        var existingAssignmentId = updatedAssignment.$id;
-        var existingAssignment = assignmentStore.getItem(existingAssignmentId)
-        if (existingAssignment) {
-            for (var property in updatedAssignment) {
-                existingAssignment[property] = updatedAssignment[property]
-            }
-        } else {
-            //assignmentStore.addItem(resource)
-        }
-    }
+    // var assignmentStore = gantt.getDatastore(gantt.config.resource_assignment_store);
+    // var assignments = gantt._lightbox_task[gantt.config.resource_property] || [];
+    // for (var i = 0; i < assignments.length; i++) {
+    //     var updatedAssignment = assignments[i]
+    //     var existingAssignmentId = updatedAssignment.$id;
+    //     var existingAssignment = assignmentStore.getItem(existingAssignmentId)
+    //     if (existingAssignment) {
+    //         for (var property in updatedAssignment) {
+    //             existingAssignment[property] = updatedAssignment[property]
+    //         }
+    //     } else {
+    //         //assignmentStore.addItem(resource)
+    //     }
+    // }
 
     if (task.$new) {
         delete gantt._lightbox_task.$new;
@@ -175,7 +175,8 @@ function saveTask() {
         gantt.updateTask(id)
     }
     gantt.updateTask(id);
-    updateLine();
+    console.log(task);
+    // updateLine();
 }
 
 function deleteTask() {

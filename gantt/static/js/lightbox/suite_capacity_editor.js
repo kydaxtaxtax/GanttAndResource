@@ -44,35 +44,49 @@ function initCapacityEditForm() {
 
         var resourceAssignColumns = [
             {
-                minWidth: 382,
+                width: 302,
                 id: "text",
                 header: [{content: "inputFilter",}],
                 editorType: "input",
                 options: [],
                 editable: false,
-                htmlEnable: true
+                htmlEnable: true,
+                footer: [{ text: '<div class="custom_footer">Total</div>' }],
             },
             {width: 40, id: "hide", header: [{text: ""}], type: "boolean", htmlEnable: true},
             {
                 id: "valuePlan",
-                width: 80,
+                width: 75,
                 header: [{text: "План"}],
                 editorType: "input",
                 sortable: false,
                 editable: false,
-                options: []
+                options: [],
+                footer: [{ content: "sum"}]
             },
             {
-                width: 80,
+                width: 75,
                 id: "value",
                 header: [{text: "Факт"}],
                 editorType: "number",
-                editable: true,
                 sortable: false,
-                options: []
+                editable: true,
+                options: [],
+                footer: [{ content: "sum"}]
             },
             {
-                width: 60,
+                width: 80,
+                id: "progress",
+                header: [{text: "Прогресс"}],
+                editorType: "input",
+                type: "string",
+                sortable: false,
+                editable: false,
+                options: [],
+                footer: [{ content: "sum"}]
+            },
+            {
+                width: 70,
                 id: "unit",
                 header: [{text: "Ед.изм"}],
                 editorType: "input",
@@ -136,50 +150,53 @@ function initCapacityEditForm() {
         resourceData.forEach(function (el) {
             var capasityItem = capasityItems.find(d => d.resource_id == el.id);
 
-            if (el.type != "project") {
-                var idNew = generateId();
-                if (!capasityItem) {
-                    var newCapacityRow = {
-                        id: idNew,
-                        $id: idNew,
-                        text: el.text,
-                        value: '',
-                        type: "task",
-                        parent: el.parent,
-                        valuePlan: el.value,
-                        unit: el.unit,
-                        resource_id: el.id,
-                        hide: false
-                    };
-                    capacityData.push(newCapacityRow);
-                    if (!task.$new) {
-                        gantt._lightbox_task[gantt.config.resource_property].push(newCapacityRow);
-                    } else {
-                        if(!gantt._lightbox_task[gantt.config.resource_property]){
-                            gantt._lightbox_task[gantt.config.resource_property] = [];
+            if (el.hide == true) {
+                if (el.type != "project") {
+                    var idNew = generateId();
+                    if (!capasityItem) {
+                        var newCapacityRow = {
+                            id: idNew,
+                            $id: idNew,
+                            text: el.text,
+                            value: '',
+                            type: "task",
+                            parent: el.parent,
+                            valuePlan: el.value,
+                            unit: el.unit,
+                            resource_id: el.id,
+                            hide: false
+                        };
+                        capacityData.push(newCapacityRow);
+                        if (!task.$new) {
+                            gantt._lightbox_task[gantt.config.resource_property].push(newCapacityRow);
+                        } else {
+                            if (!gantt._lightbox_task[gantt.config.resource_property]) {
+                                gantt._lightbox_task[gantt.config.resource_property] = [];
+                            }
+                            gantt._lightbox_task[gantt.config.resource_property].push(newCapacityRow);
                         }
-                        gantt._lightbox_task[gantt.config.resource_property].push(newCapacityRow);
+
+                    } else {
+                        var capacityRow = gantt.copy(capasityItem);
+
+                        // else resourceEditColumns[6].options.push(el.text);
+                        capacityRow.text = el.text;
+                        capacityRow.value = capacityRow.value || '';
+                        capacityRow.type = "task";
+                        // capacityRow.valuePlan = (el.value / taskParent.duration_plan * task.duration).toFixed(2);
+                        capacityRow.progress = Math.round(((capacityRow.value / el.value) * 100)) + '%';
+                        capacityRow.valuePlan = el.value;
+                        capacityRow.unit = el.unit || '';
+                        // capacityRow.hide = capacityRow.hide || true;
+                        capacityData.push(capacityRow);
                     }
-
                 } else {
-                    var capacityRow = gantt.copy(capasityItem);
-
-                    // else resourceEditColumns[6].options.push(el.text);
-                    capacityRow.text = el.text;
-                    capacityRow.value = capasityItem.value || '';
-                    capacityRow.type = "task";
-                    // capacityRow.valuePlan = (el.value / taskParent.duration_plan * task.duration).toFixed(2);
-                    capacityRow.valuePlan = el.value;
-                    capacityRow.unit = el.unit || '';
-                    capacityRow.hide = el.hide || false;
-                    capacityData.push(capacityRow);
+                    el.parent = undefined;
+                    capacityData.push(el);
                 }
             }
-            else {
-                el.parent = undefined;
-                capacityData.push(el);
-            }
         })
+
 
         gantt._resourceAssigner = new dhx.TreeGrid(null, {
             columns: resourceAssignColumns,
@@ -188,10 +205,16 @@ function initCapacityEditForm() {
             autoHeight: true,
             autoWidth: true,
             editable: true,
-            data: capacityData
+            data: capacityData,
+            rowCss: function (row) {return row.type === "project" ? "project_row" : ""}
         });
 
         gantt._resourceLayout.getCell("resourceAssign").attach(gantt._resourceAssigner);
+
+        // grid.events.on("beforeEditStart", function(row,col,editorType){
+        //     // your logic here
+        //     return true;
+        // });
 
         gantt._resourceAssigner.events.on("CellClick", function (row, column, e) {
             if (column.editable !== false && column.id != "hide") {
@@ -199,20 +222,9 @@ function initCapacityEditForm() {
             }
         });
 
-        gantt._resourceAssigner.events.on("AfterEditStart", function (value, row, column) {
-            column.id == "hide" && value === true ? gantt._resourceAssigner.showRow(row.id) : gantt._resourceAssigner.hideRow(row.id);
+        gantt._resourceAssigner.events.on("AfterEditEnd", function (value, row, column) {
+            gantt._lightbox_task[gantt.config.resource_property].find(obj => obj.id === row.id)[column.id] = value;
         });
 
-        gantt._resourceAssigner.events.on("AfterEditEnd", function (value, row, column) {
-            const objectToUpdate = gantt._lightbox_task[gantt.config.resource_property].find(obj => obj.id === row.id);
-                if (objectToUpdate) {
-                  objectToUpdate[column.id] = value;
-                }
-                console.log(row);
-                console.log(column);
-                console.log(value);
-            gantt.getTask(gantt._lightbox_task.id)[gantt.config.resource_property] = gantt._lightbox_task[gantt.config.resource_property];
-            gantt.updateTask(gantt._lightbox_task.id);
-        });
     };
 }

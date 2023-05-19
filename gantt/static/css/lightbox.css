@@ -11,6 +11,35 @@ body.dhx_window--no-scroll{
     /*margin-top: 8px;*/
     border: 10px;
 }
+.dhx_window-content{
+     padding-bottom: 10px;
+}
+
+
+/*.new-container-style, .new-tooltip-style {*/
+/*    background-color: #0a58ca;*/
+/*}*/
+
+/*.gantt_container, .gantt_tooltip {*/
+/*    background-color: #b70aca;*/
+/*}*/
+
+
+
+
+
+.gantt_task_line.gantt_project {
+background-color: rgba(101, 193, 111, 0.78);
+border: 1px solid #3c9445;
+}
+
+.new_gantt_task_line.new_gantt_project {
+background-color: rgba(255, 110, 110, 0.53);
+border: 1px solid #964545;
+}
+
+
+
 
 /*  Обводка содержимого таба (таблица, импуты) */
 /*.dhx_grid-content.dhx_grid-less-height{*/
@@ -41,6 +70,11 @@ body.dhx_window--no-scroll{
     font-size: 12pt;
     font-family: Akrobat-Regular!important;
 }
+
+    .project_row {
+        background: #f7f7f7;
+        border-left-color: black;
+    }
 
 
 
@@ -87,6 +121,4 @@ body.dhx_window--no-scroll{
 .dhx_window-header {
 padding-bottom: 16px;
 }
-
-
 

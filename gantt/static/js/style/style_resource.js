@@ -13,7 +13,7 @@ gantt.templates.histogram_cell_capacity = function(start_date, end_date, resourc
 	if(taskIds.some((id) => tasksChildSelect.includes(id))) {
 
 		var assignments = gantt.getResourceAssignments(resource.id);
-		window.fact = getFact(start_date, end_date, assignments, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
+		window.fact = getFact(start_date, end_date, assignments, resource, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
 		window.plan = getPlan(start_date, end_date, tasks, resource, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
 		resource.capacity = 100;
 		window.histogramFact = (resource.capacity * fact / plan);
@@ -62,15 +62,16 @@ gantt.templates.histogram_cell_allocated = function(start_date, end_date, resour
 
 
 
-function getFact(start_date, end_date, assignments, resTaskLayout, selectedTask) {
+function getFact(start_date, end_date, assignments, resource, resTaskLayout, selectedTask) {
 	var result = 0;
 	var sel = 0;
 	if(assignments){
 		assignments.forEach(function(assignment){
 
-			const res = gantt.getTask(assignment.task_id).capacity.find(item => item.resource_id === assignment.resource_id);
-			const hide_value = res ? res.hide : null;
-			if (((!selectedTask || assignment.task_id == selectedTask.id) ||  resTaskLayout.includes(assignment.task_id)) && hide_value == false){
+			var capasity = gantt.getTask(assignment.task_id).capacity.find(item => item.resource_id === assignment.resource_id);
+			var hide_value = capasity ? capasity.hide : false;
+
+			if (((!selectedTask || assignment.task_id == selectedTask.id) ||  resTaskLayout.includes(assignment.task_id)) && hide_value == true && resource.hide == true){
 				sel++;
 				var task = gantt.getTask(assignment.task_id);
 				var tv = 0;
@@ -205,11 +206,22 @@ columns:
 	{
 		name: "capacity", label: "Объем по плану", align: "center", width: 120, template: function (resource)
 			{
+
 			if ((resource.value == null) || (resource.value == undefined))return ""; // если родитель, то не выводим
+
 			var res = 0;
-			gantt.getResourceAssignments(resource.id).forEach(function(capacity) {
-				if(tasksChildSelect.includes(capacity.task_id)) res += Number(resource.value);
-			});
+			var Assigments = gantt.getResourceAssignments(resource.id);
+			if(resource.hide == true){
+				if(Assigments != 0){
+					Assigments.forEach(function(capacity) {
+						console.log(capacity);
+						if(tasksChildSelect.includes(capacity.task_id)) res += Number(resource.value);
+					});
+				} else {
+					res = Number(resource.value);
+				}
+			}
+
 			return res.toFixed(2)+ " " + resource.unit;
 			}
 		}
