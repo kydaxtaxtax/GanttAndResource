@@ -16,17 +16,17 @@
 
     .column_red .gantt_histogram_fill
     {
-        background-color: rgba(255, 110, 110, 0.53);
+        background-color: rgba(255, 110, 110, 0.68);
     }
 
     .column_yellow .gantt_histogram_fill
     {
-        background-color: rgba(240, 230, 140, 0.48);
+        background-color: rgba(241, 229, 153, 0.66);
     }
 
     .column_green .gantt_histogram_fill
     {
-        background-color: rgba(139, 239, 139, 0.52);
+        background-color: rgba(139, 239, 139, 0.71);
     }
 
     .column_blue .gantt_histogram_fill

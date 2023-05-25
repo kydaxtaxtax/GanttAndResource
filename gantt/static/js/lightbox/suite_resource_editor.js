@@ -113,7 +113,7 @@ function initResourceEditForm() {
             clone.id = +new Date();
             clone.parent = parseInt(id);
             clone.type = "task";
-            clone.text = "Наименование ресурса";
+            clone.text = "Наименование ресурса ";
             this.addResource(clone);
             gantt._lightbox_task[gantt.config.resource_store].push(clone);
         };

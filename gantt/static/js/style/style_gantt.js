@@ -14,8 +14,8 @@ gantt.templates.rightside_text = function (start, end, task)
   return ;
 };
 
-gantt.config.bar_height = 22.5; // высота задачи по факту
-gantt.config.row_height = 45; // высота строки 45
+gantt.config.bar_height = 26; // высота задачи по факту
+gantt.config.row_height = 50; // высота строки 45
 
 // редактирование задач по плану
 gantt.addTaskLayer({
@@ -31,8 +31,8 @@ gantt.addTaskLayer({
                 }
                 el.style.left = sizes.left + 'px';
                 el.style.width = sizes.width + 'px';
-                el.style.top = sizes.top + gantt.config.bar_height + -10.2 + 'px';
-                el.style.height = 33 + 'px';
+                el.style.top = sizes.top + gantt.config.bar_height + 19.7 + 'px';
+                el.style.height = 8 + 'px';
                 return el;
             }
             return false;
@@ -98,10 +98,22 @@ gantt.templates.scale_row_class = function (start, end, task)
 };
 
 
+gantt.templates.grid_row_class = function(start, end, task){
+    // if(task.type == 'project' && task.render != 'split'){
+        return "row-class";
+    // }
+
+};
+
 // Наименование задачи %
   gantt.templates.task_text = function (start, end, task) {
     return progress_PF(task);
   };
+
+gantt.templates.task_row_class = function(start, end, task){
+
+    // return "updColor";
+};
 
 
 // gantt.config.keyboard_navigation = true; //Навигация с помощью клавиатуры

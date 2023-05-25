@@ -31,21 +31,27 @@ gantt.templates.histogram_cell_class = function(start_date, end_date, resource, 
 			return "column_yellow";
 		}
 	}
-
 };
 
-gantt.templates.histogram_cell_label = function (start_date, end_date, resource, tasks, assignments)
-{
+
+gantt.templates.histogram_cell_label = function(start_date, end_date, resource, tasks, assignments) {
+
 	if (tasks.length && !gantt.$resourcesStore.hasChild(resource.id)) {
-		if(plan == 0 && fact == 0) return "";
-		return fact + " / " + plan;
-	} else {
-		if (!gantt.$resourcesStore.hasChild(resource.id)) {
-			return "";
-		}
-		return "";
+    if (plan == 0 && fact == 0) return "";
+
+	if (plan != 0){
+		return "<div style=\"color: black;\">" + fact + " / " + plan + "</div>";
 	}
+
+    return  fact + " / " + plan;
+  } else {
+    if (!gantt.$resourcesStore.hasChild(resource.id)) {
+      return "";
+    }
+    return "";
+  }
 };
+
 
 gantt.templates.histogram_cell_allocated = function(start_date, end_date, resource, tasks, assignments) {
 	// console.log("  ");
@@ -164,8 +170,8 @@ function getPlan(start_date, end_date, tasks, resource, resTaskLayout, selectedT
 
 var resourceConfig =
 {
-scale_height: 45,
-row_height: 30,
+scale_height: 50,
+row_height: 40,
 columns:
 	[
 		{

@@ -80,7 +80,7 @@ function updateLine(dragObj = null){
 
 var textFilter = "<div style=\"display: flex; justify-content: center; align-items: center;\">" +
   "<div style=\"display: flex; justify-content: space-between; align-items: center;\">" +
-    "<div style=\"font-size: 11pt; width: 100px;\">Наименование</div>" +
+    "<div style=\"font-size: 12pt; width: 100px;\">Наименование</div>" +
     "<div style=\"margin-left: 20px;\"><input data-text-filter class=\"form-control-feedback\" type=\"text\" id='search' placeholder=\"Поиск по задачам\" aria-label=\"Search\" oninput='gantt.$doFilter(this.value)' style=\"width: 150px; height: 30px; border: 1px solid #bdbdbd; line-height: 30px; padding-left: 5px;\">\n</div>" +
   "</div>" +
 "</div>";
@@ -92,14 +92,14 @@ var textFilter = "<div style=\"display: flex; justify-content: center; align-ite
 gantt.config.columns =
   [
     // { name: "wbs", label: "№", align: "center", width: 60, resize: true, template: gantt.getWBSCode, resize: true },
-    { name: "text", label: textFilter, width: 325, tree: true, resize: true, template: line_break},
-    { name: "start_date", label: line_break_title("Начало","Факт"), align: "center", width: 65, template: myFuncSD, resize: true},
-    { name: "end_date", label: line_break_title("Окончание","Факт"), align: "center", width: 80, template: myFuncED, resize: true},
-    { name: "planned_start", label: line_break_title("Начало","План"), align: "center", width: 65, template: myFuncPS, resize: true},
-    { name: "planned_end", label: line_break_title("Окончание","План"), align: "center", width: 80, template: myFuncPE, resize: true},
-    { name: "progress", label: "Прогресс", align: "center", width: 75, template: progress_PF, resize: true },//перевод дробного числа в целое и вычисление процента выполнения
+    { name: "text", label: textFilter, width: 585, tree: true, resize: true, template: line_break},
+    // { name: "start_date", label: line_break_title("Начало","Факт"), align: "center", width: 65, template: myFuncSD, resize: true},
+    // { name: "end_date", label: line_break_title("Окончание","Факт"), align: "center", width: 80, template: myFuncED, resize: true},
+    // { name: "planned_start", label: line_break_title("Начало","План"), align: "center", width: 65, template: myFuncPS, resize: true},
+    // { name: "planned_end", label: line_break_title("Окончание","План"), align: "center", width: 80, template: myFuncPE, resize: true},
+    { name: "progress", label: "Прогресс", align: "center", width: 100, template: progress_PF, resize: true },//перевод дробного числа в целое и вычисление процента выполнения
     // { name: "responsible", label: "Ответст.", align: "center", width: 70, resize: true },
-    { name: "add", label: "", align: "center", width: 45, resize: true},
+    { name: "add", label: "", align: "center", width: 50, resize: true},
   ];
 
 //Формат отображаемой даты
@@ -113,15 +113,16 @@ var formatFunc = gantt.date.date_to_str("%d-%m-%Y");
 
 //Вывода текста в несколько строк
 function line_break(task, lenStr = 45) {
-  if (task.text.length <= lenStr) {
+  // if (task.text.length <= lenStr) {
+  //   return task.text;
+  // }
+  // var len = task.text.length; //длина передаваемой строки
+  // var string1s = task.text.slice(0, lenStr);// промежуточное значение первой строки
+  // var gap = string1s.lastIndexOf(' ');// позиция последнего пробела промежуточного значения первой строки
+  // var str1 = task.text.slice(0, gap); // первая строка
+  // var str2 = task.text.slice(gap, len); // вторая строка
+  // return "<div class='line_break_title'>" + str1 + "<br>" + str2 + "</div>"; //вывод
     return task.text;
-  }
-  var len = task.text.length; //длина передаваемой строки
-  var string1s = task.text.slice(0, lenStr);// промежуточное значение первой строки
-  var gap = string1s.lastIndexOf(' ');// позиция последнего пробела промежуточного значения первой строки
-  var str1 = task.text.slice(0, gap); // первая строка
-  var str2 = task.text.slice(gap, len); // вторая строка
-  return "<div class='line_break_title'>" + str1 + "<br>" + str2 + "</div>"; //вывод
 };
 
 // считаем прогресс

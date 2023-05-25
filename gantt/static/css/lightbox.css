@@ -28,15 +28,6 @@ body.dhx_window--no-scroll{
 
 
 
-.gantt_task_line.gantt_project {
-background-color: rgba(101, 193, 111, 0.78);
-border: 1px solid #3c9445;
-}
-
-.new_gantt_task_line.new_gantt_project {
-background-color: rgba(255, 110, 110, 0.53);
-border: 1px solid #964545;
-}
 
 
 
@@ -87,6 +78,10 @@ border: 1px solid #964545;
 /* Инпуты */
 .dhx_input {
        font-size: 13pt;
+    font-family: Akrobat-Regular!important;
+}
+.dhx_grid-cell__content{
+           font-size: 13pt;
     font-family: Akrobat-Regular!important;
 }
 

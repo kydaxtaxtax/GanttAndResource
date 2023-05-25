@@ -1,0 +1,97 @@
+
+.gantt_grid{
+    background-color: #2a2a2a!important;
+}
+.gantt_task{
+    background-color: #2a2a2a!important;
+}
+.gantt_task_row{
+    background-color: #2a2a2a!important;
+}
+
+.grid_header_class/*Класс для шапки таблицы*/
+{
+  font-weight: none!important;
+  font-family: Akrobat-Bold!important;
+  font-size: 12pt!important;
+    background-color: #3a3b3b;
+    color: #bababa!important;
+
+}
+
+.gantt_grid_head_cell
+{
+  border-color: #984b4b!important;
+}
+
+.gantt_grid_scale{
+       /*border-color: #984b4b;*/
+}
+
+
+
+.gantt_grid_data, .gantt_cell{
+    color: #bababa!important;
+    border-top-color: #be2e2e !important;
+}
+
+.row-class{
+    background-color: #2a2a2a!important;
+}
+.gantt_tree_content{
+    font-size: 11pt!important;
+}
+
+.gantt_scale_cell{
+    color: #bababa!important;
+}
+
+
+
+.gantt_task_scale{
+     background-color: #3a3b3b;
+}
+
+
+.gantt_task_row,  .gantt_row{
+     /*border: none;*/
+    border-color: #545454;
+}
+
+.gantt_histogram_label
+{
+    font-family: Akrobat-Regular!important;
+    font-size: 12pt;
+    font-weight: normal;
+    color: #bababa!important;
+}
+
+
+
+.gantt_task_cell{
+    border-color: #545454;
+}
+
+.resourceGrid_cell .gantt_row,
+.resourceGrid_cell .gantt_row.odd{
+    background-color: #2a2a2a!important;
+}
+
+
+ .gantt_histogram_hor_bar{
+     background-color: #ffffff !important;
+ }
+ .gantt_histogram_vert_bar{
+
+     background-color: #ffffff !important;
+  }
+
+.gantt_grid_data .gantt_row.odd:hover, .gantt_grid_data .gantt_row:hover,
+.gantt_grid_data .gantt_row.gantt_selected,.gantt_grid_data .gantt_row.odd.gantt_selected,.gantt_task_row.gantt_selected{
+    background-color: #1a2121 !important;
+     border: none!important;
+}
+
+.gantt_task_row.gantt_selected .gantt_task_cell{
+    border: none;
+}

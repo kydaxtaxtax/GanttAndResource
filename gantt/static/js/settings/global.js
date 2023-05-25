@@ -32,7 +32,7 @@ var WORK_DAY = 8;
   gantt.config.auto_scheduling_strict = true;
   gantt.config.resource_store = "resources";
   gantt.config.resource_property = "capacity";
-  gantt.config.scale_height = 45;
+  gantt.config.scale_height = 50;
 
   gantt.locale.labels.section_priority = "Priority";
   gantt.config.xml_date = "%Y-%m-%d %H:%i:%s"; // формат вводимой даты
