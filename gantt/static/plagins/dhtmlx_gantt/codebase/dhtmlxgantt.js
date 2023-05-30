@@ -8904,9 +8904,13 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
         function l(t, e, n, i) {
             var r = 100 * (1 - (1 * t || 0)),
                 a = i.posFromDate(e),
+
                 o = i.posFromDate(n),
                 s = document.createElement("div");
-            return s.className = "gantt_histogram_hor_bar", s.style.top = r + "%", s.style.left = a + "px", s.style.width = o - a + 1 + "px", s
+            if(r == 100){//Custom where
+                return 0;
+            }
+            return s.className = "gantt_histogram_hor_bar", s.style.top = r + "%", s.style.left = a + "px", s.style.width = o - a + 0 + "px", s////COSTOM to 1 from 0
         }
 
         function c(t, e, n) {

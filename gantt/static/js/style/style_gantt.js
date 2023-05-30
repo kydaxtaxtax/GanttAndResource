@@ -116,6 +116,8 @@ gantt.templates.task_row_class = function(start, end, task){
 };
 
 
+
+
 // gantt.config.keyboard_navigation = true; //Навигация с помощью клавиатуры
 // gantt.config.keyboard_navigation_cells = true; //Навигация по ячейкам
 

@@ -195,3 +195,80 @@ gantt.attachEvent("onTaskLoading", function (task) {
     task.planned_end = gantt.date.parseDate(task.planned_end, "xml_date");
 return true;
 });
+
+
+// gantt.attachEvent("onTaskDrag", function(id, mode, task, original){
+//     dragSplitTask(id, mode);
+//
+//     gantt.updateTask(id);
+// });
+
+gantt.attachEvent("onBeforeTaskDrag", function(id, mode, e){
+    task = gantt.getTask(id);
+    window.startDateDrag = task.start_date;
+    window.endDateDrag = task.end_date;
+    window.durationDrag = moment(endDateDrag).diff(moment(startDateDrag), 'days');
+    return 1;
+});
+
+gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
+
+    dragSplitTask(id, mode);
+
+    updateLine();
+    gantt.updateTask(id);
+});
+
+function dragSplitTask(id, mode)// прибавление дней к дате
+{
+    task = gantt.getTask(id);
+    var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
+    var taskNextSibiling = gantt.getTask(gantt.getNextSibling(task.id));
+    var currentLevel = gantt.ext.zoom.getCurrentLevel();
+
+    switch(mode) {
+        case 'move':
+            if(taskPrevSibiling && task.start_date < taskPrevSibiling.end_date){
+                task.start_date = taskPrevSibiling.end_date;
+                task.end_date = gantt.date.add(taskPrevSibiling.end_date, durationDrag, 'day');
+                updateStartDateWeekend(task, currentLevel);
+                break;
+            }
+            if(taskNextSibiling && task.end_date > taskNextSibiling.start_date){
+                task.end_date = taskNextSibiling.start_date;
+                task.start_date = gantt.date.add(taskNextSibiling.start_date, -durationDrag, 'day');
+                updateEndDateWeekend(task, currentLevel);
+                break;
+            }
+
+            if([0, 1, 2, 3].includes(currentLevel)){
+                if (moment(task.start_date).day() === 5) {
+                    task.start_date = gantt.date.add(task.start_date, 3, 'day');
+                }
+                task.end_date = gantt.date.add(task.start_date, durationDrag, 'day');
+                break;
+            }
+        }
+}
+
+function updateStartDateWeekend(task, currentLevel){
+    if([0, 1, 2, 3].includes(currentLevel)){
+        if (moment(task.start_date).day() === 6) {
+            task.start_date = gantt.date.add(task.start_date, 2, 'day');
+        }
+        if (moment(task.start_date).day() === 0) {
+            task.start_date = gantt.date.add(task.start_date, 1, 'day');
+        }
+    }
+}
+
+function updateEndDateWeekend(task, currentLevel){
+    if([0, 1, 2, 3].includes(currentLevel)){
+        if (moment(task.end_date).day() === 1) {
+            task.end_date = gantt.date.add(task.end_date, -2, 'day');
+        }
+        if (moment(task.end_date).day() === 0) {
+            task.end_date = gantt.date.add(task.end_date, -1, 'day');
+        }
+    }
+}

@@ -5,7 +5,7 @@ gantt.config.layout = //Горизонтальная полоса прокрут
     rows: [{
         cols:
             [{
-                width: window.innerWidth/2, // Максимальная ширина таблицы (grid)
+                width: window.innerWidth / 2 < 735 ? window.innerWidth / 2 : 735, // Максимальная ширина таблицы (grid)
                 min_width: 735, //Минимальная ширина таблицы (grid)
                  max_width: 735,
                 rows: [

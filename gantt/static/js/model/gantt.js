@@ -78,12 +78,14 @@ function updateLine(dragObj = null){
   //       "<div className=\"d-flex\">Наименование</div>" +
   //   "<div className=\"d-flex\"><input data-text-filter class=\"form-control-feedback me-2\" type=\"text\" id='search' placeholder=\"Поиск по задачам\" aria-label=\"Search\" oninput='gantt.$doFilter(this.value)'></div></div></div>";
 
-var textFilter = "<div style=\"display: flex; justify-content: center; align-items: center;\">" +
-  "<div style=\"display: flex; justify-content: space-between; align-items: center;\">" +
-    "<div style=\"font-size: 12pt; width: 100px;\">Наименование</div>" +
-    "<div style=\"margin-left: 20px;\"><input data-text-filter class=\"form-control-feedback\" type=\"text\" id='search' placeholder=\"Поиск по задачам\" aria-label=\"Search\" oninput='gantt.$doFilter(this.value)' style=\"width: 150px; height: 30px; border: 1px solid #bdbdbd; line-height: 30px; padding-left: 5px;\">\n</div>" +
-  "</div>" +
-"</div>";
+var textFilter = `<div style="display: flex; justify-content: left; align-items: center;">
+  <div style="margin-right: 30px; margin-left: ${((window.innerWidth / 2 < 735 ? window.innerWidth / 2 : 735) > 585 ? 585 : (window.innerWidth / 2 < 735 ? window.innerWidth / 2 : 735))/2 -140}px;">Наименование</div>
+  <div>
+    <input data-text-filter class="form-control-feedback" type="text" id='search' placeholder="Поиск по задачам" aria-label="Search" oninput='gantt.$doFilter(this.value)'>
+  </div>
+</div>`;
+
+
 
 
 

@@ -18,8 +18,11 @@ gantt.templates.histogram_cell_capacity = function(start_date, end_date, resourc
 		resource.capacity = 100;
 		window.histogramFact = (resource.capacity * fact / plan);
 		window.histogramPlan = (resource.capacity * plan / fact);
-
-		return histogramFact <= resource.capacity ? histogramFact : histogramPlan;
+		if(histogramPlan > 0){
+			return histogramFact <= resource.capacity ? histogramFact : histogramPlan;
+		} else {
+			return 0;
+		}
 	}
 };
 
@@ -52,7 +55,7 @@ gantt.templates.histogram_cell_label = function(start_date, end_date, resource, 
   }
 };
 
-
+//цвета
 gantt.templates.histogram_cell_allocated = function(start_date, end_date, resource, tasks, assignments) {
 	// console.log("  ");
 	// console.log(histogramFact);

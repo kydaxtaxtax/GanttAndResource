@@ -140,14 +140,14 @@ function saveTask() {
             taskParent.planned_start = task.start_date;
             taskParent.planned_end = task.end_date;
 
-            if (gantt.getChildren(taskParent.id).length > 1) {
-                gantt.addLink({
-                    source: gantt.getPrevSibling(task.id),
-                    target: task.id,
-                    type: gantt.config.links.finish_to_start
-                });
-
-            }
+            // if (gantt.getChildren(taskParent.id).length > 1) {
+            //     gantt.addLink({
+            //         source: gantt.getPrevSibling(task.id),
+            //         target: task.id,
+            //         type: gantt.config.links.finish_to_start
+            //     });
+            //
+            // }
         }
     }
 
