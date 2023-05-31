@@ -69,7 +69,13 @@ gantt.showLightbox = function (id) {
             gantt.updateTask(task.id);
         }
     }
+
+    if(task.type == "splittask"){
+        task[gantt.config.resource_store] = taskParent[gantt.config.resource_store];
+    }
+
     addDefaultResources(task);
+
     gantt._lightbox_task = gantt.copy(task);
     var title = document.querySelector(".dhx_navbar-title")
     title.innerHTML = task.text || "New task"
@@ -103,7 +109,7 @@ gantt.hideLightbox = function () {
         }
     });
     if (gantt._lightbox_task.$new) {
-        deleteTask()
+        deleteTask();
     }
     gantt._lightbox_task = null;
     gantt._lightbox_id = null;
@@ -116,7 +122,6 @@ function saveTask() {
     gantt.mixin(task, gantt._lightbox_task, true)
     var taskParent = gantt.getTask(task.parent);
 
-    console.log(task.resources);
     if (task.type == "project") {
         if (taskParent) {
             task.start_date = gantt.date.day_start(new Date());
@@ -130,24 +135,10 @@ function saveTask() {
                 task.parent = null;
                 task.parent = gantt.getTaskBy(task => task.parent == 0)[0].id;
         }
-        // if (taskParent && taskParent.render != "split") {
-        //     task.render = "split";
-        //     task.type = "project";
-        //     gantt.updateTask(task.id);
-        // }
 
         if (taskParent && taskParent.render == "split") {
             taskParent.planned_start = task.start_date;
             taskParent.planned_end = task.end_date;
-
-            // if (gantt.getChildren(taskParent.id).length > 1) {
-            //     gantt.addLink({
-            //         source: gantt.getPrevSibling(task.id),
-            //         target: task.id,
-            //         type: gantt.config.links.finish_to_start
-            //     });
-            //
-            // }
         }
     }
 
@@ -174,9 +165,10 @@ function saveTask() {
     } else {
         gantt.updateTask(id)
     }
+
+    dragSplitTask(id, 'resize');
+    updateLine();
     gantt.updateTask(id);
-    console.log(task);
-    // updateLine();
 }
 
 function deleteTask() {

@@ -81,7 +81,7 @@ function initSettingsTaskAndProjectEditForm() {
 				name: "duration",
 				type: "input",
 				inputType: "text",
-				label: "Продолжительность",
+				label: "Рабочие дни",
 				id: duration,
 				labelPosition: "top",
 				labelWidth: 150,

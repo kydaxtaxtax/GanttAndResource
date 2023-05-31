@@ -112,11 +112,15 @@ function initCapacityEditForm() {
 
         if (gantt._resourceAssigner) gantt._resourceAssigner.destructor();
 
-        this.$resourcesStore = gantt.$resourcesStore;
+        this.$resourcesStore = task[gantt.config.resource_store];
+        console.log(task[gantt.config.resource_store]);
+        var resourceData = task[gantt.config.resource_store];
+
+        //                 this.$resourcesStore = gantt.$resourcesStore;
+        // console.log(gantt.$resourcesStore);
+        //         var resourceData = gantt.$resourcesStore.getItems();
 
         var capacityData = [];
-        var resourceData = gantt.$resourcesStore.getItems();
-
         resourceAssignColumns[1].optionLabels = {};
         var capasityItems = gantt._lightbox_task[gantt.config.resource_property] || [];
         resourceData.forEach(function (el) {

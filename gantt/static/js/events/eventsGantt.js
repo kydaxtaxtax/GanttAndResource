@@ -203,40 +203,41 @@ return true;
 //     gantt.updateTask(id);
 // });
 
-gantt.attachEvent("onBeforeTaskDrag", function(id, mode, e){
-    task = gantt.getTask(id);
-    window.startDateDrag = task.start_date;
-    window.endDateDrag = task.end_date;
-    window.durationDrag = moment(endDateDrag).diff(moment(startDateDrag), 'days');
-    return 1;
-});
+// gantt.attachEvent("onBeforeTaskDrag", function(id, mode, e){
+//     task = gantt.getTask(id);
+//     window.startDateDrag = task.start_date;
+//     window.endDateDrag = task.end_date;
+//     window.durationDrag = moment(endDateDrag).diff(moment(startDateDrag), 'days');
+//     return 1;
+// });
 
 gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
-
     dragSplitTask(id, mode);
-
     updateLine();
     gantt.updateTask(id);
 });
 
-function dragSplitTask(id, mode)// прибавление дней к дате
+function dragSplitTask(id, mode = 'move')// прибавление дней к дате
 {
     task = gantt.getTask(id);
     var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
     var taskNextSibiling = gantt.getTask(gantt.getNextSibling(task.id));
     var currentLevel = gantt.ext.zoom.getCurrentLevel();
+    var durationDrag = moment(task.end_date).diff(moment(task.start_date), 'days');
 
     switch(mode) {
         case 'move':
+            console.log(task);
+            console.log(taskPrevSibiling);
             if(taskPrevSibiling && task.start_date < taskPrevSibiling.end_date){
                 task.start_date = taskPrevSibiling.end_date;
-                task.end_date = gantt.date.add(taskPrevSibiling.end_date, durationDrag, 'day');
+                task.end_date = gantt.date.add(task.start_date, durationDrag, 'day');
                 updateStartDateWeekend(task, currentLevel);
                 break;
             }
             if(taskNextSibiling && task.end_date > taskNextSibiling.start_date){
                 task.end_date = taskNextSibiling.start_date;
-                task.start_date = gantt.date.add(taskNextSibiling.start_date, -durationDrag, 'day');
+                task.start_date = gantt.date.add(task.end_date, -durationDrag, 'day');
                 updateEndDateWeekend(task, currentLevel);
                 break;
             }
@@ -246,6 +247,38 @@ function dragSplitTask(id, mode)// прибавление дней к дате
                     task.start_date = gantt.date.add(task.start_date, 3, 'day');
                 }
                 task.end_date = gantt.date.add(task.start_date, durationDrag, 'day');
+            }
+
+            case 'resize':
+            if(taskPrevSibiling && task.start_date < taskPrevSibiling.end_date){
+                do{
+                    durationDrag = moment(taskPrevSibiling.end_date).diff(moment(taskPrevSibiling.start_date), 'days');
+                    taskPrevSibiling.end_date = taskPrevSibilingOld ? taskPrevSibilingOld.start_date : task.start_date;
+                    taskPrevSibiling.start_date = gantt.date.add(taskPrevSibiling.end_date, -durationDrag, 'day');
+                    updateEndDateWeekend(taskPrevSibiling, currentLevel);
+                    updateStartDateWeekend(taskPrevSibiling, currentLevel);
+                    gantt.updateTask(taskPrevSibiling.id);
+                    var taskPrevSibilingOld = taskPrevSibiling;
+                    taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(taskPrevSibiling.id));
+                }while(taskPrevSibiling && (taskPrevSibiling.end_date > taskPrevSibilingOld.start_date))
+                gantt.updateTask(task.id);
+                updateStartDateWeekend(task, currentLevel);
+                break;
+            }
+            if(taskNextSibiling && task.end_date > taskNextSibiling.start_date){
+                do{
+                    durationDrag = moment(taskNextSibiling.end_date).diff(moment(taskNextSibiling.start_date), 'days');
+                    taskNextSibiling.start_date = taskNextSibilingOld ? taskNextSibilingOld.end_date : task.end_date;
+                    taskNextSibiling.end_date = gantt.date.add(taskNextSibiling.start_date, durationDrag, 'day');
+                    updateEndDateWeekend(taskNextSibiling, currentLevel);
+                    updateStartDateWeekend(taskNextSibiling, currentLevel);
+                    gantt.updateTask(taskNextSibiling.id);
+                    var taskNextSibilingOld = taskNextSibiling;
+                    taskNextSibiling = gantt.getTask(gantt.getNextSibling(taskNextSibiling.id));
+
+                }while(taskNextSibiling && (taskNextSibiling.start_date < taskNextSibilingOld.end_date))
+                gantt.updateTask(task.id);
+                updateEndDateWeekend(task, currentLevel);
                 break;
             }
         }
