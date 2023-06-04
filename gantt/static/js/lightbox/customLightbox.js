@@ -71,7 +71,8 @@ gantt.showLightbox = function (id) {
     }
 
     if(task.type == "splittask"){
-        task[gantt.config.resource_store] = taskParent[gantt.config.resource_store];
+        window.copyCapacity = taskParent[gantt.config.resource_store];
+        // task[gantt.config.resource_store] = taskParent[gantt.config.resource_store];
     }
 
     addDefaultResources(task);
@@ -119,6 +120,7 @@ gantt.hideLightbox = function () {
 function saveTask() {
     var id = gantt.getState().lightbox;
     var task = gantt.getTask(gantt._lightbox_id);
+    console.log(gantt._lightbox_task.resources);
     gantt.mixin(task, gantt._lightbox_task, true)
     var taskParent = gantt.getTask(task.parent);
 
@@ -130,10 +132,30 @@ function saveTask() {
         }
     }
 
+    //удаление ненужной нагрузки и ((подсчет прогресса ДОЛЖЕН БЫТЬ))
+    if (task.type == "splittask") {
+        var haveCapacityToResource
+        task.capacity = task.capacity.filter(function (capasityItem) {
+            if (capasityItem.type == "task") {
+                haveCapacityToResource = taskParent.resources.some(item => item.id == capasityItem.resource_id);
+                if (haveCapacityToResource) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+
+
+
+
+
+
     if (task.$new) {
         if(task.parent == 0){
-                task.parent = null;
-                task.parent = gantt.getTaskBy(task => task.parent == 0)[0].id;
+            task.parent = null;
+            task.parent = gantt.getTaskBy(task => task.parent == 0)[0].id;
         }
 
         if (taskParent && taskParent.render == "split") {

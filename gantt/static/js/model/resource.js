@@ -52,7 +52,6 @@ function resourceGet(selectTask){
 	if(gantt.getTaskCount() > 0){
 		if(selectTask && selectTask.type == "splittask"){
 			resources = gantt.getTask(selectTask.parent).resources;
-			console.log(resources);
 		} else {
 			if (selectTask.render == "split") {
 				resources = selectTask.resources;
@@ -67,20 +66,20 @@ function resourceGet(selectTask){
 					}
 				}, selectTask.id);
 
-			// Убираем дубликаты из массива ресурсов
+
 
 			}
 		}
-		console.log(resources);
-		resources = resources.reduce((acc, city) => {
-		if (acc.map[city.text]){
-			return acc;
-		}
-		acc.map[city.text] = true;
-		acc.resources.push(city);
-		return acc;}, {map: {}, resources: []}).resources;
-		return resources ? resources : [];
 	}
+		// Убираем дубликаты из массива ресурсов
+	resources = resources.reduce((acc, city) => {
+	if (acc.map[city.text]){
+		return acc;
+	}
+	acc.map[city.text] = true;
+	acc.resources.push(city);
+	return acc;}, {map: {}, resources: []}).resources;
+	return resources ? resources : [];
 }
 
 gantt.$resourcesStore.attachEvent("onParse", function() {

@@ -101,16 +101,6 @@ var zoomConfig = {
     }
 };
 
-function zoomIn(){
-  gantt.ext.zoom.zoomIn()
-}
-function zoomOut(){
-  gantt.ext.zoom.zoomOut()
-}
-
-
-
-
 gantt.ext.zoom.init(zoomConfig);
 // gantt.ext.zoom.setLevel("week");
 

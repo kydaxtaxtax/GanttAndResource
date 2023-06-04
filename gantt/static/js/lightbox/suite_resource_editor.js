@@ -120,8 +120,8 @@ function initResourceEditForm() {
 
 
         this.deleteResource = function (id) {
-            const index = gantt._lightbox_task[gantt.config.resource_store].findIndex(item => item.id === id);
-            gantt._lightbox_task[gantt.config.resource_store].splice(index, 1);
+            const indexResource = gantt._lightbox_task[gantt.config.resource_store].findIndex(item => item.id === id);
+            gantt._lightbox_task[gantt.config.resource_store].splice(indexResource, 1);
 
             setTimeout(function () {
                 gantt.$lightboxControl.fillTabContent("resources");

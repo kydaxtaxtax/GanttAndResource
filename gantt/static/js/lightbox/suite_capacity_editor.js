@@ -120,8 +120,9 @@ function initCapacityEditForm() {
 
         if (gantt._resourceAssigner) gantt._resourceAssigner.destructor();
 
-        this.$resourcesStore = task[gantt.config.resource_store];
-        var resourceData = task[gantt.config.resource_store];
+        this.$resourcesStore = copyCapacity;
+        var resourceData = copyCapacity;
+
 
         //                 this.$resourcesStore = gantt.$resourcesStore;
         // console.log(gantt.$resourcesStore);
@@ -177,7 +178,6 @@ function initCapacityEditForm() {
                 }
             }
         })
-
 
         gantt._resourceAssigner = new dhx.TreeGrid(null, {
             columns: resourceAssignColumns,

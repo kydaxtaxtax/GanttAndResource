@@ -31,9 +31,11 @@
 		},
 		zoomIn: function(){
 			gantt.ext.zoom.zoomIn();
+			gantt.refreshData();
 		},
 		zoomOut: function(){
 			gantt.ext.zoom.zoomOut();
+			gantt.refreshData();
 		},
 		zoomBack: function(){
 			zoomToFit();
