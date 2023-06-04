@@ -44,52 +44,60 @@ function initCapacityEditForm() {
 
         var resourceAssignColumns = [
             {
-                width: 302,
+                autoWidth: true,
+                // width: 300,
                 id: "text",
                 header: [{content: "inputFilter",}],
                 editorType: "input",
                 editable: false,
                 htmlEnable: true,
-                footer: [{ text: '<div class="custom_footer">Total</div>' }],
+                footer: [{align: "right", text: '<div class="custom_footer">Total</div>' }],
             },
-            {width: 40, id: "hide", header: [{text: ""}], type: "boolean", htmlEnable: true},
             {
                 id: "valuePlan",
-                width: 75,
+                align: "right",
+                width: 70,
                 header: [{text: "План"}],
                 editorType: "input",
+                format: "# #.00",
                 sortable: false,
                 editable: false,
-                footer: [{ content: "sum"}]
-            },
-            {
-                width: 75,
-                id: "value",
-                header: [{text: "Факт"}],
-                editorType: "number",
-                sortable: false,
-                editable: true,
-                footer: [{ content: "sum"}]
-            },
-            {
-                width: 80,
-                id: "progress",
-                header: [{text: "Прогресс"}],
-                editorType: "input",
-                type: "string",
-                sortable: false,
-                editable: false,
-                footer: [{ content: "avg"}]
+                footer: [{align: "right", content: "sum"}]
             },
             {
                 width: 70,
+                align: "right",
+                id: "value",
+                header: [{text: "Факт"}],
+                editorType: "number",
+                format: "# #.00",
+                sortable: false,
+                editable: true,
+                footer: [{align: "right", content: "sum"}]
+            },
+            {
+                width: 80,
+                align: "right",
+                id: "progress",
+                header: [{text: "Прогресс"}],
+                editorType: "input",
+                // type: "string",
+                type: "percent",
+                sortable: false,
+                editable: false,
+                footer: [{align: "right",  content: "avg"}]
+            },
+            {
+                width: 70,
+                align: "right",
                 id: "unit",
                 header: [{text: "Ед.изм"}],
                 editorType: "input",
                 type: "string",
                 sortable: false,
                 editable: false
-            }
+            },
+            {width: 40, id: "hide", header: [{text: ""}], type: "boolean", htmlEnable: true}
         ];
 
 
@@ -113,7 +121,6 @@ function initCapacityEditForm() {
         if (gantt._resourceAssigner) gantt._resourceAssigner.destructor();
 
         this.$resourcesStore = task[gantt.config.resource_store];
-        console.log(task[gantt.config.resource_store]);
         var resourceData = task[gantt.config.resource_store];
 
         //                 this.$resourcesStore = gantt.$resourcesStore;
@@ -138,7 +145,7 @@ function initCapacityEditForm() {
                             progress: 0,
                             type: "task",
                             parent: el.parent,
-                            valuePlan: el.value,
+                            valuePlan: el.value || 0,
                             unit: el.unit,
                             resource_id: el.id,
                             hide: false
@@ -158,8 +165,8 @@ function initCapacityEditForm() {
                         capacityRow.text = el.text;
                         capacityRow.value = capacityRow.value || 0;
                         capacityRow.type = "task";
-                        capacityRow.progress = Math.round(((capacityRow.value / el.value) * 100));
-                        capacityRow.valuePlan = el.value;
+                        capacityRow.progress = capacityRow && el && capacityRow.value && el.value ? Math.round(((capacityRow.value / el.value))) : 0;
+                        capacityRow.valuePlan = el.value || 0;
                         capacityRow.unit = el.unit || '';
                         // capacityRow.hide = capacityRow.hide || true;
                         capacityData.push(capacityRow);
@@ -174,9 +181,9 @@ function initCapacityEditForm() {
 
         gantt._resourceAssigner = new dhx.TreeGrid(null, {
             columns: resourceAssignColumns,
-            // rowHeight: 50,
+            rowHeight: 40,
             // dragItem: "both",
-            autoHeight: true,
+            // autoHeight: true,
             autoWidth: true,
             editable: true,
             data: capacityData,
@@ -185,25 +192,24 @@ function initCapacityEditForm() {
 
         gantt._resourceLayout.getCell("resourceAssign").attach(gantt._resourceAssigner);
 
-        // grid.events.on("beforeEditStart", function(row,col,editorType){
-        //     // your logic here
-        //     return true;
-        // });
-
         gantt._resourceAssigner.events.on("CellClick", function (row, column, e) {
             if (column.editable !== false && column.id != "hide") {
                 gantt._resourceAssigner.editCell(row.id, column.id);
             }
         });
 
+        gantt._resourceAssigner.events.on("BeforeEditStart", function (value, row, column) {
+            return 0;
+        });
+
         gantt._resourceAssigner.events.on("AfterEditEnd", function (value, row, column) {
             gantt._lightbox_task[gantt.config.resource_property].find(obj => obj.id === row.id)[column.id] = value;
 
-        if(column.id == "value"){
-            var progressCapacity = Math.round(((value / row.valuePlan) * 100));
-            gantt._resourceAssigner.data.update(row.id, { progress: progressCapacity });
-            gantt._lightbox_task[gantt.config.resource_property].find(obj => obj.id === row.id)['progress'] = progressCapacity;
-        }
+            if(column.id == "value"){
+                var progressCapacity = row && value && row.valuePlan ? Math.round(((value / row.valuePlan))) : 0;
+                gantt._resourceAssigner.data.update(row.id, { progress: progressCapacity });
+                gantt._lightbox_task[gantt.config.resource_property].find(obj => obj.id === row.id)['progress'] = progressCapacity;
+            }
         });
 
 

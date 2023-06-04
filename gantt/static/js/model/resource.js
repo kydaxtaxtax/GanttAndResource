@@ -50,15 +50,15 @@ function resourceGet(selectTask){
 
 	var resources = [];
 	if(gantt.getTaskCount() > 0){
-
 		if(selectTask && selectTask.type == "splittask"){
 			resources = gantt.getTask(selectTask.parent).resources;
+			console.log(resources);
 		} else {
 			if (selectTask.render == "split") {
 				resources = selectTask.resources;
 			} else {
 				gantt.eachTask(function(task) {
-					if (task.resources) {
+					if (task.resources && task.render == "split") {
 						(task.resources).forEach(function(resource) {
 							// if(resource.type == "task"){
 								resources.push(resource);
@@ -68,14 +68,17 @@ function resourceGet(selectTask){
 				}, selectTask.id);
 
 			// Убираем дубликаты из массива ресурсов
-			resources = resources.reduce((acc, city) => {
-			if (acc.map[city.text]){
-				return acc;
+
 			}
-			acc.map[city.text] = true;
-			acc.resources.push(city);
-			return acc;}, {map: {}, resources: []}).resources;}
 		}
+		console.log(resources);
+		resources = resources.reduce((acc, city) => {
+		if (acc.map[city.text]){
+			return acc;
+		}
+		acc.map[city.text] = true;
+		acc.resources.push(city);
+		return acc;}, {map: {}, resources: []}).resources;
 		return resources ? resources : [];
 	}
 }

@@ -16,8 +16,8 @@ gantt.templates.histogram_cell_capacity = function(start_date, end_date, resourc
 		window.fact = getFact(start_date, end_date, assignments, resource, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
 		window.plan = getPlan(start_date, end_date, tasks, resource, tasksChildSelect, gantt.getTask(gantt.getSelectedId()));
 		resource.capacity = 100;
-		window.histogramFact = (resource.capacity * fact / plan);
-		window.histogramPlan = (resource.capacity * plan / fact);
+		window.histogramFact = (resource.capacity * fact / plan) == 0 ? "0" : (resource.capacity * fact / plan);
+		window.histogramPlan = (resource.capacity * plan / fact) == 0 ? "0" : (resource.capacity * plan / fact);
 		if(histogramPlan > 0){
 			return histogramFact <= resource.capacity ? histogramFact : histogramPlan;
 		} else {
@@ -27,13 +27,16 @@ gantt.templates.histogram_cell_capacity = function(start_date, end_date, resourc
 };
 
 gantt.templates.histogram_cell_class = function(start_date, end_date, resource, tasks, assignments) {
-	if (fact != 0 || plan!= 0){
-		if(fact >= plan){
-			return "column_green";
-		} else {
+
+	if (fact || plan){
+		if(fact < plan && plan != 0 && fact != 0){
 			return "column_yellow";
 		}
+		if(fact >= plan) {
+			return "column_green";
+		}
 	}
+	return "column_red";
 };
 
 
@@ -42,9 +45,9 @@ gantt.templates.histogram_cell_label = function(start_date, end_date, resource, 
 	if (tasks.length && !gantt.$resourcesStore.hasChild(resource.id)) {
     if (plan == 0 && fact == 0) return "";
 
-	if (plan != 0){
+	// if (plan != 0){
 		return "<div style=\"color: black;\">" + fact + " / " + plan + "</div>";
-	}
+	// }
 
     return  fact + " / " + plan;
   } else {
@@ -54,6 +57,7 @@ gantt.templates.histogram_cell_label = function(start_date, end_date, resource, 
     return "";
   }
 };
+
 
 //цвета
 gantt.templates.histogram_cell_allocated = function(start_date, end_date, resource, tasks, assignments) {

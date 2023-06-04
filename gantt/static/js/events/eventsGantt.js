@@ -224,7 +224,6 @@ function dragSplitTask(id, mode = 'move')// прибавление дней к �
     var taskNextSibiling = gantt.getTask(gantt.getNextSibling(task.id));
     var currentLevel = gantt.ext.zoom.getCurrentLevel();
     var durationDrag = moment(task.end_date).diff(moment(task.start_date), 'days');
-
     switch(mode) {
         case 'move':
             console.log(task);

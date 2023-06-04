@@ -16,17 +16,23 @@
 
     .column_red .gantt_histogram_fill
     {
-        background-color: rgba(255, 110, 110, 0.68);
+        margin-bottom: 1px;
+        width: calc(100% - 1px);
+        background-color: var(--resource-red);
     }
 
     .column_yellow .gantt_histogram_fill
     {
-        background-color: rgb(208, 182, 103);
+        margin-bottom: 1px;
+        width: calc(100% - 1px);
+        background-color: var(--resource-yellow);
     }
 
     .column_green .gantt_histogram_fill
     {
-        background-color: rgba(139, 239, 139, 0.71);
+        margin-bottom: 1px;
+        width: calc(100% - 1px);
+        background-color: var(--resource-green);
     }
 
     .column_blue .gantt_histogram_fill

@@ -184,5 +184,13 @@
     padding-left: 5px;
 }
 
+.gantt_layout_cell.gantt_ver_scroll {
+    border-left: 1px solid #8C8C8C !important;
+    -webkit-filter: invert(84.8%) !important;
+}
 
+
+.gantt_layout_cell.gantt_hor_scroll{
+    -webkit-filter: invert(84.8%);
+}
 

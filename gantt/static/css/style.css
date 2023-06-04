@@ -1,3 +1,21 @@
+:root {
+    --light-border-color: #737373;
+    --black-border-color: #545454;
+    --light-background-color: #3a3b3b;
+    --black-background-color: #2a2a2a;
+    --white-text: #dedcdc;
+
+    --hover-color: rgba(115, 115, 115, 0.35);
+
+    --save-button-text-color: #54c911;
+
+    --resource-red: rgba(231, 157, 157, 0.73);
+    --resource-green: rgba(132, 194, 132, 0.71);
+    --resource-yellow: rgb(194, 175, 117);
+}
+
+
+
 
 .gantt_tree_icon .gantt_folder_open /*   удаление лишних иконок   */
 {
@@ -85,7 +103,7 @@ html, body
 /*}*/
 
 .gantt_task_line {
-border-radius: 2px;
+border-radius: 20px;
 position: absolute;
 box-sizing: border-box;
 background-color: rgb(85, 183, 96);
@@ -939,5 +957,36 @@ visibility: hidden;
 
 .gantt_grid_head_cell.gantt_grid_head_add.gantt_last_cell.grid_header_class{
     cursor: cell;
+}
+
+
+#myCover {
+  position: static!important;
+}
+
+
+/*.gantt_layout_cell, .gridScroll_cell{*/
+/*    background-color: black!important;*/
+/*}*/
+
+
+
+.gantt_task_drag.task_left {
+    left: 0px;
+    width: 10px;
+}
+.gantt_task_drag.task_right {
+    right: 0px;
+    width: 10px;
+}
+
+
+.gantt_link_control{
+    display: none!important;
+}
+
+.gantt_resizer_y.gantt_resizer_y{
+    height: 15px;
+    top: 0px;
 }
 

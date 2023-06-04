@@ -154,7 +154,8 @@ function initResourceEditForm() {
 
         var resourceEditColumns = [
             {
-                width: 372,
+                // width: 372,
+                autoWidth: true,
                 id: "text",
                 header: [{content: "inputFilter",}],
                 editorType: "input",
@@ -178,6 +179,7 @@ function initResourceEditForm() {
             {
                 id: "value",
                 width: 70,
+                align: "right",
                 header: [{text: "План"}],
                 editorType: "input",
                 sortable: false,
@@ -186,6 +188,7 @@ function initResourceEditForm() {
             {
                 id: "unit",
                 width: 60,
+                align: "right",
                 header: [{text: "Ед.изм"}],
                 editorType: "input",
                 type: "string",
@@ -245,20 +248,14 @@ var resourceData = gantt.copy(gantt._lightbox_task[gantt.config.resource_store])
 
         gantt._resourceEditor = new dhx.TreeGrid(null, {
             columns: resourceEditColumns,
-            autoHeight: true,
+            rowHeight: 40,
+            // autoHeight: true,
             dragItem: "both",
             autoWidth: true,
             editable: true,
             data: resourceData,
             rowCss: function (row) {return row.type === "project" ? "project_row" : ""}
         });
-
-        // resourceData.forEach(function (el) {
-        //     if(el.id == 1 || el.id == 2 || el.id == 3){
-        //         gantt._resourceEditor.data.remove(el.id);
-        //     }
-        // })
-
 
         gantt._resourceLayout.getCell("resourceEdit").attach(gantt._resourceEditor);
 

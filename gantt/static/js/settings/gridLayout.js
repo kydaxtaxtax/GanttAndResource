@@ -7,7 +7,7 @@ gantt.config.layout = //Горизонтальная полоса прокрут
             [{
                 width: window.innerWidth / 2 < 735 ? window.innerWidth / 2 : 735, // Максимальная ширина таблицы (grid)
                 min_width: 735, //Минимальная ширина таблицы (grid)
-                 max_width: 735,
+                max_width: 735,
                 rows: [
                     { view: "grid", scrollX: "gridScroll", scrollable: true, scrollY: "scrollVer" },
                     { view: "scrollbar", id: "gridScroll", group: "horizontal" }

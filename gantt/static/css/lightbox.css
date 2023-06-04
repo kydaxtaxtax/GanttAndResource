@@ -45,8 +45,12 @@ body.dhx_window--no-scroll{
 .dhx_grid-header-cell{
     font-size: 12pt;
     font-family: Akrobat-ExtraBold!important;
-
+    color: var(--white-text);
+    background-color: var(--black-background-color);
+    border-color: var(--black-border-color)!important;
 }
+
+
 
     /*.custom .dhx_grid-header-cell--active {*/
     /*    background-color: rgb(2, 136, 209);*/
@@ -60,31 +64,84 @@ body.dhx_window--no-scroll{
 .dhx_grid-cell{
     font-size: 12pt;
     font-family: Akrobat-Regular!important;
+    color: var(--white-text);
+    border-color: var(--black-border-color);
+
 }
 
+/*Строки папок таблицы*/
     .project_row {
-        background: #f7f7f7;
-        border-left-color: black;
+        background-color: var(--black-background-color);
+
     }
 
+
+/*Убрать галочки у проектов*/
+.project_row .dhx_checkbox.dhx_cell-editor__checkbox{
+  display: none;
+
+}
+
+.project_row{
+  pointer-events: none;
+}
+
+.dhx_grid-cell.dhx_string-cell.dhx_grid-cell__content_html-enable {
+    pointer-events: auto;
+}
+
+/*Строки задач таблицы*/
+       .dhx_grid-row  {
+        background-color: var(--black-background-color);
+        height: 20px;
+    }
+
+   .dhx_cell-editor.dhx_cell-editor__input{
+        color: var(--white-text);
+        font-size: 12pt;
+        font-family: Akrobat-Regular!important;
+   }
+
+   .dhx_cell-editor.dhx_cell-editor__input:focus{
+        background-color:var(--hover-color);
+   }
+
+   .dhx_cell-editor.dhx_cell-editor__input::selection
+   {
+        background-color: rgba(12, 65, 40, 0);
+   }
 
 
 /* Лейпблы импутов */
 .dhx_label {
      font-size: 13pt;
     font-family: Akrobat-ExtraBold!important;
+    color: #dedcdc !important;
 }
 
 /* Инпуты */
 .dhx_input {
        font-size: 13pt;
     font-family: Akrobat-Regular!important;
+    color: var(--white-text);
+    background-color: var(--light-background-color);
 }
 .dhx_grid-cell__content{
            font-size: 13pt;
     font-family: Akrobat-Regular!important;
+    color: #dedcdc !important;
 }
 
+.dhx_checkbox__visual-input:focus{
+    background-color: #545454!important;
+}
+
+.dhx_checkbox__visual-input:checked{
+    background-color: #545454!important;
+}
+.dhx_checkbox__input{
+    background-color: #545454!important;
+}
 
 
 
@@ -92,6 +149,7 @@ body.dhx_window--no-scroll{
 .dhx_grid-cel:focus{
     font-size: 9pt;
     font-family: Akrobat-Regular!important;
+    color: #dedcdc !important;
 }
 
 
@@ -99,14 +157,67 @@ body.dhx_window--no-scroll{
 
 
 .dhx_tabbar-tab-button{
-         font-size: 13pt;
+    font-size: 13pt;
     font-family: Akrobat-ExtraBold!important;
+    /*color: #dedcdc !important;*/
 }
 
+
+
+
+/* Текст шапки */
 .dhx_navbar-title--toolbar{
-             font-size: 15pt!important;
+    font-size: 15pt!important;
     font-family: Akrobat-Regular!important;
+    color: var(--white-text);
+    /*background-color: var(--hover-color)!important;*/
 }
+
+/*    крестик в шапке лайтбокса   */
+.dhx_button__icon.dxi.dxi.dxi-close{
+    -webkit-filter: invert(100%) !important;
+}
+
+.dhx_input__icon.dxi.dxi-calendar-today{
+    -webkit-filter: invert(100%) !important;
+}
+
+/* Табы */
+.dhx_tabbar-tab-button{
+    font-size: 13pt;
+    font-family: Akrobat-ExtraBold!important;
+    /*color: #dedcdc !important;*/
+}
+
+.dhx_tabbar-header__wrapper *{
+    color: var(--white-text);
+}
+
+.dhx_button.dhx_tabbar-tab-button:hover{
+    background-color: var(--hover-color)!important;
+}
+
+
+
+
+/* кнопки save cancel delete */
+.dhx_button.dhx_button--color_primary.dhx_button--size_medium.dhx_button--view_flat{
+    background-color: var(--light-background-color)!important;
+    color: var(--save-button-text-color);
+}
+.dhx_button.dhx_button--color_primary.dhx_button--size_medium.dhx_button--view_flat:hover{
+    background-color: rgba(84, 140, 66, 0.3) !important;
+}
+.dhx_button:hover{
+    border-radius: 0;
+}
+
+
+
+
+
+
+
 
 .dhx_tabbar-header__wrapper{
     border-bottom: none!important;
@@ -117,5 +228,145 @@ body.dhx_window--no-scroll{
 padding-bottom: 16px;
 }
 
+.dhx_layout-cell{
+    background-color: var(--light-background-color);
+}
+
+.dhx_navbar.dhx_navbar--horizontal{
+    background-color: var(--light-background-color);
+}
+
+.dhx_widget.dhx_tabbar.dhx_tabbar--top{
+    background-color: var(--black-background-color);
+}
+
+.dhx_widget.dhx_layout.dhx_layout-rows.dhx_widget--bordered.dhx_form{
+    background-color: var(--black-background-color);
+}
+
+.dhx_layout-cell {
+    background-color: var(--light-background-color);
+}
 
 
+
+.dhx_grid-footer-cell {
+  font-family: Akrobat-ExtraBold!important;
+  font-size: 12pt;
+  background-color: var(--light-background-color);
+  border-left: 1px solid var(--black-border-color)!important;
+  color: var(--white-text);
+  text-align: left;
+}
+.dhx_footer-row {
+    /*border-top: 1px solid var(--black-border-color);*/
+    border-bottom: 1px solid var(--black-border-color);
+}
+
+/*.dhx_grid.dhx_widget {*/
+/*    border-left: 1px solid var(--black-border-color)!important;*/
+/*}*/
+
+.dhx_grid-footer-cell.dhx_grid-header-cell--align_left.dhx_first-column-cell{
+    border-left: none!important;
+}
+
+/*.dhx_grid-footer-cell.dhx_grid-header-cell--align_left[aria-colindex="2"] {*/
+/*    border-left: none!important;*/
+/*}*/
+
+
+
+.dhx_grid-body{
+    background-color: var(--black-background-color);
+}
+
+
+.dhx_tabbar-header__wrapper{
+    background-color: var(--light-background-color);
+}
+
+.dhx_layout-cell.dhx_layout-columns.dhx_layout-columns--between{
+    background-color: var(--black-background-color);
+}
+
+.dhx_layout-cell.dhx_form-element{
+    background-color: var(--black-background-color);
+}
+
+.dhx_data-wrap{
+    border-bottom: 1px solid var(--black-border-color)!important;
+}
+
+/*.dhx_header-rows{*/
+/*    border-top: 1px solid var(--black-border-color);*/
+/*}*/
+
+
+/*.dhx_header-wrapper, .dhx_data-wrap, .dhx_footer-wrapper{*/
+/*    -webkit-filter: initial;*/
+/*}*/
+
+/*.dhx_grid-body {*/
+/*  -webkit-filter: invert(84.8%) !important;*/
+/*}*/
+
+.dxi.dxi-magnify:before{
+    -webkit-filter: invert(84.8%) !important;
+}
+
+
+/*    Окраска бордеров Grid    */
+.dhx_grid-content.dhx_grid-less-height, .dhx_grid-content.dhx_grid-less-width{
+    border-color: var(--light-border-color)!important;
+}
+
+
+
+.dhx_button.dhx_button--color_secondary.dhx_button--size_medium.dhx_button--view_link.dhx_button--circle.dhx_button--icon:hover{
+      background-color: var(--hover-color)!important;
+}
+
+.dhx_widget.dhx_layout.dhx_layout-rows.dhx_window{
+    box-shadow: 0px 0px 0px 0px;
+}
+
+.dhx_popup--window_active.dhx_popup.dhx_widget.dhx_popup--window{
+    border: solid 1px!important;
+    border-color: var(--light-border-color)!important;
+}
+
+.dhx_widget.dhx_layout.dhx_layout-rows.dhx_widget--bordered.dhx_form{
+    border: solid 1px!important;
+    border-color: var(--light-border-color)!important;
+}
+
+.dhx_grid-footer-cell.dhx_grid-header-cell--align_right.dhx_first-column-cell.dhx_align-right{
+    border-left: solid 0px!important;
+}
+
+.dhx_checkbox__visual-input{
+
+    border: solid 1px var(--light-border-color)!important;
+    background-color: var(--light-background-color)!important;
+}
+
+
+
+.dhx_navbar.dhx_navbar--horizontal{
+    display: flex;
+    justify-content: right;
+}
+
+
+/*ul.dhx_navbar li:nth-child(1) {*/
+/*    margin-right: auto;*/
+/*}*/
+
+
+.dhx_window-footer{
+    padding-top: 10px;
+}
+.dhx_window .dhx_window-footer .dhx_toolbar .dhx_navbar {
+    padding: 0 28px 15px;
+}

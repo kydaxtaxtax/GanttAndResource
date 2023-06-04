@@ -178,35 +178,54 @@ function deleteTask() {
 
 
 function addTabBarSettingsTaskAndProject(task) {
- var taskParent = gantt.getTask(task.parent);
+    var taskParent = gantt.getTask(task.parent);
     gantt.$lightboxControl.fillTabContent = function (id) {
         task.type == "project" && task.render != "split" || !taskParent ? id = id || "settingsFolder" : id = id || "settingsTaskAndProject";
         gantt.$lightboxControl[id].addForm();
     }
     if (gantt._tabbar) gantt._tabbar.destructor();
 
+    if((task.type == "project" && task.render == "split") || task.type == "splittask") {
+        if (task.type == "project" && task.render == "split") {
+            gantt._tabbar = new dhx.Tabbar(null, {
+                // css: "custom",
+                views: [
+                    {
+                        id: "settingsTaskAndProject",
+                        tab: "Параметры проекта",
+                        css: "panel flex"
+                    },
 
-    if(taskParent){
+                    {
+                        id: "resources",
+                        tab: "Ресурсы",
+                        css: "panel flex"
+                    }
+                ]
+            });
+        }
+        if (task.type == "splittask") {
+            gantt._tabbar = new dhx.Tabbar(null, {
+                // css: "custom",
+                views: [
+                    {
+                        id: "settingsTaskAndProject",
+                        tab: "Параметры задачи",
+                        css: "panel flex"
+                    },
+
+                    {
+                        id: "capacity",
+                        tab: "Нагрузка",
+                        css: "panel flex"
+                    }
+                ]
+            });
+        }
+    } else {
         gantt._tabbar = new dhx.Tabbar(null, {
             // css: "custom",
             views: [
-                {
-                    id: task.type == "project" && task.render != "split" ? "settingsFolder" : "settingsTaskAndProject",
-                    tab:  task.type == "splittask" ? "Параметры задачи" : "Параметры проекта",
-                    css: "panel flex"
-                },
-
-                {
-                    id: task.type == "splittask" ? "capacity" : "resources",
-                    tab: task.type == "splittask" ? "Нагрузка" : "Ресурсы",
-                    css: "panel flex"
-                }
-            ]
-        });
-    } else {
-       gantt._tabbar = new dhx.Tabbar(null, {
-        // css: "custom",
-               views: [
                 {
                     id: "settingsFolder",
                     tab: "Параметры папки",
@@ -215,6 +234,7 @@ function addTabBarSettingsTaskAndProject(task) {
             ]
         });
     }
+
 
 
     dhxWindow.attach(gantt._tabbar)
