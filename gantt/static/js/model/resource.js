@@ -47,7 +47,6 @@ gantt.attachEvent("onTaskSelected", function (id)
 
 // Нужно доделать мультиселект
 function resourceGet(selectTask){
-
 	var resources = [];
 	if(gantt.getTaskCount() > 0){
 		if(selectTask && selectTask.type == "splittask"){
@@ -65,13 +64,11 @@ function resourceGet(selectTask){
 						});
 					}
 				}, selectTask.id);
-
-
-
 			}
 		}
 	}
-		// Убираем дубликаты из массива ресурсов
+
+	// Убираем дубликаты из массива ресурсов
 	resources = resources.reduce((acc, city) => {
 	if (acc.map[city.text]){
 		return acc;
@@ -79,6 +76,7 @@ function resourceGet(selectTask){
 	acc.map[city.text] = true;
 	acc.resources.push(city);
 	return acc;}, {map: {}, resources: []}).resources;
+
 	return resources ? resources : [];
 }
 

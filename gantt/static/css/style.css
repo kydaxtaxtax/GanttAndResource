@@ -15,7 +15,13 @@
 }
 
 
+.dhx_alert__overlay {
+      display: none!important;
+}
 
+.dhx_widget.dhx_alert {
+      display: none!important;
+}
 
 .gantt_tree_icon .gantt_folder_open /*   удаление лишних иконок   */
 {
@@ -37,7 +43,9 @@
 {
   display: none!important;
 }
-
+.gantt_task_progress_wrapper{
+  display: none!important;
+}
 .gantt_task_progress_drag /*   удаление управлением прогресса   */
 {
   display: none!important;
@@ -85,6 +93,7 @@ html, body
   padding: 0;
   margin: 0;
   overflow: hidden;
+      border-top: 1px solid #737373 !important;
 }
 
 
@@ -249,8 +258,8 @@ background-color: rgb(85, 183, 96);
 .setting-button-diagram-gant /* остальные кнопки */
 {
     color: #ffffff;
-    background: #212428;
-      background-color: #2a2a2a;
+    background: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
     /*box-shadow: 1px 3px 10px 0 rgba(0,0,0,.5);*/
     border-radius: 2px;
     /*transition: 1s; !* Время эффекта *!*/
@@ -929,7 +938,7 @@ visibility: hidden;
     width: 30px;
     background-size: 50% auto;
     -webkit-filter: invert(15%);
-    cursor: e-resize;
+    cursor: pointer;
 }
 
 .gantt_tree_icon.gantt_close {
@@ -937,7 +946,7 @@ visibility: hidden;
     width: 30px;
     background-size: 50% auto;
     -webkit-filter: invert(15%);
-    cursor: s-resize;
+    cursor: pointer;
 }
 
 .gantt_histogram_hor_bar, .gantt_histogram_vert_bar {
@@ -972,12 +981,12 @@ visibility: hidden;
 
 
 .gantt_task_drag.task_left {
-    left: 0px;
-    width: 10px;
+    left: 1px;
+    width: 5px;
 }
 .gantt_task_drag.task_right {
-    right: 0px;
-    width: 10px;
+    right: 1px;
+    width: 5px;
 }
 
 
@@ -990,3 +999,60 @@ visibility: hidden;
     top: 0px;
 }
 
+
+
+.gantt_tree_content{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.button-container {
+    flex: 1;
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+
+.fa {
+  /* Дополнительные стили для элементов, если необходимо */
+}
+
+.gantt_row.row-class.gantt_row_project .gantt_cell.gantt_last_cell{
+    /*background-color: var(--light-background-color);*/
+    /*border-bottom: 1px solid var(--light-border-color);*/
+    /*border-left: 1px solid var(--light-border-color);*/
+}
+
+.fa-medium {
+  font-size: 4em; /* Регулируйте эту величину по вашему усмотрению */
+}
+
+.gantt_grid_head_add {
+  width: 20px!important;
+    margin-top: 14px;
+  height: 20px!important;
+  background-size: cover;
+}
+
+.gantt_grid_add.fa-plus.fa-lg:hover {
+  color: #00eaff; /* Задайте желаемый цвет при наведении */
+}
+
+
+.gantt_layout_content.gantt_resizer_x{
+    cursor: col-resize;
+}
+
+.gantt_layout_content.gantt_resizer_y{
+    cursor: row-resize;
+}
+
+.navbar.navbar-expand-lg.rounded-0.shadow-none {
+  /*border-top: 1px solid #737373 !important;*/
+    border-left: 1px solid var(--light-border-color) !important;
+    border-right: 1px solid var(--light-border-color) !important;
+    background-color: var(--light-background-color) !important;
+  /*background-image: linear-gradient(to bottom, var(--black-background-color), #3a3b3b);*/
+}

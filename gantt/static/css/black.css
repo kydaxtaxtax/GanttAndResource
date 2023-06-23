@@ -92,6 +92,8 @@
 
 }
 
+
+
 .gantt_task_row.gantt_selected .gantt_task_cell {
     /*border: none;*/
     border-color: #545454 !important;
@@ -113,9 +115,7 @@
     opacity: 1 !important;
 }
 
-.gantt_grid_head_add:hover {
-    background-color: #1a2121 !important;
-}
+
 
 .gantt_add, .gantt_grid_head_add {
     opacity: 1 !important;
@@ -194,3 +194,12 @@
     -webkit-filter: invert(84.8%);
 }
 
+
+
+
+
+
+.scroll-view-wrapper, .x-scroll, .scroll-runner, .scroll-view-wrapper, .y-scroll, .scroll-runner{
+    background-color: black!important;
+    width: 2px!important;
+}

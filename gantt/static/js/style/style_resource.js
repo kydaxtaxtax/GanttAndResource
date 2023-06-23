@@ -1,9 +1,5 @@
 
 gantt.templates.histogram_cell_capacity = function(start_date, end_date, resource, tasks, assignments) {
-	// if (!gantt.isWorkTime(start_date)) {
-	// 	return 0;
-	// }
-
 	window.fact = 0;
 	window.plan = 0;
 	window.histogramFact = 0;

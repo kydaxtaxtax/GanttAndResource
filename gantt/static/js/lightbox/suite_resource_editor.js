@@ -1,12 +1,6 @@
 function initResourceEditForm() {
     gantt.$lightboxControl.resources.addForm = function () {
 
-          const generateId = () => {
-          const timestamp = Date.now();
-          const random = Math.floor(Math.random() * 100000);
-          return `${timestamp}${random}`;
-        };
-
         var task = gantt.getTask(gantt._lightbox_id);
 
         var taskParent = gantt.getTask(task.parent);
@@ -102,17 +96,19 @@ function initResourceEditForm() {
             setTimeout(function () {
                 gantt.$lightboxControl.fillTabContent("resources");
             }, 50);
-            setTimeout(function () {
-                gantt.$lightboxControl.resources.restoreScrollPosition(scrollPosition);
-            }, 100);
+            // setTimeout(function () {
+            //     gantt.$lightboxControl.resources.restoreScrollPosition(scrollPosition);
+            // }, 100);
         };
 
         this.cloneResource = function (id) {
-            var resourceItem = gantt.$resourcesStore.pull[id]
+            console.log(task.resources);
+            var resourceItem = task.resources.find(obj => obj.id === id);
             var clone = gantt.copy(resourceItem);
             clone.id = +new Date();
             clone.parent = parseInt(id);
             clone.type = "task";
+            clone.value = 0;
             clone.text = "Наименование ресурса ";
             this.addResource(clone);
             gantt._lightbox_task[gantt.config.resource_store].push(clone);
@@ -238,7 +234,7 @@ function initResourceEditForm() {
         if (gantt._resourceEditor) gantt._resourceEditor.destructor();
 
         // var resourceData = gantt.$resourcesStore.getItems();
-var resourceData = gantt.copy(gantt._lightbox_task[gantt.config.resource_store]);
+        var resourceData = gantt.copy(gantt._lightbox_task[gantt.config.resource_store]);
 
         resourceData.forEach(function (el) {
             if(el.id == 1 || el.id == 2 || el.id == 3) {

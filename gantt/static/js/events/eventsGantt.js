@@ -9,8 +9,8 @@ gantt.attachEvent("onTaskClosed", function(id) {
 });
 
 gantt.attachEvent("onAfterTaskAdd", function(id, task) {
-    if(!task.planned_start) task.planned_start = "2000-01-01 00:00";
-    if(!task.planned_end) task.planned_end = "2000-01-01 00:00";
+        task.planned_start = gantt.date.parseDate("2000-01-01 00:00", "xml_date");
+    task.planned_end = gantt.date.parseDate("2000-01-01 00:00", "xml_date");
     return true;
 });
 gantt.attachEvent("onBeforeTaskUpdate", function(id, task) {
@@ -69,79 +69,6 @@ gantt.attachEvent("onTaskCreated", function(task){
 
 });
 
-// gantt.attachEvent("onBeforeLightbox", function(id)
-// {
-//     var task = gantt.getTask(id);
-//     task.my_template = "<span id='title1'>Объем по плану: </span>" + task.ob_plan
-//                     + "<span id='title2'>Объем по факту: </span>"+ task.ob_fact
-//                     + "<span id='title3'>Прогресс: </span>"+ task.progress * 100 + "%";
-//     gantt.resetLightbox();
-//     switch(task.type) {
-//         case 'project':
-//             if(task.render == "split"){gantt.config.lightbox.project_sections = update_splitProject;break;}
-//             else{gantt.config.lightbox.project_sections = update_Project};
-//             break;
-//         case 'task':
-//             gantt.config.lightbox.task_sections = update_splitProject;
-//             break;
-//         case 'splittask':
-//             if(task.$new){gantt.config.lightbox.task_sections = create_splitTask;break;}
-//                 else{gantt.config.lightbox.task_sections = update_splitTask;break;}
-// 		default:
-//             gantt.config.lightbox.task_sections = create_splitProject;
-//             gantt.config.lightbox.project_sections = create_Project;
-//             return true;
-//             break;
-//     }
-//     return true;
-// });
-
-
-// gantt.attachEvent("onLightboxSave", function(id, task, is_new){
-// console.log(1);
-//     var taskParent = gantt.getTask(task.parent);
-//     // var taskPrevSibiling = gantt.getTask(gantt.getPrevSibling(task.id));
-//     if (task.type == "task") {
-//         task.render = "split";
-//         task.type = "project";
-//         gantt.updateTask(task.id);
-//     }
-//     if (task.type == "project") {
-//         if (taskParent) {
-//             task.start_date = gantt.date.day_start(new Date());
-//             gantt.getTask(taskParent.id).open = 1;
-//             gantt.updateTask(taskParent.id);
-//         }
-//     }
-//
-//     if(is_new) {
-//         if (taskParent && taskParent.render == "split") {
-//             taskParent.planned_start = task.start_date;
-//             taskParent.planned_end = task.end_date;
-//
-//             if (gantt.getChildren(taskParent.id).length > 1) {
-//                 gantt.addLink({
-//                     source: gantt.getPrevSibling(task.id),
-//                     target: task.id,
-//                     type: gantt.config.links.finish_to_start
-//                 });
-//
-//             }
-//         }
-//     }
-//     return true;
-// });
-
-gantt.attachEvent("onAfterLightbox", function (){
-        updateLine();
-});
-
-gantt.attachEvent("onLightboxChange", function(old_type, new_type){
-    if(new_type == "milestone"){
-        alert("You have changed the type of your task to 'milestone'")
-    }
-});
-
 function endDateZoom(date){
     var level = gantt.ext.zoom.getCurrentLevel();
     scaleConfigs = zoomConfig.levels;
@@ -196,21 +123,6 @@ gantt.attachEvent("onTaskLoading", function (task) {
 return true;
 });
 
-
-// gantt.attachEvent("onTaskDrag", function(id, mode, task, original){
-//     dragSplitTask(id, mode);
-//
-//     gantt.updateTask(id);
-// });
-
-// gantt.attachEvent("onBeforeTaskDrag", function(id, mode, e){
-//     task = gantt.getTask(id);
-//     window.startDateDrag = task.start_date;
-//     window.endDateDrag = task.end_date;
-//     window.durationDrag = moment(endDateDrag).diff(moment(startDateDrag), 'days');
-//     return 1;
-// });
-
 gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
     dragSplitTask(id, mode);
     updateLine();
@@ -226,8 +138,6 @@ function dragSplitTask(id, mode = 'move')// прибавление дней к �
     var durationDrag = moment(task.end_date).diff(moment(task.start_date), 'days');
     switch(mode) {
         case 'move':
-            console.log(task);
-            console.log(taskPrevSibiling);
             if(taskPrevSibiling && task.start_date < taskPrevSibiling.end_date){
                 task.start_date = taskPrevSibiling.end_date;
                 task.end_date = gantt.date.add(task.start_date, durationDrag, 'day');

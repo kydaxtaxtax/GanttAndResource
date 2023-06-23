@@ -79,7 +79,7 @@ function updateLine(dragObj = null){
   //   "<div className=\"d-flex\"><input data-text-filter class=\"form-control-feedback me-2\" type=\"text\" id='search' placeholder=\"Поиск по задачам\" aria-label=\"Search\" oninput='gantt.$doFilter(this.value)'></div></div></div>";
 
 var textFilter = `<div style="display: flex; justify-content: left; align-items: center;">
-  <div style="margin-right: 30px; margin-left: ${((window.innerWidth / 2 < 735 ? window.innerWidth / 2 : 735) > 585 ? 585 : (window.innerWidth / 2 < 735 ? window.innerWidth / 2 : 735))/2 -140}px;">Наименование</div>
+  <div style="margin-right: 30px; margin-left: ${((window.innerWidth / 2 < 735 ? window.innerWidth / 2 : 735) > 555 ? 555 : (window.innerWidth / 2 < 735 ? window.innerWidth / 2 : 735))/2 -140}px;">Наименование</div>
   <div>
     <input data-text-filter class="form-control-feedback" type="text" id='search' placeholder="Поиск по задачам" aria-label="Search" oninput='gantt.$doFilter(this.value)'>
   </div>
@@ -87,21 +87,37 @@ var textFilter = `<div style="display: flex; justify-content: left; align-items:
 
 
 
-
+	var colHeader = '<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask()"></div>',
+		colContent = function (task) {
+            return ('<div class="button-container">' +
+              '<div class="button-wrapper">' +
+                '<div class="fa gantt_button_grid gantt_grid_add fa-plus fa-lg" onclick="clickGridButton(' + task.id + ', \'add\')"></div>' +
+              '</div>' +
+              '<div class="button-wrapper">' +
+                '<div class="fa gantt_button_grid gantt_grid_edit fa-folder-open fa-lg" onclick="clickGridButton(' + task.id + ', \'edit\')"></div>' +
+              '</div>' +
+            '</div>');
+		};
 
 
 // столбцы
 gantt.config.columns =
   [
     // { name: "wbs", label: "№", align: "center", width: 60, resize: true, template: gantt.getWBSCode, resize: true },
-    { name: "text", label: textFilter, width: 585, tree: true, resize: true, template: line_break},
+    { name: "text", label: textFilter, width: 555, tree: true, resize: true, template: line_break},
     // { name: "start_date", label: line_break_title("Начало","Факт"), align: "center", width: 65, template: myFuncSD, resize: true},
     // { name: "end_date", label: line_break_title("Окончание","Факт"), align: "center", width: 80, template: myFuncED, resize: true},
     // { name: "planned_start", label: line_break_title("Начало","План"), align: "center", width: 65, template: myFuncPS, resize: true},
     // { name: "planned_end", label: line_break_title("Окончание","План"), align: "center", width: 80, template: myFuncPE, resize: true},
     { name: "progress", label: "Прогресс", align: "center", width: 100, template: progress_PF, resize: true },//перевод дробного числа в целое и вычисление процента выполнения
     // { name: "responsible", label: "Ответст.", align: "center", width: 70, resize: true },
-    { name: "add", label: "", align: "center", width: 50, resize: true},
+    // { name: "add", label: "", align: "center", width: 50, resize: true},
+      	{
+			name: "buttons",
+			label: colHeader,
+			width: 80,
+			template: colContent
+		}
   ];
 
 //Формат отображаемой даты
@@ -130,37 +146,67 @@ function line_break(task, lenStr = 45) {
 // считаем прогресс
 function progress_PF(task)
 {
-  var recountedProgress; // создаем глобальную переменную прогресса
-  if (gantt.hasChild(task.id)) {// проверяет наличие дочек
-
-    recountedProgress = 0;
-    var len = 0;
-    gantt.eachTask(function (task1) {// дочки указанной задачи
-      if (!gantt.hasChild(task1.id)) {// дочки последнего уровня
-        len = len + 1; // считаем количество дочек последнего уровня указанной задачи
-        // console.log(task1.id + "   " +len)
-      }}, task.id
-    );
-    gantt.eachTask(function (task1) {// дочки указанной задачи
-      if (!gantt.hasChild(task1.id)) {// дочки последнего уровня
-                // console.log(task1.ob_plan + "   " + task1.ob_fact)
-      // console.log(recountedProgress + "    " +  task1.id  + "    " +task1.ob_plan + "    " +task1.ob_fact+"    " + len);
-        recountedProgress = recountedProgress + (100 / (task1.ob_plan / task1.ob_fact) / len); // считаем общий прогресс всех дочек
-      }}, task.id);
-  }
-  else {
-    recountedProgress = 100 / (task.ob_plan / task.ob_fact); // считаем прогресс
-  }
-  if(isNaN(recountedProgress)) {
-    recountedProgress = 0;
-    task.progress = recountedProgress; // присваивем прогресс
-    return recountedProgress + '%';
-  }
-  else{
-    recountedProgress = Math.floor(recountedProgress);
-    task.progress = recountedProgress / 100; // присваивем прогресс
-    return recountedProgress + '%';
-  }
+    var percentages = [];
+    var percentages2 = [];
+    var percentagesSplit = [];
+    var splitTaskProgress = [];
+    var splitProjectProgress = [];
+         if (task.type == "project" && task.render != 'split') {
+                gantt.eachTask(function (projectSplit) {
+                    percentagesSplit.splice(0);
+                    if (projectSplit.type == "project" && projectSplit.render == 'split') {
+                        gantt.eachTask(function (splittask) {
+                            if (splittask.capacity) {
+                                splittask.capacity.forEach(function (capacityItem) {
+                                    if (capacityItem.value == 0 || capacityItem.valuePlan == 0) {
+                                        percent = 0;
+                                    } else {
+                                        percent = (capacityItem.value / capacityItem.valuePlan) * 100;
+                                    }
+                                    percentagesSplit.push(percent > 100 ? 100 : percent);
+                                });
+                            }
+                        }, projectSplit.id);
+                        if(percentagesSplit.length !== 0){
+                            splitProjectProgress = percentagesSplit.length === 0 ? 0 : Math.round(percentagesSplit.reduce((sum, percent) => sum + percent, 0) / percentagesSplit.length);
+                            percentages.push(splitProjectProgress);
+                        }
+                    }
+                }, task.id);
+                task.progress = percentages.length === 0 ? 0 : Math.round(percentages.reduce((sum, percent) => sum + percent, 0) / percentages.length);
+        }
+        if (task.type == "project" && task.render == 'split') {
+                gantt.eachTask(function (splittask) {
+                    if (splittask.type == "splittask") {
+                        if (splittask.capacity) {
+                            splittask.capacity.forEach(function (capacityItem) {
+                                if (capacityItem.value == 0 || capacityItem.valuePlan == 0) {
+                                    percent = 0;
+                                } else {
+                                    percent = (capacityItem.value / capacityItem.valuePlan) * 100;
+                                }
+                                percentagesSplit.push(percent > 100 ? 100 : percent);
+                            });
+                        }
+                    }
+                }, task.id);
+                task.progress  = percentagesSplit.length === 0 ? 0 : Math.round(percentagesSplit.reduce((sum, percent) => sum + percent, 0) / percentagesSplit.length);
+        }
+        if (task.type == "splittask") {
+            var percent = 0;
+            if (task.capacity) {
+                task.capacity.forEach(function (item) {
+                    if (item.value == 0 || item.valuePlan == 0){
+                        percent = 0;
+                    } else {
+                        percent = (item.value / item.valuePlan) * 100;
+                    }
+                    percentages.push(percent);
+                });
+            }
+            task.progress = percentages.length === 0 ? 0 : Math.round(percentages.reduce((sum, percent) => sum + percent, 0) / percentages.length);
+        }
+        return task.progress + "%";
 }
 
 // function myFuncSD(task) {
@@ -217,4 +263,10 @@ function myFuncPE(task) {
 
 
 
-
+  function generateId (){
+              return () => {
+              const timestamp = Date.now();
+              const random = Math.floor(Math.random() * 100000);
+              return `${timestamp}${random}`;
+            };
+        }

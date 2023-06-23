@@ -58,6 +58,8 @@ dhxWindow.footer.events.on("click", function (id) {
 });
 
 gantt.showLightbox = function (id) {
+    // function showlightbox (id) {
+
     dhxWindow.show();
     gantt._lightbox_id = id;
     var task = gantt.getTask(id);
@@ -70,17 +72,21 @@ gantt.showLightbox = function (id) {
         }
     }
 
-    if(task.type == "splittask"){
-        window.copyCapacity = taskParent[gantt.config.resource_store];
-        // task[gantt.config.resource_store] = taskParent[gantt.config.resource_store];
+    if(task.type == "project" && task.render == "split"){
+            addDefaultResources(task);
     }
-
-    addDefaultResources(task);
 
     gantt._lightbox_task = gantt.copy(task);
     var title = document.querySelector(".dhx_navbar-title")
     title.innerHTML = task.text || "New task"
-    addTabBarSettingsTaskAndProject(task)
+
+    if(task.type == "splittask"){
+        //чтобы не сбрасывались ресурсы при отмене несколько раз
+        gantt.unselectTask(taskParent.id);
+        gantt._lightbox_task.resources = taskParent[gantt.config.resource_store];
+    }
+
+    addTabBarSettingsTaskAndProject(task);
 }
 
 
@@ -120,7 +126,7 @@ gantt.hideLightbox = function () {
 function saveTask() {
     var id = gantt.getState().lightbox;
     var task = gantt.getTask(gantt._lightbox_id);
-    console.log(gantt._lightbox_task.resources);
+
     gantt.mixin(task, gantt._lightbox_task, true)
     var taskParent = gantt.getTask(task.parent);
 
@@ -132,25 +138,37 @@ function saveTask() {
         }
     }
 
-    //удаление ненужной нагрузки и ((подсчет прогресса ДОЛЖЕН БЫТЬ))
-    if (task.type == "splittask") {
-        var haveCapacityToResource
-        task.capacity = task.capacity.filter(function (capasityItem) {
-            if (capasityItem.type == "task") {
-                haveCapacityToResource = taskParent.resources.some(item => item.id == capasityItem.resource_id);
-                if (haveCapacityToResource) {
-                    return true;
-                }
+
+    if (task.type == "project" && task.render == 'split') {
+
+                //Удаление нагрузки если удалили ресурс дя нее
+        var deleteResource = task.resources.filter(item1 => !gantt._lightbox_task.resources.some(item2 => item1.id === item2.id));
+        if (deleteResource.length !== 0) {
+            gantt.eachTask(function(task) {
+                task.resources = task.resources.filter(item1 => {
+                  return !deleteResource.some(item2 => item2.id === item1.id);
+                });
+            }, task.id);
+        }
+        gantt.$resourcesStore.clearAll();
+        gantt.$resourcesStore.parse(resourceGet(task));
+
+        //Запись нагрузки во все сплит задачи
+        task.resources.forEach(function (resource) {
+            if (resource.type == "task") {
+                gantt.eachTask(function (splittask) {
+                    if(splittask.capacity){
+                        splittask.capacity.forEach(function (capacityItem) {
+                            if(capacityItem.resource_id == resource.id){
+                                capacityItem.valuePlan = resource.value;
+                            }
+                        });
+                    }
+                    gantt.updateTask(splittask.id);
+                }, task.id);
             }
-            return false;
         });
     }
-
-
-
-
-
-
 
     if (task.$new) {
         if(task.parent == 0){
@@ -162,32 +180,10 @@ function saveTask() {
             taskParent.planned_start = task.start_date;
             taskParent.planned_end = task.end_date;
         }
-    }
-
-
-    // var assignmentStore = gantt.getDatastore(gantt.config.resource_assignment_store);
-    // var assignments = gantt._lightbox_task[gantt.config.resource_property] || [];
-    // for (var i = 0; i < assignments.length; i++) {
-    //     var updatedAssignment = assignments[i]
-    //     var existingAssignmentId = updatedAssignment.$id;
-    //     var existingAssignment = assignmentStore.getItem(existingAssignmentId)
-    //     if (existingAssignment) {
-    //         for (var property in updatedAssignment) {
-    //             existingAssignment[property] = updatedAssignment[property]
-    //         }
-    //     } else {
-    //         //assignmentStore.addItem(resource)
-    //     }
-    // }
-
-    if (task.$new) {
         delete gantt._lightbox_task.$new;
         delete task.$new;
         gantt.addTask(task);
-    } else {
-        gantt.updateTask(id)
     }
-
     dragSplitTask(id, 'resize');
     updateLine();
     gantt.updateTask(id);

@@ -197,3 +197,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
 
+function clickGridButton(id, action) {
+		switch (action) {
+			case "edit":
+				// gantt.showLightbox(id);
+
+				break;
+			case "add":
+				gantt.createTask(null, id);
+				break;
+		}
+	}
